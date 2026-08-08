@@ -21,7 +21,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>APA 7 Reference Checker — ตรวจรายการอ้างอิง</title>
-<script type="text/javascript" src="https://gc.kes.v2.scr.kaspersky-labs.com/7EA5E9BB-55E1-4C31-9C21-4943DDFED2E4/main.js?attr=usHc2AdedC-C1_hHQ4DU4r3ABrcOBd0Q7Phi3RMFl1THctzxm1sYwwLrS5u7wrMySCLkg6LqVD1Wuc2M_v3Q467ak0To2_wFUewrb-RxsP365pDCo3R9VC-K0zCYno5oX7PNls2YFQWf06Fnr-CBNEHjT8nlsqF1BE9Yh7vvODW37BYiwUxcy76r9QW0Dy5gWrEjaHx96wurq72Ft6pIdz1bOqr4uws2CN_8yh21ko0dBlpmYtPaammHKy1VEFDbmXxp28Dx8QzXu8odTD5G6y2SE2iehQEM-gJOm0yk22Y7fKqnMUhUl0L5aR3r1FWv_VcwRbHwXNxWz5JnoJsn6PBvL7vrXUWkTxAbS-u3wA8Buz2i-6EJ_hF8VQ5jeSfAY2Gn2xa-h0oilVgKgLfrrNO3qh--7civHYAPVK4K9DCezFWg3TDy8J-Ia8A2MepFpvz6zrC6pIT2d7cTARGh3720XP0Z5uqkLliwHNXo2637kubukIOOmxAiwfwU6eYV3wtUrmWxicx0vRffKa6qRMqiM5TFVEbEW8O5F_XbQSnVs_taOW9xlILqM9vIZF-ckiJL8pCdrze21T5chzR4ees7wQeRGnPlRF3xz-ukFauYpz2tDaOXu183DOfpvKljTau30MmdbXOWL_SX3aQUB3KFZYBnj1P9_dsbZClY0JPwx6KYakt1v-WsiTfdJ9GkztL_e6C0u5UJIdYYe3SXA7EdUeEVnXJEU1_r2e54BLWaCHEGOMqJ9y5ZmI0EDpY1KKX-nNbrpISYyhDxF183yrUhsckSzCqNAS1uJBbC9hz4x4VXRbZ4BXskCaFNYw727VFfsdiiPv7R2NejJf3oYqdzRbzJ-8tWuzFL_W2FFV9WMWT1RX-CUEuisuG51fPAtDbjGf4pjWyvCia8kpl77OeKZFyKwAA7699DaOU405te-aOfwyFYz4janfIgbpgqAt3m9xHh_dTUWOxuR7si7wEseDR_irJBtY8fHa2Vi_yAdhDTtZklFLXbp_imBRJM3o4EQJ7kdVjwJ76AFz__2sQOqf71AgfXr18rVkmSuhX4-ttzKCbI4xynbPzOnUMp7ED_JmuWHt12Jk2w2FGAN3q4Rg8o0zTPCSwuALLokecxQA2PXLZupBUShurPazGNI7ibKb10wrpUekPzd2elcdhNpIkj35nq-EdxRvlXgijo6gLMHBeuqxQI8Mp0MDL9_u-4UxOw8nLnqLEouGYC300CKhYJ3LofjkyMvFgmOdbLHiGYHU5x7lKdXatlvW6JVhzu9q-ubgeORfhDrj5fDNyxGh6lf8qda0_Xx1plctb4WZ-O2RloMWpeK3Clzq97NhhsHzHiaTrjPiLWYbA1rbaNIIKEdnSgOxeDeesz3Hkr15Bt88x79vyHjksswuBPP-cnIC7mclWXmjE3iao3wJObv32HNjCIjE3KvBi6gWr8l1V54T1yWva_y5g3J849QMqF_GUR3M-wCnJLGUFoXyB-rTMYaA5jo6ij4bTQxTV184JQAQiLRxtyfT1eJ4Krvk2i-VvH7wz07tkL5qrIk6lw5K8wj3pMcENIuZNtKMrBBYWlaJ8PkhvybCC29lCla7v5E6WFjaauUXSDclNlIkN4sMv-1oU577i82KjGpUhhHvkMj8CmGofR7r8Jm8RklPtBs9WvJdHSfTju8Pxpew" nonce="92cdc33e2299d6dd272a21353936a884" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js" defer></script>
 <style>
 :root{
   --ink:#111820;
@@ -1599,10 +1599,24 @@ function buildReport(){
    ============================================================ */
 let DOCX_PARAS = null;
 
+async function waitForMammoth(timeoutMs){
+  const start = Date.now();
+  while (typeof mammoth === 'undefined'){
+    if (Date.now() - start > timeoutMs) return false;
+    await new Promise(r => setTimeout(r, 100));
+  }
+  return true;
+}
+
 async function readDocx(file){
   if (typeof mammoth === 'undefined'){
-    alert('อ่านไฟล์ .docx ไม่ได้เพราะตัวอ่านไฟล์ยังโหลดไม่สำเร็จ (ต้องต่ออินเทอร์เน็ตครั้งแรก) ระหว่างนี้ใช้วิธีคัดลอกข้อความมาวางแทนได้');
-    return;
+    $('srcTag').textContent = 'กำลังเตรียมตัวอ่านไฟล์…';
+    const ok = await waitForMammoth(8000);
+    if (!ok){
+      $('srcTag').textContent = 'อ่านไฟล์ไม่สำเร็จ';
+      alert('อ่านไฟล์ .docx ไม่ได้เพราะตัวอ่านไฟล์โหลดจากอินเทอร์เน็ตไม่สำเร็จ (ต้องต่อเน็ตอย่างน้อยครั้งแรกที่ใช้) ระหว่างนี้ใช้วิธีคัดลอกข้อความมาวางในช่องด้านล่างแทนได้');
+      return;
+    }
   }
   $('srcTag').textContent = 'กำลังอ่านไฟล์…';
   try{
