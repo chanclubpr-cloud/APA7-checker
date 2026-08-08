@@ -1,0 +1,1856 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  APA 7 Reference Checker
+  เครื่องมือตรวจสอบรายการอ้างอิงตามรูปแบบ APA ฉบับพิมพ์ครั้งที่ 7
+
+  สงวนลิขสิทธิ์ พ.ศ. 2569 โดย ชาญณรงค์ ประสารกก
+  Copyright (c) 2026 Channarong Prasankok. All rights reserved.
+
+  งานนี้ได้รับความคุ้มครองตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537
+  อนุญาตให้ใช้งานเพื่อการศึกษาและการปฏิบัติงานได้โดยไม่มีค่าใช้จ่าย
+  แต่ห้ามทำซ้ำ ดัดแปลง เผยแพร่ต่อ หรือนำไปใช้เพื่อการค้า
+  โดยไม่ได้รับอนุญาตเป็นลายลักษณ์อักษรจากเจ้าของลิขสิทธิ์
+  และต้องแสดงที่มาของผลงานทุกครั้งที่อ้างถึงหรือนำไปใช้
+
+  การลบหรือแก้ไขประกาศนี้ถือเป็นการละเมิดลิขสิทธิ์
+  ============================================================
+-->
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>APA 7 Reference Checker — ตรวจรายการอ้างอิง</title>
+<script type="text/javascript" src="https://gc.kes.v2.scr.kaspersky-labs.com/7EA5E9BB-55E1-4C31-9C21-4943DDFED2E4/main.js?attr=usHc2AdedC-C1_hHQ4DU4r3ABrcOBd0Q7Phi3RMFl1THctzxm1sYwwLrS5u7wrMySCLkg6LqVD1Wuc2M_v3Q467ak0To2_wFUewrb-RxsP365pDCo3R9VC-K0zCYno5oX7PNls2YFQWf06Fnr-CBNEHjT8nlsqF1BE9Yh7vvODW37BYiwUxcy76r9QW0Dy5gWrEjaHx96wurq72Ft6pIdz1bOqr4uws2CN_8yh21ko0dBlpmYtPaammHKy1VEFDbmXxp28Dx8QzXu8odTD5G6y2SE2iehQEM-gJOm0yk22Y7fKqnMUhUl0L5aR3r1FWv_VcwRbHwXNxWz5JnoJsn6PBvL7vrXUWkTxAbS-u3wA8Buz2i-6EJ_hF8VQ5jeSfAY2Gn2xa-h0oilVgKgLfrrNO3qh--7civHYAPVK4K9DCezFWg3TDy8J-Ia8A2MepFpvz6zrC6pIT2d7cTARGh3720XP0Z5uqkLliwHNXo2637kubukIOOmxAiwfwU6eYV3wtUrmWxicx0vRffKa6qRMqiM5TFVEbEW8O5F_XbQSnVs_taOW9xlILqM9vIZF-ckiJL8pCdrze21T5chzR4ees7wQeRGnPlRF3xz-ukFauYpz2tDaOXu183DOfpvKljTau30MmdbXOWL_SX3aQUB3KFZYBnj1P9_dsbZClY0JPwx6KYakt1v-WsiTfdJ9GkztL_e6C0u5UJIdYYe3SXA7EdUeEVnXJEU1_r2e54BLWaCHEGOMqJ9y5ZmI0EDpY1KKX-nNbrpISYyhDxF183yrUhsckSzCqNAS1uJBbC9hz4x4VXRbZ4BXskCaFNYw727VFfsdiiPv7R2NejJf3oYqdzRbzJ-8tWuzFL_W2FFV9WMWT1RX-CUEuisuG51fPAtDbjGf4pjWyvCia8kpl77OeKZFyKwAA7699DaOU405te-aOfwyFYz4janfIgbpgqAt3m9xHh_dTUWOxuR7si7wEseDR_irJBtY8fHa2Vi_yAdhDTtZklFLXbp_imBRJM3o4EQJ7kdVjwJ76AFz__2sQOqf71AgfXr18rVkmSuhX4-ttzKCbI4xynbPzOnUMp7ED_JmuWHt12Jk2w2FGAN3q4Rg8o0zTPCSwuALLokecxQA2PXLZupBUShurPazGNI7ibKb10wrpUekPzd2elcdhNpIkj35nq-EdxRvlXgijo6gLMHBeuqxQI8Mp0MDL9_u-4UxOw8nLnqLEouGYC300CKhYJ3LofjkyMvFgmOdbLHiGYHU5x7lKdXatlvW6JVhzu9q-ubgeORfhDrj5fDNyxGh6lf8qda0_Xx1plctb4WZ-O2RloMWpeK3Clzq97NhhsHzHiaTrjPiLWYbA1rbaNIIKEdnSgOxeDeesz3Hkr15Bt88x79vyHjksswuBPP-cnIC7mclWXmjE3iao3wJObv32HNjCIjE3KvBi6gWr8l1V54T1yWva_y5g3J849QMqF_GUR3M-wCnJLGUFoXyB-rTMYaA5jo6ij4bTQxTV184JQAQiLRxtyfT1eJ4Krvk2i-VvH7wz07tkL5qrIk6lw5K8wj3pMcENIuZNtKMrBBYWlaJ8PkhvybCC29lCla7v5E6WFjaauUXSDclNlIkN4sMv-1oU577i82KjGpUhhHvkMj8CmGofR7r8Jm8RklPtBs9WvJdHSfTju8Pxpew" nonce="92cdc33e2299d6dd272a21353936a884" charset="UTF-8"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<style>
+:root{
+  --ink:#111820;
+  --ink-soft:#44535F;
+  --ink-faint:#7C8B97;
+  --paper:#E7ECEF;
+  --card:#FFFFFF;
+  --rule:#C9D4DB;
+  --rule-soft:#E2E9ED;
+  --teal:#0E4A59;
+  --teal-2:#12697E;
+  --flag:#A22A1E;
+  --flag-bg:#FCEAE7;
+  --pass:#1C6647;
+  --pass-bg:#E6F1EB;
+  --warn:#8A5800;
+  --warn-bg:#FBF0D9;
+  --sans:"IBM Plex Sans Thai","Noto Sans Thai","Sarabun","Leelawadee UI","Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --ref:"Sarabun","TH Sarabun New","Noto Serif Thai","IBM Plex Sans Thai",Georgia,serif;
+  --shadow:0 1px 0 rgba(17,24,32,.04),0 6px 18px -12px rgba(17,24,32,.35);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:18px;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{margin:0;font-weight:650;letter-spacing:-.01em;line-height:1.25}
+p{margin:0}
+button{font-family:inherit;font-size:inherit;cursor:pointer}
+code,kbd{font-family:var(--mono);font-size:.88em}
+
+/* ---------- header ---------- */
+.masthead{
+  background:var(--teal);
+  color:#EAF2F4;
+  border-bottom:3px solid var(--ink);
+}
+.masthead-in{
+  max-width:1320px;margin:0 auto;padding:20px 24px 18px;
+  display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px 26px;
+}
+.mark{
+  font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:#8FC0CB;display:block;margin-bottom:5px;
+}
+.masthead h1{font-size:29px;color:#fff}
+.masthead h1 em{font-style:normal;color:#8FC0CB}
+.masthead .lede{font-size:15.5px;color:#B9D6DD;max-width:52ch;margin-left:auto}
+
+@media(min-width:1100px){
+  body{font-size:19px}
+  .ref-text{font-size:20px}
+  .fixbox{font-size:20px}
+  .tmpl-in .ex{font-size:19px}
+  .tmpl-in .form{font-size:17px}
+  ol.issues .txt strong{font-size:17px}
+  ol.issues .txt span{font-size:16.5px}
+}
+
+/* ---------- จอมือถือ: ลดขนาดและระยะขอบให้เนื้อหาได้พื้นที่เต็มจอ ---------- */
+@media(max-width:620px){
+  body{font-size:16px;line-height:1.62}
+  .masthead-in{padding:14px 14px 12px;gap:8px}
+  .masthead h1{font-size:22px}
+  .masthead .lede{font-size:14px;margin-left:0}
+  .mark{font-size:10px;letter-spacing:.16em}
+
+  .wrap{padding:12px 10px 48px;gap:14px}
+  .panel-body{padding:13px}
+  .panel-head{padding:11px 13px}
+  .panel-head h2{font-size:15.5px}
+
+  .drop{padding:14px 10px}
+  .drop strong{font-size:15px}
+  .drop span{font-size:13px}
+  textarea{font-size:16px;min-height:170px}      /* 16px กัน iOS ซูมอัตโนมัติ */
+  .opt{font-size:14.5px}
+  .setting select,.type-select{font-size:15px;width:100%}
+
+  /* การ์ดผล: แถบซ้ายแคบลง เนื้อหาได้พื้นที่มากขึ้น */
+  .card{grid-template-columns:36px 1fr}
+  .rail{padding:10px 0;gap:4px}
+  .rail .glyph{font-size:17px}
+  .card-body{padding:12px 13px 14px;overflow-wrap:anywhere}
+  .card-top{gap:6px;margin-bottom:8px}
+  .tag{font-size:11.5px;padding:2px 7px}
+  .verdict{font-size:12px;margin-left:0;width:100%}
+
+  .ref-text{font-size:16.5px;padding:10px 11px 10px 2.4em;text-indent:-1.7em}
+  .fixbox{font-size:16.5px;padding:10px 11px 10px 2.4em}
+  .tmpl-in{padding:0 10px 10px}
+  .tmpl-in .form{font-size:14px;padding:9px 10px}
+  .tmpl-in .ex{font-size:16px;padding-left:2.4em;text-indent:-1.7em}
+  ol.issues li{grid-template-columns:20px 1fr;gap:8px}
+  ol.issues .txt strong{font-size:15px}
+  ol.issues .txt span{font-size:14.5px}
+
+  /* ตารางสรุปและตารางเทียบ CrossRef ให้ยืดเต็มความกว้างจอ */
+  .summary{grid-template-columns:repeat(2,1fr)}
+  .stat{padding:11px 12px}
+  .stat .n{font-size:22px}
+  .verify{padding:9px 10px}
+  .verify .vrow{flex-direction:column;gap:1px;padding:6px 0}
+  .verify .vk{width:auto;font-size:12.5px}
+  .verify .vv{font-size:14.5px}
+
+  .toolbar{gap:6px}
+  .chip{font-size:12.5px;padding:6px 10px}
+  .btn{min-width:0;width:100%}
+  .actions{gap:8px}
+  .limits{padding:0 12px 40px}
+  .limits-grid{padding:15px 14px}
+  .limits-grid ul{font-size:14px;padding-left:16px}
+}
+
+/* ---------- layout ---------- */
+.wrap{max-width:1440px;margin:0 auto;padding:26px 28px 88px;display:grid;grid-template-columns:430px 1fr;gap:26px;align-items:start}
+@media(max-width:1020px){.wrap{grid-template-columns:1fr;padding:16px 14px 60px}}
+
+.panel{
+  background:var(--card);border:1px solid var(--rule);border-radius:3px;box-shadow:var(--shadow);
+}
+.side{position:sticky;top:16px}
+@media(max-width:1020px){.side{position:static}}
+.panel-head{
+  padding:13px 16px;border-bottom:1px solid var(--rule-soft);
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+}
+.panel-head h2{font-size:17px}
+.panel-body{padding:18px}
+
+/* ---------- input ---------- */
+.drop{
+  border:1.5px dashed var(--rule);border-radius:3px;background:#F7F9FA;
+  padding:18px 14px;text-align:center;transition:.15s;
+}
+.drop.over{border-color:var(--teal-2);background:#EAF3F5}
+.drop strong{display:block;font-size:16px;margin-bottom:3px}
+.drop span{font-size:14px;color:var(--ink-faint)}
+.file-btn{
+  margin-top:10px;display:inline-block;background:var(--ink);color:#fff;border:0;
+  padding:8px 15px;border-radius:2px;font-size:15px;font-weight:600;
+}
+.file-btn:hover{background:#000}
+input[type=file]{display:none}
+
+.field-label{
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);
+  font-family:var(--mono);margin:18px 0 6px;
+}
+textarea{
+  width:100%;min-height:210px;resize:vertical;padding:12px;
+  border:1px solid var(--rule);border-radius:2px;background:#FCFDFD;
+  font-family:var(--ref);font-size:18.5px;line-height:1.78;color:var(--ink);
+}
+textarea:focus{outline:2px solid var(--teal-2);outline-offset:-1px}
+
+.opts{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;gap:9px;align-items:flex-start;font-size:15.5px;color:var(--ink-soft);cursor:pointer}
+.opt input{margin:4px 0 0;accent-color:var(--teal-2);flex:none}
+.opt b{color:var(--ink);font-weight:600}
+
+.actions{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
+.btn{
+  border:0;border-radius:2px;padding:12px 19px;font-weight:650;font-size:16px;
+  background:var(--teal);color:#fff;flex:1;min-width:150px;
+}
+.btn:hover{background:var(--teal-2)}
+.btn:disabled{background:var(--ink-faint);cursor:not-allowed}
+.btn-ghost{
+  background:transparent;color:var(--ink-soft);border:1px solid var(--rule);
+  padding:11px 14px;font-weight:600;flex:none;min-width:0;
+}
+.btn-ghost:hover{border-color:var(--ink);color:var(--ink);background:#fff}
+
+.hint{margin-top:14px;font-size:14px;color:var(--ink-faint);line-height:1.65}
+.setting{margin-top:14px;padding:12px;border:1px solid var(--rule-soft);border-radius:3px;background:#F7FAFB}
+.setting label{display:block;font-size:15px;font-weight:650;color:var(--ink);margin-bottom:5px}
+.setting select,.type-select{font:inherit;font-size:15px;color:var(--ink);border:1px solid var(--rule);border-radius:2px;background:#fff;padding:7px 9px;max-width:100%}
+.setting small{display:block;margin-top:6px;font-size:13.5px;line-height:1.55;color:var(--ink-soft)}
+.type-select.inline{
+  font:inherit;font-size:12.5px;font-weight:600;color:var(--teal);
+  border:1px dashed #B7CBD1;border-radius:2px;background:#fff;
+  padding:2px 6px;max-width:11.5em;cursor:pointer;
+}
+.type-select.inline:hover{border-color:var(--teal-2);border-style:solid}
+.type-select.inline:focus{outline:2px solid var(--teal-2);outline-offset:1px}
+@media(max-width:620px){.type-select.inline{font-size:12px;max-width:100%}}
+.manual-control{margin:10px 0 0;padding:9px 11px;border:1px solid var(--rule-soft);border-radius:2px;background:#F7FAFB;font-size:14.5px;color:var(--ink-soft)}
+.manual-control label{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.manual-control b{color:var(--ink)}
+.hint b{color:var(--ink-soft)}
+
+/* ---------- summary ---------- */
+.summary{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule-soft);
+  border:1px solid var(--rule);border-radius:3px;overflow:hidden;margin-bottom:18px;
+}
+@media(max-width:620px){.summary{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--card);padding:14px 16px}
+.stat .n{font-family:var(--mono);font-size:26px;font-weight:600;line-height:1.1;letter-spacing:-.02em}
+.stat .k{font-size:12px;color:var(--ink-faint);margin-top:2px}
+.stat.pass .n{color:var(--pass)}
+.stat.flag .n{color:var(--flag)}
+.stat.warn .n{color:var(--warn)}
+
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.chip{
+  border:1px solid var(--rule);background:#fff;color:var(--ink-soft);
+  padding:6px 12px;border-radius:2px;font-size:13px;font-weight:600;
+}
+.chip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.toolbar .spacer{flex:1}
+
+/* ---------- reference card ---------- */
+.card{
+  background:var(--card);border:1px solid var(--rule);border-radius:3px;
+  margin-bottom:14px;box-shadow:var(--shadow);overflow:hidden;
+  display:grid;grid-template-columns:52px 1fr;
+  animation:rise .28s ease both;
+}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.card{animation:none}}
+.rail{
+  border-right:1px solid var(--rule-soft);background:#F7F9FA;
+  display:flex;flex-direction:column;align-items:center;padding:14px 0;gap:6px;
+}
+.rail .idx{font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+.rail .glyph{font-size:20px;line-height:1;font-weight:700}
+.card.ok .rail{background:var(--pass-bg)}
+.card.ok .rail .glyph{color:var(--pass)}
+.card.err .rail{background:var(--flag-bg)}
+.card.err .rail .glyph{color:var(--flag)}
+.card.warn .rail{background:var(--warn-bg)}
+.card.warn .rail .glyph{color:var(--warn)}
+
+.card-body{padding:14px 18px 16px;min-width:0}
+.card-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+.card-top.verdict-row{margin-top:14px;padding-top:12px;border-top:1px dashed var(--rule-soft)}
+.lead-in{font-size:13.5px;color:var(--ink-faint);letter-spacing:.01em}
+@media(max-width:620px){.lead-in{font-size:12.5px}}
+.tag{
+  font-size:12px;font-weight:650;padding:3px 9px;border-radius:2px;
+  background:#EDF2F4;color:var(--teal);border:1px solid #D3E0E4;
+}
+.tag.lang{background:#fff;color:var(--ink-faint);border-color:var(--rule)}
+.tag.guess{background:var(--warn-bg);color:#7A4E00;border-color:#E4D3A8}
+.verify{
+  margin-top:12px;border:1px solid var(--rule-soft);border-radius:2px;background:#FBFCFC;padding:10px 12px;
+}
+.verify .vbtn{
+  background:#fff;border:1px solid var(--rule);color:var(--teal);padding:6px 12px;border-radius:2px;
+  font-size:13.5px;font-weight:650;
+}
+.verify .vbtn:hover{border-color:var(--teal);background:#F2F7F8}
+.verify .vout{margin-top:9px;font-size:14px;line-height:1.6}
+.verify .vrow{display:flex;gap:8px;padding:3px 0;border-bottom:1px dashed var(--rule-soft)}
+.verify .vrow:last-child{border-bottom:0}
+.verify .vk{flex:none;width:6.5em;color:var(--ink-faint);font-size:13px}
+.verify .vv{flex:1}
+.verify .match{color:var(--pass);font-weight:650}
+.verify .diff{color:var(--flag);font-weight:650}
+.verdict{font-size:12.5px;font-weight:700;margin-left:auto;letter-spacing:.02em}
+.card.ok .verdict{color:var(--pass)}
+.card.err .verdict{color:var(--flag)}
+.card.warn .verdict{color:var(--warn)}
+
+.ref-text{
+  font-family:var(--ref);font-size:16.5px;line-height:1.8;
+  padding:11px 13px;background:#F4F1EC;border-left:3px solid #B8AE9E;
+  border-radius:0 2px 2px 0;word-break:break-word;
+  padding-left:13px;text-indent:0;
+}
+.ref-text.hang{padding-left:2.9em;text-indent:-2.05em}
+mark.flagmark{
+  background:var(--flag-bg);color:#7C1F16;border-bottom:1.5px solid var(--flag);
+  padding:1px 1px 0;border-radius:2px;
+}
+mark.flagmark sup{
+  font-family:var(--mono);font-size:9.5px;font-weight:700;color:#fff;background:var(--flag);
+  border-radius:50%;padding:1px 4px;margin-left:2px;vertical-align:super;
+}
+mark.warnmark{background:var(--warn-bg);color:#6B4500;border-bottom:1.5px solid var(--warn)}
+mark.warnmark sup{background:var(--warn);color:#fff;font-family:var(--mono);font-size:9.5px;font-weight:700;border-radius:50%;padding:1px 4px;margin-left:2px}
+
+.sec-label{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-faint);margin:16px 0 7px;display:flex;align-items:center;gap:9px;
+}
+.sec-label:after{content:"";flex:1;height:1px;background:var(--rule-soft)}
+.sec-label .tag{flex:none;text-transform:none;letter-spacing:0;font-size:13px}
+details.tmpl>summary .tag{flex:none;text-transform:none;letter-spacing:0;font-size:13px}
+
+ol.issues{margin:0;padding:0;list-style:none;counter-reset:iss}
+ol.issues li{
+  display:grid;grid-template-columns:24px 1fr;gap:10px;
+  padding:9px 0;border-bottom:1px dashed var(--rule-soft);
+}
+ol.issues li:last-child{border-bottom:0}
+ol.issues .num{
+  font-family:var(--mono);font-size:11px;font-weight:700;color:#fff;background:var(--flag);
+  width:21px;height:21px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:2px;
+}
+ol.issues li.w .num{background:var(--warn)}
+ol.issues .txt strong{display:block;font-size:15px;font-weight:650}
+ol.issues .txt span{display:block;font-size:14.5px;color:var(--ink-soft)}
+ol.issues .txt .rule{
+  display:inline-block;margin-top:4px;font-size:11.5px;font-family:var(--mono);
+  color:var(--teal);background:#EDF2F4;padding:1px 7px;border-radius:2px;
+}
+
+.fixbox{
+  background:var(--pass-bg);border:1px solid #C4DCCE;border-radius:2px;padding:11px 13px 11px 2.9em;text-indent:-2.05em;
+  font-family:var(--ref);font-size:16.5px;line-height:1.78;word-break:break-word;
+}
+.fixbox.draft{
+  background:var(--warn-bg);border:1px solid #E4D3A8;
+}
+.fixbox .head{
+  display:block;font-family:var(--sans);text-indent:0;font-size:11.5px;font-weight:700;
+  letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px;color:#3F6B55;
+}
+.fixbox.draft .head{color:#8A5800}
+.fixbox ins{
+  text-decoration:none;background:#BFE3CC;color:#14503A;font-weight:650;
+  border-radius:2px;padding:0 2px;box-shadow:inset 0 -1.5px 0 #4E9B72;
+}
+.fixbox.draft ins{background:#F6E0AE;color:#6B4500;box-shadow:inset 0 -1.5px 0 #C79A32}
+.fixbox ins.sp{padding:0;min-width:.45em;display:inline-block}
+.fixbox em.ital{font-style:italic;text-decoration:underline;text-decoration-color:#8FBFA4;text-underline-offset:3px}
+.fixbox .ph{
+  font-family:var(--sans);font-weight:700;font-size:.82em;color:#fff;background:var(--flag);
+  padding:1px 8px;border-radius:2px;white-space:nowrap;text-indent:0;display:inline-block;
+}
+.fixbox.draft .warnline{
+  display:block;text-indent:0;font-family:var(--sans);font-size:13.5px;font-weight:650;color:#8A2015;
+  background:var(--flag-bg);border:1px solid #E8C4BE;border-radius:2px;
+  padding:8px 10px;margin-top:10px;
+}
+.copy.locked{background:var(--flag-bg);border-color:#E8C4BE;color:#8A2015}
+.fixbox .note{
+  display:block;margin-top:8px;font-family:var(--sans);font-size:12.5px;color:#3F6B55;
+  border-top:1px dashed #C4DCCE;padding-top:7px;
+}
+.copy{
+  margin-top:8px;background:#fff;border:1px solid var(--rule);color:var(--ink-soft);
+  padding:5px 11px;border-radius:2px;font-size:12.5px;font-weight:600;
+}
+.copy:hover{border-color:var(--ink);color:var(--ink)}
+
+details.tmpl,.tmpl{
+  margin-top:6px;border:1px solid #CFE0E4;border-radius:2px;
+  background:#E2EEF1;border-left:3px solid var(--teal-2);
+}
+details.tmpl>summary{
+  padding:8px 12px;cursor:pointer;font-size:14px;font-weight:600;color:var(--teal);
+  list-style:none;display:flex;align-items:center;gap:8px;
+}
+details.tmpl>summary::-webkit-details-marker{display:none}
+details.tmpl>summary:before{content:"▸";font-size:11px;transition:.15s}
+details.tmpl[open]>summary:before{transform:rotate(90deg)}
+.tmpl-in{padding:0 12px 12px;font-size:14.5px}
+.tmpl-in .form{
+  font-family:var(--mono);font-size:15px;background:#FFFFFF;border:1px solid #D8E6EA;
+  padding:10px 12px;border-radius:2px;color:var(--teal);word-break:break-word;line-height:1.75;
+}
+.tmpl-in .ex{
+  font-family:var(--ref);font-size:16.5px;line-height:1.8;margin-top:10px;color:var(--ink);
+  padding-left:2.9em;text-indent:-2.05em;
+}
+.tmpl-in .ex em{color:var(--ink)}
+
+.empty{
+  background:var(--card);border:1px dashed var(--rule);border-radius:3px;
+  padding:44px 26px;text-align:center;color:var(--ink-faint);
+}
+.empty h3{font-size:16px;color:var(--ink-soft);margin-bottom:6px}
+.empty p{font-size:13.5px;max-width:46ch;margin:0 auto}
+
+.notice{
+  border:1px solid #D3E0E4;background:#EDF2F4;border-radius:3px;padding:12px 14px;
+  font-size:13.5px;color:var(--teal);margin-bottom:16px;line-height:1.65;
+}
+.notice b{font-weight:700}
+.notice.warn{background:var(--warn-bg);border-color:#E4D3A8;color:#6B4500}
+
+footer.limits{
+  max-width:1320px;margin:0 auto;padding:0 24px 60px;
+}
+.limits-grid{
+  background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:20px 22px;
+}
+.limits-grid h3{font-size:15px;margin-bottom:10px}
+.limits-grid ul{margin:0;padding-left:18px;font-size:13.5px;color:var(--ink-soft);line-height:1.75}
+.limits-grid ul li{margin-bottom:5px}
+.limits-grid .cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:760px){.limits-grid .cols{grid-template-columns:1fr}}
+.sig{margin-top:16px;font-size:12px;color:var(--ink-faint);font-family:var(--mono)}
+.sig.copyright{margin-top:8px;padding-top:10px;border-top:1px solid var(--rule-soft);color:var(--ink-soft);font-family:var(--sans);font-size:12.5px}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-in">
+    <div>
+      <span class="mark">APA 7th edition · reference checker</span>
+      <h1>ตรวจรายการอ้างอิง <em>ทีละรายการ</em></h1>
+    </div>
+    <p class="lede">วางข้อความหรืออัปโหลดไฟล์ .docx เพื่อคัดกรองรูปแบบ APA 7 เบื้องต้น ระบบประเมินประเภทเอกสาร ชี้จุดที่ควรแก้ และเสนอเฉพาะการแก้ไขที่ปลอดภัย โดยทำงานในเครื่องคุณ</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <!-- ============ INPUT ============ -->
+  <section class="panel side">
+    <div class="panel-head"><h2>ข้อมูลนำเข้า</h2><span class="mark" id="srcTag">ยังไม่มีข้อมูล</span></div>
+    <div class="panel-body">
+
+      <div class="drop" id="drop">
+        <strong>ลากไฟล์ .docx มาวางที่นี่</strong>
+        <span>ระบบอ่านตัวเอียงจากไฟล์ Word ได้ด้วย</span>
+        <label class="file-btn" for="file">เลือกไฟล์</label>
+        <input type="file" id="file" accept=".docx">
+      </div>
+
+      <div class="field-label">
+        <span>หรือวางรายการอ้างอิง</span>
+        <span id="count">0 รายการ</span>
+      </div>
+      <textarea id="input" placeholder="วางรายการอ้างอิง 1 รายการต่อ 1 ย่อหน้า เช่น&#10;&#10;สิริฉันท์ สถิรกุล. (2540). สอนวิชาธุรกิจในระดับมัธยมศึกษาอย่างไรจึงจะจูงใจผู้เรียน. วิทยาจารย์, 95(1), 91-94.&#10;&#10;Sillick, T. J., & Schutte, N. S. (2006). Emotional intelligence and self-esteem mediate between perceived early parental love and adult happiness. E-Journal of Applied Psychology, 2(2), 38-48."></textarea>
+
+      <div class="opts">
+        <label class="opt"><input type="checkbox" id="optSection" checked><span><b>ตัดเฉพาะส่วนรายการอ้างอิง</b> — ข้ามเนื้อหาก่อนหัวข้อ “รายการอ้างอิง / บรรณานุกรม / References”</span></label>
+        <label class="opt"><input type="checkbox" id="optStrict"><span><b>โหมดเข้มงวด</b> — เปลี่ยนข้อสังเกตระดับเตือนเป็นข้อผิดพลาด</span></label>
+        <label class="opt"><input type="checkbox" id="optList" checked><span><b>ตรวจภาพรวมทั้งชุด</b> — การเรียงลำดับ รายการซ้ำ และความสม่ำเสมอของศักราช</span></label>
+      </div>
+
+      <div class="setting">
+        <label for="optLang">แนวทางภาษาในการตรวจ</label>
+        <select id="optLang">
+          <option value="auto" selected>อัตโนมัติแบบระมัดระวัง (ไม่ตัดสิน พ.ศ./ค.ศ. และคำเชื่อมผู้แต่ง)</option>
+          <option value="th">รายการภาษาไทย (ตามคู่มือ APA 7 ฉบับภาษาไทย)</option>
+          <option value="en">รายการภาษาอังกฤษ (APA 7 ภาษาอังกฤษ)</option>
+        </select>
+        <small>หากรายการไทยมีการถอดอักษรหรือแปลเป็นอังกฤษ ให้เลือกตามรูปแบบที่คุณต้องการส่งงาน ไม่เลือกจากอักษรในชื่อเรื่องเพียงอย่างเดียว</small>
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="run">ตรวจรายการอ้างอิง</button>
+        <button class="btn-ghost" id="sample">ตัวอย่าง</button>
+        <button class="btn-ghost" id="clear">ล้าง</button>
+      </div>
+
+      <p class="hint"><b>ขีดจำกัดต่อรอบ:</b> แนะนำไม่เกิน <b>150 รายการ</b> ต่อการตรวจ 1 ครั้ง (รองรับสูงสุด 300 รายการ) รายละเอียดอยู่ท้ายหน้า</p>
+    </div>
+  </section>
+
+  <!-- ============ RESULTS ============ -->
+  <section id="results">
+    <div class="empty">
+      <h3>ยังไม่มีผลการตรวจ</h3>
+      <p>วางรายการอ้างอิงหรืออัปโหลดไฟล์ .docx แล้วกด “ตรวจรายการอ้างอิง” ผลจะแสดงเป็นการ์ดทีละรายการ พร้อมหมายเลขกำกับจุดที่ต้องแก้ในตัวข้อความ</p>
+    </div>
+  </section>
+</div>
+
+<footer class="limits">
+  <div class="limits-grid">
+    <h3>ขอบเขตและข้อจำกัดของระบบ</h3>
+    <div class="cols">
+      <div>
+        <ul id="limitsA"></ul>
+      </div>
+      <div>
+        <ul id="limitsB"></ul>
+      </div>
+    </div>
+    <p class="sig">APA 7 Reference Checker · เกณฑ์: Publication Manual of the APA (7th ed., 2020) และ การอ้างอิงสารสนเทศตาม APA 7th (คณะครุศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย, 2564) สำหรับเอกสารภาษาไทย</p>
+    <p class="sig copyright">© สงวนลิขสิทธิ์ พ.ศ. 2569 ชาญณรงค์ ประสารกก · อนุญาตให้ใช้เพื่อการศึกษาและการปฏิบัติงาน ห้ามทำซ้ำ ดัดแปลง หรือใช้เพื่อการค้าโดยไม่ได้รับอนุญาต</p>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   ส่วนที่ 1 — ฐานความรู้: รูปแบบการเขียนอ้างอิงแต่ละประเภท
+   อิงตาม Publication Manual of the APA (7th ed., 2020)
+   และฉบับภาษาไทย: คณะครุศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย (2564)
+   เครื่องหมาย *...* ในแม่แบบ = ต้องพิมพ์เป็นตัวเอียง
+   ============================================================ */
+const TYPES = {
+  journal:{
+    label:'บทความในวารสาร', en:'Journal article',
+    form:{
+      th:'ชื่อ สกุล. (ปีพิมพ์). ชื่อบทความ. *ชื่อวารสาร, ปีที่*(ฉบับที่), เลขหน้า. https://doi.org/xxxx',
+      en:'Surname, A. B. (Year). Title of the article. *Journal Name, Volume*(Issue), pages. https://doi.org/xxxx'
+    },
+    ex:{
+      th:'สิริฉันท์ สถิรกุล. (2540). สอนวิชาธุรกิจในระดับมัธยมศึกษาอย่างไรจึงจะจูงใจผู้เรียน. *วิทยาจารย์, 95*(1), 91–94.',
+      en:'Herbst-Damm, K. L., &amp; Kulik, J. A. (2005). Volunteer support, marital status, and the survival times of terminally ill patients. *Health Psychology, 24*, 225–229. https://doi.org/10.1037/0278-6133.24.2.225'
+    }
+  },
+  book:{
+    label:'หนังสือ', en:'Book',
+    form:{
+      th:'ชื่อ สกุล. (ปีพิมพ์). *ชื่อเรื่อง* (พิมพ์ครั้งที่). สำนักพิมพ์. URL (ถ้ามี)',
+      en:'Surname, A. B. (Year). *Title of the work* (2nd ed.). Publisher. https://doi.org/xxxx'
+    },
+    ex:{
+      th:'วิธาน ฐานะวุฑฒ์. (2547). *หัวใจใหม่–ชีวิตใหม่*. ปิติศึกษา.',
+      en:'Mertens, D. M. (2014). *Research and evaluation in education and psychology* (4th ed.). Sage.'
+    }
+  },
+  chapter:{
+    label:'บทในหนังสือ', en:'Book chapter',
+    form:{
+      th:'ชื่อ สกุล. (ปีพิมพ์). ชื่อบท. ใน ชื่อ สกุลบรรณาธิการ (บ.ก.), *ชื่อหนังสือ* (น. เลขหน้า). สำนักพิมพ์.',
+      en:'Surname, A. B. (Year). Title of the chapter. In C. D. Editor (Ed.), *Book title* (pp. 1–18). Publisher.'
+    },
+    ex:{
+      th:'จุมพล พูลภัทรชีวิน. (2540). การวิจัยอนาคตแบบ EDFR. ใน ทิศนา แขมมณี และ สร้อยสน สกลรักษ์ (บ.ก.), *แบบแผนและเครื่องมือการวิจัยทางการศึกษา* (น. 1–18). สำนักพิมพ์แห่งจุฬาลงกรณ์มหาวิทยาลัย.',
+      en:'Yellepeddi, V. (2015). Pharmacokinetics. In K. Whalen (Ed.), *Pharmacology* (6th ed., pp. 1–12). Wolters Kluwer.'
+    }
+  },
+  thesis:{
+    label:'วิทยานิพนธ์', en:'Thesis / Dissertation',
+    form:{
+      th:'ชื่อ สกุล. (ปีที่เผยแพร่). *ชื่อวิทยานิพนธ์* [วิทยานิพนธ์ปริญญาดุษฎีบัณฑิต, ชื่อมหาวิทยาลัย]. ชื่อเว็บไซต์/ฐานข้อมูล. URL',
+      en:"Surname, A. B. (Year). *Title of the thesis* [Doctoral dissertation, University Name]. Repository Name. URL"
+    },
+    ex:{
+      th:'วราภรณ์ โพธิ์ศรีประเสริฐ. (2545). *การพัฒนาโปรแกรมการปรับปรุงการพูดสำหรับครูปฐมวัยโดยใช้เทคนิคการละคร* [วิทยานิพนธ์ปริญญาดุษฎีบัณฑิต, จุฬาลงกรณ์มหาวิทยาลัย]. Chulalongkorn University Intellectual Repository (CUIR). http://cuir.car.chula.ac.th/handle/123456789/302',
+      en:"Jung, M. S. (2014). *A structural equation model on core competence of nursing students* [Unpublished doctoral dissertation]. Choong-Ang University."
+    }
+  },
+  website:{
+    label:'เว็บไซต์', en:'Webpage',
+    form:{
+      th:'ชื่อ สกุล. (ปี, วัน เดือน). *ชื่อบทความ*. ชื่อเว็บไซต์. URL',
+      en:'Surname, A. B. (Year, Month Day). *Title of the page*. Site Name. URL'
+    },
+    ex:{
+      th:'เอมอัชฌา วัฒนบุรานนท์. (2554, 27 เมษายน). *การจัดการเรียนรู้สุขศึกษา*. จุฬาวิทยานุกรม (Chulapedia). http://www.chulapedia.chula.ac.th/index.php?title=การจัดการเรียนรู้สุขศึกษา',
+      en:'Centers for Disease Control and Prevention. (2018, August 22). *Preventing HPV-associated cancers*. https://www.cdc.gov/cancer/hpv/basic_info/prevention.htm'
+    }
+  },
+  report:{
+    label:'รายงาน/เอกสารหน่วยงาน', en:'Report',
+    form:{
+      th:'ชื่อหน่วยงาน. (ปีที่เผยแพร่). *ชื่อเรื่อง*. สำนักพิมพ์. URL (ถ้ามี)',
+      en:'Organization Name. (Year). *Title of the report* (Report No. xxx). Publisher. URL'
+    },
+    ex:{
+      th:'สำนักงานคณะกรรมการข้าราชการพลเรือน. (2561). *รายงานประจำปี 2561*. 21 เซ็นจูรี่. https://www.ocsc.go.th/…',
+      en:'National Cancer Institute. (2019). *Taking time: Support for people with cancer* (NIH Publication No. 18-2059). U.S. Department of Health and Human Services.'
+    }
+  },
+  conference:{
+    label:'การนำเสนอในที่ประชุมวิชาการ', en:'Conference presentation',
+    form:{
+      th:'ชื่อ สกุล. (ปี, วัน เดือน). *ชื่อเรื่องที่นำเสนอ* [Paper presentation]. ชื่อการประชุม, สถานที่.',
+      en:'Surname, A. B. (Year, Month Day–Day). *Title of the paper* [Paper presentation]. Conference Name, City, Country.'
+    },
+    ex:{
+      th:'นิดา ไพรนารี. (2554, มีนาคม). *การจัดการวิสาหกิจชุมชนในจังหวัดกาฬสินธุ์* [Paper presentation]. การประชุมวิชาการมหาวิทยาลัยกรุงเทพ, กรุงเทพฯ, ประเทศไทย.',
+      en:'Khayankij, S. (2016, July). *Mandalas as a tool to enhance self-awareness for early childhood student teachers* [Paper presentation]. Pacific Early Childhood Education Research Association, Bangkok, Thailand.'
+    }
+  },
+  proceeding:{
+    label:'บทความใน Proceedings', en:'Conference proceedings',
+    form:{
+      th:'ชื่อ สกุล. (ปี). ชื่อบทความ. ใน ชื่อบรรณาธิการ (บ.ก.), *ชื่อหัวข้อการประชุม*. ชื่อการประชุม (น. เลขหน้า). สำนักพิมพ์/ฐานข้อมูล.',
+      en:'Surname, A. B. (Year). Title of the paper. In C. Editor (Ed.), *Proceedings title* (pp. 97–108). Publisher. https://doi.org/xxxx'
+    },
+    ex:{
+      th:'พัชราภา ตันติชูเวช. (2553). การศึกษาทั่วไปกับคุณลักษณะบัณฑิตที่พึงประสงค์. ใน ศิริชัย กาญจนวาสี (บ.ก.), *การขับเคลื่อนคุณภาพการศึกษาไทย* (น. 97–102). คณะครุศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย.',
+      en:'Katz, I., Gabayan, K., &amp; Aghajan, H. (2007). A multi-touch surface using multiple cameras. In J. Blanc-Talon (Ed.), *Advanced concepts for intelligent vision systems* (pp. 97–108). Springer-Verlag. https://doi.org/10.1007/978-3-540-74607-2_9'
+    }
+  },
+  newspaper:{
+    label:'หนังสือพิมพ์', en:'Newspaper article',
+    form:{
+      th:'ชื่อ สกุล. (ปี, วัน เดือน). ชื่อคอลัมน์/ข่าว. *ชื่อหนังสือพิมพ์*, เลขหน้า. URL (ถ้ามี)',
+      en:'Surname, A. B. (Year, Month Day). Title of the article. *Newspaper Name*, page. URL'
+    },
+    ex:{
+      th:'พงษ์พรรณ บุญเลิศ. (2561, 15 สิงหาคม). เดลินิวส์วาไรตี้: ‘สื่อพิพิธภัณฑ์’ เชื่อมยุคสมัย. *เดลินิวส์*, 4.',
+      en:'Brody, J. E. (2007, December 11). Mental reserves keep brain agile. *The New York Times*. https://www.nytimes.com'
+    }
+  },
+  law:{
+    label:'ราชกิจจานุเบกษา/กฎหมาย', en:'Government gazette',
+    form:{
+      th:'ชื่อกฎหมาย. (ปี, วัน เดือน). *ราชกิจจานุเบกษา*. เล่ม xxx ตอนที่ xx. หน้า x–x.',
+      en:'Act Name B.E. xxxx. (Year, Month Day). *Government Gazette*. No. xxx Section xx. page x–x.'
+    },
+    ex:{
+      th:'พระราชบัญญัติกองทุนเพื่อความเสมอภาคทางการศึกษา พ.ศ. 2561. (2561, 13 พฤษภาคม). *ราชกิจจานุเบกษา*. เล่ม 135 ตอนที่ 33 ก. หน้า 1–18.',
+      en:'National Education Act B.E. 2542. (1999, August 19). *Government Gazette*. No. 116 Section 74 A. page 1–23.'
+    }
+  },
+  unpublished:{
+    label:'เอกสารไม่ได้ตีพิมพ์', en:'Unpublished manuscript',
+    form:{
+      th:'ชื่อ สกุล. (ปี). *ชื่อเอกสาร* [เอกสารที่ไม่ได้ตีพิมพ์]. ภาควิชา/คณะ, มหาวิทยาลัย.',
+      en:'Surname, A. B. (Year). *Title of the document* [Unpublished manuscript]. Department, University.'
+    },
+    ex:{
+      th:'อัญญมณี บุญซื่อ. (2556). *การส่งเสริมพัฒนาการทางอารมณ์และสังคมสำหรับเด็กปฐมวัย* [เอกสารที่ไม่ได้ตีพิมพ์]. ภาควิชาหลักสูตรและการสอน คณะครุศาสตร์, จุฬาลงกรณ์มหาวิทยาลัย.',
+      en:'Blackwell, E., &amp; Conrod, P. J. (2003). *A five-dimensional measure of drinking motives* [Unpublished manuscript]. Department of Psychology, University of British Columbia.'
+    }
+  },
+  unknown:{
+    label:'ไม่สามารถระบุประเภท', en:'Unclassified',
+    form:{th:'—', en:'—'},
+    ex:{th:'—', en:'—'}
+  }
+};
+/* ============================================================
+   ส่วนที่ 2 — ตัวช่วยทั่วไป, การตัดแยกรายการ, การจำแนกประเภท
+   ============================================================ */
+const RE_THAI      = /[\u0E00-\u0E7F]/;
+const RE_URL       = /https?:\/\/[^\s)]+/;
+const RE_YEAR      = /\((\d{4}|n\.d\.|ม\.ป\.ป\.)([^)]*)\)/;
+const RE_VOLISSUE  = /,\s*\d+\s*\([^)]+\)\s*,/;   /* , 47(4), หรือ , 27(ฉบับพิเศษ), */
+const RE_VOLONLY   = /,\s*\d{1,4}\s*,\s*e?\d+\s*[–\-]\s*e?\d+/;  /* , 24, 225–229 หรือ , 151, e771–e862 */
+const RE_PAGES     = /e?\d+\s*[–\-]\s*e?\d+/;
+/* วารสารออนไลน์จำนวนมากใช้เลขบทความแทนเลขหน้า เช่น Frontiers, 11, 1509479 */
+const RE_ARTNO     = /,\s*\d{1,4}\s*(\([^)]*\))?\s*,\s*e?\d{3,}\s*(?=[.,]|\s*https?:|\s*$)/;
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ital = s => esc(s).replace(/\*([^*]+)\*/g, '<em>$1</em>').replace(/&amp;amp;/g,'&amp;');
+const isThai = s => RE_THAI.test(s);
+
+/* ---- ตัดข้อความทั้งก้อนให้เป็นรายการอ้างอิงทีละรายการ ---- */
+const HEAD_RE = /^\s*(รายการอ้างอิง|บรรณานุกรม|เอกสารอ้างอิง|References?|Bibliography|REFERENCES)\s*(\(ต่อ\)|\(cont\.?\))?\s*$/i;
+
+function splitReferences(paragraphs, cutSection){
+  let lines = paragraphs.map(p => (typeof p === 'string' ? {text:p, italics:[]} : p))
+                        .filter(p => p.text.trim() !== '');
+  const END_RE = /^\s*(ภาคผนวก|ประวัติผู้เขียน|ประวัติผู้วิจัย|ประวัติผู้จัดทำ|ประวัติย่อ)(?![ก-๙])|^\s*(Appendix(es)?|Appendices|Curriculum Vitae|About the Author)\b/i;
+  if (cutSection){
+    const at = lines.findIndex(l => HEAD_RE.test(l.text.trim()));
+    if (at >= 0){
+      lines = lines.slice(at + 1);
+      const end = lines.findIndex(l => END_RE.test(l.text.trim()));
+      if (end >= 0) lines = lines.slice(0, end);
+    }
+  }
+  /* ตัดหัวข้อย่อยและเลขหน้าเดี่ยว ๆ ออก */
+  lines = lines.filter(l => {
+    const t = l.text.trim();
+    if (/^\d{1,3}$/.test(t)) return false;
+    if (HEAD_RE.test(t)) return false;
+    return true;
+  });
+  /* รวมบรรทัดที่ถูกตัดกลางคัน: ถ้าบรรทัดถัดไปไม่ได้ขึ้นต้นรายการใหม่ ให้ต่อท้าย
+     รายการใหม่สังเกตจากรูปแบบ “…ผู้แต่ง. (ปี).” ซึ่งต้องมีจุดขนาบวงเล็บปี
+     ใช้ทั้งย่อหน้าไม่จำกัดระยะ เพราะรายการที่มีผู้แต่ง 19 คนจะมีปีอยู่ไกลมาก
+     ส่วนปีที่ปรากฏในชื่อเรื่อง เช่น (Thai ACS Guidelines 2020) จะไม่เข้าเงื่อนไขนี้ */
+  const RE_REF_START = /(^|[.,\]]\s*|[ก-๙]\s*)\((\d{4}|n\.d\.|ม\.ป\.ป\.)[^)]*\)\s*\./;
+  const out = [];
+  for (const l of lines){
+    const t = l.text.trim();
+    if (out.length && !RE_REF_START.test(t)){
+      const prev = out[out.length - 1];
+      prev.text = (prev.text.trim() + ' ' + t).replace(/\s+/g,' ');
+      prev.italics = prev.italics.concat(l.italics || []);
+    } else {
+      out.push({text:t.replace(/\s+/g,' '), italics:(l.italics||[]).slice()});
+    }
+  }
+  return out.filter(r => r.text.length > 12);
+}
+
+/* ---- จำแนกประเภทเอกสาร (เรียงจากเฉพาะเจาะจงไปกว้าง) ---- */
+/* ---- สัญญาณบ่งชี้ประเภทเอกสาร: ให้คะแนนแล้วเลือกอันดับสูงสุด ----
+   น้ำหนักสูง = สัญญาณเฉพาะตัวที่แทบไม่ปรากฏในประเภทอื่น
+   น้ำหนักติดลบ = สัญญาณที่ขัดกับประเภทนั้น                          */
+const TYPE_SIGNALS = [
+  {t:'law',        w: 60, re:/ราชกิจจานุเบกษา|Government Gazette/i},
+  {t:'law',        w: 15, re:/พระราชบัญญัติ|ประกาศกระทรวง|เล่ม\s*\d+\s*ตอน/},
+  {t:'thesis',     w: 60, re:/\[(วิทยานิพนธ์|สารนิพนธ์|Unpublished (doctoral|master)|Doctoral dissertation|Master'?s thesis|Master’s thesis)/i},
+  {t:'thesis',     w: 12, re:/(ปริญญาดุษฎีบัณฑิต|ปริญญามหาบัณฑิต|dissertation|thesis)/i},
+  {t:'thesis',     w: 30, re:/(วิทยานิพนธ์|สารนิพนธ์|ดุษฎีนิพนธ์)\S*\s*(ปริญญา|[ก-๙]*มหาบัณฑิต|[ก-๙]*ดุษฎีบัณฑิต)/},
+  {t:'unpublished',w: 60, re:/\[(เอกสารที่ไม่ได้ตีพิมพ์|เอกสารภายในองค์กร|Unpublished manuscript|Internal document)/i},
+  {t:'conference', w: 55, re:/\[(Paper|Poster) presentation\]|\[Symposium\]/i},
+  {t:'proceeding', w: 35, re:/Proceedings|การประชุมวิชาการ|การประชุมเชิงวิชาการ/i},
+  {t:'proceeding', w: 15, re:/\(\s*(น\.|pp?\.)\s*\d/i},
+  {t:'chapter',    w: 45, re:/(^|[.\s])ใน\s+\S.{0,80}\(บ\.ก\.\)|In\s+[^,]{0,80}\((Ed|Eds)\.\),/},
+  {t:'chapter',    w: 22, re:/(^|[.\s])ใน\s+\S|(^|\.\s)In\s+[A-Z]/},
+  {t:'chapter',    w: 18, re:/\(\s*(น\.|pp\.)\s*\d+\s*[–\-]\s*\d+\s*\)/},
+  {t:'newspaper',  w: 45, re:/(เดลินิวส์|ไทยรัฐ|มติชน|ข่าวสด|กรุงเทพธุรกิจ|ประชาชาติ|The New York Times|Bangkok Post|The Guardian|Washington Post)/i},
+  {t:'journal',    w: 45, re:RE_VOLISSUE},
+  {t:'journal',    w: 32, re:RE_VOLONLY},
+  {t:'journal',    w: 30, re:RE_ARTNO},
+  {t:'journal',    w: 40, re:/ปีที่\s*\d+[\s,]*ฉบับที่\s*\d+|[Vv]ol\.\s*\d+\s*,?\s*[Nn]o\.\s*\d+/},
+  {t:'journal',    w: 30, re:/,\s*\d+\s*\([^)]*\)\s*,\s*(บทความ|Article)/i},
+  {t:'journal',    w: 18, re:/(doi\.org\/10\.|\bdoi\s*:\s*10\.)/i},
+  {t:'journal',    w: 10, re:/วารสาร|Journal|Circulation|Lancet|BMJ/i},
+  {t:'journal',    w: 22, re:/(วารสาร|Journal|Circulation|Lancet|BMJ|Proceedings of)[^.]{0,50},\s*(ปีที่\s*)?\d/i},
+  {t:'journal',    w: 35, re:/[^.]{2,50}\s*:\s*\d{1,4}\s*\([^)]+\)\s*:\s*\d/},
+  {t:'report',     w: 35, re:/(รายงานประจำปี|Report No\.|Publication No\.|รายงานการวิจัย|รายงานผลการ)/i},
+  {t:'report',     w: 18, re:/(แนวเวชปฏิบัติ|แนวทางเวชปฏิบัติ|มาตรฐาน|นโยบาย|guideline|standard)/i},
+  {t:'website',    w: 22, re:RE_URL},
+  {t:'book',       w: 30, re:/\((พิมพ์ครั้งที่|\d+(st|nd|rd|th)\s+ed\.)/i},
+  {t:'book',       w:  6, re:/./},                       /* ค่าตั้งต้นให้หนังสือเป็นตัวเลือกสำรอง */
+  /* สัญญาณค้าน */
+  {t:'website',    w:-20, re:RE_PAGES},                  /* มีเลขหน้า = ไม่น่าใช่หน้าเว็บ */
+  {t:'website',    w:-18, re:/doi\.org\/10\.|\bdoi\s*:\s*10\./i},
+  {t:'report',     w:-12, re:/,\s*\d+\s*(\(|,\s*e?\d)/},        /* มีเลขปีที่ = เป็นวารสารมากกว่ารายงาน */
+  {t:'journal',    w:-15, re:/\[(วิทยานิพนธ์|Doctoral|Master)/i},
+];
+
+function scoreTypes(t){
+  const sc = {};
+  for (const g of TYPE_SIGNALS){
+    if (g.re.test(t)) sc[g.t] = (sc[g.t] || 0) + g.w;
+  }
+  /* ผู้แต่งเป็นหน่วยงานและไม่มีเลขหน้า → มีแนวโน้มเป็นรายงาน */
+  const head = (t.split(RE_YEAR)[0] || '');
+  const orgAuthor = /^\s*(สำนักงาน|กระทรวง|กรม|กอง|มูลนิธิ|สถาบัน|ศูนย์|โรงพยาบาล|สมาคม|คณะ|Agency|Association|Institute|Ministry|Department|Organization|Council|Centers?|Administration|World Health|American)/i.test(head.trim());
+  if (orgAuthor) sc.report = (sc.report || 0) + (RE_PAGES.test(t) ? 6 : 20);
+  else { sc.report = (sc.report || 0) - 12; sc.book = (sc.book || 0) + 5; }
+  /* DOI ไม่ได้แปลว่าเป็นบทความวารสาร: หนังสือและหนังสือออนไลน์ก็มี DOI ได้ */
+  const hasDoi = /(?:https?:\/\/)?doi\.org\/10\.|\bdoi\s*:\s*10\./i.test(t);
+  const hasJournalStructure = RE_VOLISSUE.test(t) || RE_VOLONLY.test(t) || RE_ARTNO.test(t);
+  if (hasDoi && !hasJournalStructure && !orgAuthor){
+    sc.book = (sc.book || 0) + 28;
+    sc.journal = (sc.journal || 0) - 18;
+  }
+  return sc;
+}
+
+function detectType(t){
+  const sc = scoreTypes(t);
+  const ranked = Object.entries(sc).filter(([,v]) => v > 0).sort((a,b) => b[1] - a[1]);
+  if (!ranked.length) return {type:'book', score:0, margin:0, confidence:'low', ranked:[]};
+  const [type, score] = ranked[0];
+  const margin = score - (ranked[1] ? ranked[1][1] : 0);
+  const confidence = (score >= 35 && margin >= 15) ? 'high'
+                   : (score >= 20 && margin >= 8)  ? 'medium' : 'low';
+  return {type, score, margin, confidence, ranked};
+}
+
+/* ============================================================
+   ส่วนที่ 3 — กลไกตรวจสอบตามหลัก APA 7
+   ระดับ: 'e' = ผิดหลักเกณฑ์ | 'w' = ควรตรวจทาน
+   ============================================================ */
+function analyzeOne(ref, opts){
+  const raw  = ref.text.trim();
+  const automaticTypeInfo = detectType(raw);
+  const typeInfo = opts.typeOverride ? {
+    type:opts.typeOverride, score:100, margin:100, confidence:'manual', ranked:[[opts.typeOverride,100]], forced:true
+  } : automaticTypeInfo;
+  const type = typeInfo.type;
+  const detectedLang = isThai(raw) ? 'th' : 'en';
+  const lang = ['th','en'].includes(opts.langMode) ? opts.langMode : detectedLang;
+  const languageRules = ['th','en'].includes(opts.langMode) ? opts.langMode : null;
+  const issues = [];
+  const add = (sev,title,detail,rule,find) => issues.push({sev,title,detail,rule,find});
+
+  const yearM   = raw.match(RE_YEAR);
+  const authors = yearM ? raw.slice(0, yearM.index).trim() : raw;
+  const tail    = yearM ? raw.slice(yearM.index + yearM[0].length).replace(/^[.\s]+/,'').trim() : '';
+  const italTxt = (ref.italics || []).join(' ');
+
+  /* ---------- 1. องค์ประกอบหลัก ---------- */
+  if (!yearM){
+    add('e','ไม่พบปีที่พิมพ์ในวงเล็บ',
+        'ทุกรายการต้องมีปีในวงเล็บถัดจากชื่อผู้แต่ง หากไม่ปรากฏปีให้ใช้ (ม.ป.ป.) สำหรับภาษาไทย หรือ (n.d.) สำหรับภาษาอังกฤษ',
+        'APA 7 · องค์ประกอบพื้นฐาน');
+  } else {
+    const after = raw.charAt(yearM.index + yearM[0].length);
+    if (after !== '.') add('e','หลังวงเล็บปีต้องตามด้วยจุด',
+        'รูปแบบคือ (ปีพิมพ์). แล้วจึงตามด้วยชื่อเรื่อง',
+        'APA 7 · เครื่องหมายวรรคตอน', yearM[0]);
+    const y = yearM[1];
+    if (/^\d{4}$/.test(y)){
+      if (languageRules==='th' && +y < 2300) add('w','ปีอาจไม่ใช่ พ.ศ.',
+        'รายการภาษาไทยใช้ พ.ศ. ส่วนการแปลงเป็น Translated Thai Reference จึงเปลี่ยนเป็น ค.ศ.',
+        'ฉบับภาษาไทย · ศักราช', yearM[0]);
+      if (languageRules==='en' && +y > 2300) add('w','ปีอาจเป็น พ.ศ. ในรายการภาษาอังกฤษ',
+        'รายการภาษาอังกฤษและ Translated Thai Reference ใช้ ค.ศ.',
+        'ฉบับภาษาไทย · ศักราช', yearM[0]);
+    }
+  }
+  const abbr = authors.match(/\(([A-Z]{2,10})\)\s*\.?\s*$/);
+  if (abbr && /(Agency|Association|Institute|Ministry|Department|Organization|Council|Centers?|Administration|Society|Foundation|University|College)/i.test(authors))
+    add('e','ใส่ตัวย่อหน่วยงานในรายการอ้างอิง',
+      'รายการอ้างอิงท้ายเล่มใช้ชื่อหน่วยงานเต็มเท่านั้น ตัวย่อจะประกาศไว้ในการอ้างอิงในเนื้อหาครั้งแรก เช่น (Agency for Healthcare Research and Quality [AHRQ], 2017) แล้วครั้งต่อไปจึงใช้ตัวย่อ',
+      'APA 7 · ผู้แต่งเป็นหน่วยงาน', abbr[0].replace(/\.\s*$/,''));
+  if (!authors) add('e','ไม่พบชื่อผู้แต่ง',
+      'ถ้าไม่ปรากฏชื่อผู้แต่ง ให้เลื่อนชื่อเรื่องขึ้นมาอยู่ตำแหน่งผู้แต่งแทน',
+      'APA 7 · ผู้แต่ง');
+  else if (!/\.\s*$/.test(authors)) add('e','ไม่พบจุดหลังชื่อผู้แต่ง',
+      'ชื่อผู้แต่งต้องปิดท้ายด้วยจุดก่อนวงเล็บปี เช่น Smith, J. (2020).',
+      'APA 7 · ผู้แต่ง', authors.slice(-24));
+  const authorBare = authors.replace(/\.\s*$/,'').trim();
+  if (authorBare.length >= 6 && tail.includes('. ' + authorBare + '.')) add('w','อาจระบุสำนักพิมพ์ซ้ำกับผู้แต่งองค์กร',
+      'หากชื่อหลังชื่อเรื่องเป็นสำนักพิมพ์เดียวกับผู้แต่งองค์กร APA 7 ให้ละชื่อสำนักพิมพ์ออก โปรดยืนยันจากต้นฉบับก่อนแก้ไข',
+      'APA 7 · สำนักพิมพ์');
+
+  /* ---------- 2. การปิดท้ายรายการ ---------- */
+  const linkEnd = /(https?:\/\/|doi\.org\/|doi\s*:\s*10\.)\S*$/i.test(raw);
+  if (/https?:\/\/\S+[^\s.]\.$/.test(raw)){
+    add('e','มีจุดปิดท้ายหลัง URL/DOI',
+        'APA 7 ไม่ใส่เครื่องหมายใดต่อท้าย URL หรือ DOI เพราะอาจทำให้ลิงก์เสีย',
+        'APA 7 · URL และ DOI', raw.slice(-14));
+  } else if (!linkEnd && !/[.\]]$/.test(raw)){
+    add('e','ไม่ปิดท้ายด้วยจุด',
+        'รายการที่ไม่ได้จบด้วย URL หรือ DOI ต้องปิดท้ายด้วยจุด',
+        'APA 7 · เครื่องหมายวรรคตอน', raw.slice(-12));
+  }
+
+  /* ---------- 3. ร่องรอยรูปแบบเก่า (APA 6) ---------- */
+  if (/et al\./i.test(raw)) add('e','ใช้ et al. ในรายการอ้างอิงท้ายเล่ม',
+      'et al. ใช้เฉพาะการอ้างอิงในเนื้อหา ส่วนรายการอ้างอิงต้องระบุผู้แต่งครบทุกคน (ไม่เกิน 20 คน) หากมี 21 คนขึ้นไปจึงใส่คนที่ 1–19 ตามด้วย . . . แล้วปิดท้ายด้วยคนสุดท้าย',
+      'APA 7 · จำนวนผู้แต่ง', /et al\./i);
+  if (/และคณะ/.test(raw)) add('e','ใช้ “และคณะ” ในรายการอ้างอิงท้ายเล่ม',
+      '“และคณะ” ใช้เฉพาะการอ้างอิงในเนื้อหา รายการท้ายเล่มต้องระบุชื่อผู้แต่งครบทุกคน',
+      'ฉบับภาษาไทย · จำนวนผู้แต่ง', 'และคณะ');
+  const ell = authors.match(/(\.\s*\.\s*\.|…|\.{3})\s*(&|and)\s/i);
+  if (ell) add('e','ใส่เครื่องหมาย & หลังจุดไข่ปลา',
+      'กรณีผู้แต่ง 21 คนขึ้นไป APA 7 ให้ใส่ชื่อคนที่ 1–19 ตามด้วย , . . . แล้วต่อด้วยชื่อคนสุดท้ายทันที โดยไม่มี & หรือ and คั่น',
+      'APA 7 · จำนวนผู้แต่ง', ell[0]);
+  else if (/\.{3}|…/.test(authors) && (authors.match(/,/g) || []).length < 19)
+    add('e','ย่อรายชื่อผู้แต่งด้วยจุดไข่ปลาเร็วเกินไป',
+      'APA 7 ให้ใส่ชื่อผู้แต่งครบทุกคนเมื่อมีไม่เกิน 20 คน จะใช้จุดไข่ปลาได้ต่อเมื่อมีผู้แต่งตั้งแต่ 21 คนขึ้นไป และต้องใส่ครบ 19 คนก่อน',
+      'APA 7 · จำนวนผู้แต่ง', (authors.match(/\.{3}|…/) || [])[0]);
+  const ellipsisMark = authors.match(/\.\s*\.\s*\.|…|\.{3}/);
+  if (ellipsisMark){
+    const beforeEllipsis = authors.slice(0, ellipsisMark.index).trim();
+    const listedBeforeEllipsis = (beforeEllipsis.match(/\.\s*,\s*[A-Z][\p{L}'’\-]+,\s*[A-Z]/gu) || []).length + 1;
+    if (listedBeforeEllipsis !== 19) add('e','จำนวนผู้แต่งก่อนจุดไข่ปลาไม่ใช่ 19 คน',
+      'เมื่อมีผู้แต่งตั้งแต่ 21 คน APA 7 ให้ระบุผู้แต่ง 19 คนแรก ตามด้วย , . . . แล้วจึงระบุผู้แต่งคนสุดท้ายเพียงคนเดียว',
+      'APA 7 · จำนวนผู้แต่ง', ellipsisMark[0]);
+  }
+
+  const retr = raw.match(/(Retrieved from|Available at\s*:|สืบค้นจาก|เข้าถึงได้จาก|จาก\s*(?=https?:\/\/))/i);
+  if (retr && !/Retrieved\s+\w+\s+\d{1,2},\s*\d{4},\s*from/i.test(raw))
+    add('e','มีคำนำหน้า URL ที่ไม่ใช้แล้ว',
+        'APA 7 ตัด “Retrieved from / สืบค้นจาก” ออก ให้ใส่ URL ตรง ๆ ยกเว้นเนื้อหาที่เปลี่ยนแปลงตลอดเวลาจึงระบุวันที่สืบค้น',
+      'APA 7 · URL และ DOI', retr[0]);
+  const retrievalDate = raw.match(/(?:Retrieved|ค้นเมื่อ|สืบค้นเมื่อ)\s+(?:[A-Za-z]+\s+\d{1,2},\s*\d{4}|\d{1,2}\s+[ก-๙]+\s+\d{4})/i);
+  if (retrievalDate){
+    if (RE_URL.test(raw)) add('w','พบวันที่สืบค้น — ต้องตรวจทาน',
+      'APA 7 ใช้วันที่สืบค้นเฉพาะเนื้อหาที่เปลี่ยนแปลงตลอดเวลาเท่านั้น โปรดยืนยันว่าจำเป็นต้องเก็บวันที่สืบค้นและ URL ไว้',
+      'APA 7 · URL และ DOI', retrievalDate[0]);
+    else add('e','มีวันที่สืบค้นแต่ไม่พบ URL',
+      'รายการที่มีวันที่สืบค้นต้องมี URL ร่วมด้วย และใช้ได้เฉพาะเนื้อหาที่เปลี่ยนแปลงตลอดเวลา จึงยังไม่ควรนำฉบับแก้ไขไปใช้',
+      'APA 7 · URL และ DOI', retrievalDate[0]);
+  }
+  const cityEn = raw.match(/(^|\.\s)([A-Z][A-Za-z.\s]{2,24},\s*[A-Z]{2}:\s)/);
+  const cityTh = raw.match(/(?:^|\.\s)(กรุงเทพฯ|กรุงเทพมหานคร|นนทบุรี|เชียงใหม่|ปทุมธานี|นครปฐม|สงขลา|ชลบุรี)\s*[:\s]\s*\S/);
+  if (cityEn || cityTh) add('e','ระบุเมืองที่พิมพ์',
+      'APA 7 ตัดชื่อเมืองออก ให้ระบุเฉพาะชื่อสำนักพิมพ์',
+      'APA 7 · สำนักพิมพ์', (cityEn ? cityEn[2] : cityTh[0]));
+  const brokenLink = raw.match(/(https?:\/\/\S*|10\.\d{4,}\/\S*)\s+\S*[\/.=?&]\S*/);
+  if (brokenLink) add('e','ลิงก์มีช่องว่างแทรกอยู่ตรงกลาง',
+      'URL หรือ DOI ที่มีช่องว่างคั่นจะคลิกไม่ได้และค้นไม่เจอ มักเกิดจากการตัดบรรทัดใน Word ให้ลบช่องว่างออกและปิดการตัดคำอัตโนมัติในย่อหน้านั้น',
+      'APA 7 · URL และ DOI', brokenLink[0].slice(0, 40));
+  const extraLink = raw.match(/\s*(PubMed|PMC|Full text|Full-text|ScienceDirect|Available at|เข้าถึงได้ที่)\s*:\s*https?:\/\/\S+/i);
+  const hasDoiLink = /(?:https?:\/\/)?doi\.org\/10\.|\bdoi\s*:\s*10\./i.test(raw);
+  if (extraLink && hasDoiLink) add('e','ใส่ลิงก์ซ้ำซ้อนต่อท้าย DOI',
+      'APA 7 ให้ระบุแหล่งที่อยู่เพียงแห่งเดียว ถ้ามี DOI ให้ใช้ DOI อย่างเดียว ไม่ต้องแนบลิงก์ PubMed, PMC หรือฐานข้อมูลอื่นเพิ่ม',
+      'APA 7 · URL และ DOI', extraLink[0].trim().slice(0, 30));
+
+  const doiLabel = raw.match(/\b(doi|DOI)\s*:\s*(?=https?:\/\/)/);
+  if (doiLabel) add('e','ใส่คำว่า DOI นำหน้าลิงก์',
+      'APA 7 ให้เขียน DOI เป็นลิงก์เต็มโดยไม่มีคำว่า DOI: หรือ doi: นำหน้า เพราะ https://doi.org/ บอกอยู่แล้วว่าเป็น DOI',
+      'APA 7 · URL และ DOI', doiLabel[0].trim());
+  if (/\b(doi|DOI)\s*:\s*10\./.test(raw) || /dx\.doi\.org/.test(raw) ||
+      (/(^|\s)doi\.org\/10\./.test(raw) && !/https?:\/\/doi\.org/.test(raw)))
+    add('e','รูปแบบ DOI ไม่ถูกต้อง',
+        'APA 7 ใช้รูปแบบลิงก์เต็ม https://doi.org/10.xxxx ไม่ใช้ doi: หรือ dx.doi.org',
+        'APA 7 · URL และ DOI', /(\b(doi|DOI)\s*:\s*10\.|dx\.doi\.org)/);
+
+  /* ---------- 4. เครื่องหมายและช่องว่าง ---------- */
+  if (/\s{2,}/.test(raw)) add('w','มีช่องว่างซ้อนกัน','ใช้เว้นวรรค 1 ระยะระหว่างองค์ประกอบ','การพิมพ์');
+  const noGap = raw.replace(/(https?:\/\/|10\.\d{4,}\/)\S+/g, m => ' '.repeat(m.length))
+                   .match(/\)\.(?=[^\s.])|[ก-๙]{3,}\.(?=[ก-๙A-Za-z])|[A-Za-z]{3,}\.(?=[ก-๙])/)
+                || raw.match(/[^\s.]\.(?=https?:\/\/)/);
+  if (noGap) add('e','ไม่เว้นวรรคหลังเครื่องหมายจุด',
+      'ต้องเว้นวรรค 1 ระยะหลังจุดที่คั่นระหว่างองค์ประกอบ เช่น (2560). ชื่อเรื่อง. สำนักพิมพ์.',
+      'APA 7 · เครื่องหมายวรรคตอน', noGap[0]);
+  if (/\s+\./.test(raw)) add('w','มีช่องว่างก่อนเครื่องหมายจุด','ไม่เว้นวรรคก่อนจุดหรือจุลภาค','การพิมพ์', /\s+\./);
+  const q = raw.match(/[“"][^”"]{12,}[”"]/);
+  if (q) add('e','ใส่เครื่องหมายคำพูดคร่อมชื่อเรื่อง',
+      'รายการอ้างอิงท้ายเล่มไม่ใส่เครื่องหมายคำพูด (จะใช้เฉพาะการระบุที่มาใต้ภาพ/ตาราง)',
+      'APA 7 · ชื่อเรื่อง', q[0].slice(0,18));
+  const dash = raw.replace(/https?:\/\/\S+|10\.\d{4,}\/\S+/g,' ').match(/e?\d+\s*-\s*e?\d+(?=\s*[.,]|\s*$)/);
+  if (dash && ['journal','chapter','proceeding','newspaper','law'].includes(type))
+    add('w','ช่วงเลขหน้าใช้ยัติภังค์ (-)',
+        'APA ใช้ en dash (–) คั่นช่วงเลขหน้า เช่น 91–94',
+        'APA 7 · เลขหน้า', dash[0]);
+
+  /* ---------- 5. ผู้แต่ง ---------- */
+  if (languageRules === 'en'){
+    if (/([A-Z]\.|,)\s+and\s+[A-Z][A-Za-z'’\-]+,/.test(authors)) add('e','ใช้คำว่า and เชื่อมผู้แต่ง',
+        'ในรายการอ้างอิงใช้เครื่องหมาย & ก่อนผู้แต่งคนสุดท้าย (คำว่า and ใช้เฉพาะการอ้างอิงในเนื้อหาแบบหน้าข้อความ)',
+        'APA 7 · ผู้แต่ง', /,?\s+and\s+/);
+    if (/^[A-Z][A-Za-z'’\-]+,\s+[A-Z][a-z]{2,}/.test(authors))
+      add('e','เขียนชื่อต้นเต็มแทนอักษรย่อ',
+        'ผู้แต่งภาษาอังกฤษใช้รูปแบบ สกุล, อักษรย่อชื่อ. เช่น Mertens, D. M.',
+        'APA 7 · ผู้แต่ง', authors.slice(0, 26));
+    const fullGiven = authors.match(/(?:^|,\s*)([A-Z][\p{L}'’\-]+(?:\s+[A-Z][\p{L}'’\-]+){1,2}),\s*[A-Z]\./u);
+    if (fullGiven) add('w','อาจเขียนชื่อผู้แต่งเต็มหรือสลับลำดับ',
+      'ตรวจชื่อผู้แต่งนี้กับต้นฉบับ เพราะ APA ใช้ สกุล, อักษรย่อชื่อ เช่น Felker, G. M. ระบบไม่แก้อัตโนมัติเพื่อป้องกันการแก้ชื่อผิดคน',
+      'APA 7 · ผู้แต่ง', fullGiven[1]);
+    const tight = authors.match(/[A-Z]\.[A-Z]\./);
+    if (tight) add('e','อักษรย่อชื่อไม่เว้นวรรค',
+        'ต้องเว้นวรรค 1 ระยะระหว่างอักษรย่อชื่อต้นกับชื่อกลาง เช่น Endsley, M. R. ไม่ใช่ M.R.',
+        'APA 7 · ผู้แต่ง', tight[0]);
+    const missingInitialPeriod = authors.match(/,\s+[A-Z]{1,3}(?=\s*(?:,|&|$))/);
+    if (missingInitialPeriod)
+      add('e','อักษรย่อชื่อไม่มีจุด',
+        'อักษรย่อชื่อต้นและชื่อกลางต้องมีจุดกำกับและเว้นวรรคระหว่างกัน เช่น Jacobs, L. C.',
+        'APA 7 · ผู้แต่ง', missingInitialPeriod[0]);
+    if (/\?/.test(authors)) add('w','พบเครื่องหมาย ? ในชื่อผู้แต่ง',
+      'อาจเกิดจากการคัดลอกหรือปัญหารหัสอักขระ เช่น Böhm หรือ Čelutkienė ควรคัดลอกชื่อจาก DOI หรือฐานข้อมูลต้นฉบับใหม่ก่อนใช้อ้างอิง',
+      'การตรวจคุณภาพข้อมูล');
+    if ((authors.match(/,/g)||[]).length >= 3 && /[^,]\s&\s/.test(authors))
+      add('w','ไม่มีจุลภาคก่อนเครื่องหมาย &',
+        'กรณีผู้แต่ง 3 คนขึ้นไป ต้องมีจุลภาคก่อน & เช่น Ary, D., Jacobs, L. C., & Walker, D. A.',
+        'APA 7 · ผู้แต่ง');
+  } else if (languageRules === 'th') {
+    const dupConj = authors.match(/(และ\s*,?\s*&|&\s*และ|และ\s+และ)/);
+    if (dupConj) add('e','มีตัวเชื่อมผู้แต่งซ้ำซ้อน',
+        'พบทั้ง “และ” และ “&” ติดกัน มักเป็นร่องรอยค้างจากโปรแกรมจัดการบรรณานุกรม ให้เหลือคำว่า “และ” เพียงตัวเดียว',
+        'ฉบับภาษาไทย · ผู้แต่ง', dupConj[0]);
+    else if (/&/.test(authors)) add('e','ใช้เครื่องหมาย & ในรายการภาษาไทย',
+        'รายการภาษาไทยใช้คำว่า “และ” เชื่อมผู้แต่งคนสุดท้าย',
+        'ฉบับภาษาไทย · ผู้แต่ง', '&');
+    if (/,/.test(authors) && !/และ/.test(authors) && !/(สำนักงาน|กระทรวง|กรม|มูลนิธิ|สถาบัน|ศูนย์|คณะ|โรงพยาบาล|มหาวิทยาลัย)/.test(authors))
+      add('w','ผู้แต่งหลายคนแต่ไม่มีคำว่า “และ”',
+        'ผู้แต่งคนสุดท้ายต้องนำหน้าด้วย “และ” เช่น พชร สันทัด, สุรชาติ ณ หนองคาย, และ สมาน งามสนิท',
+        'ฉบับภาษาไทย · ผู้แต่ง');
+    if (/^[ก-๙]+,\s*[ก-๙]+\.\s*$/.test(authors + '.'))
+      add('w','อาจกลับชื่อ–สกุลแบบภาษาอังกฤษ',
+        'ชื่อผู้แต่งภาษาไทยเขียนชื่อต้นแล้วตามด้วยนามสกุล ไม่ต้องกลับลำดับ',
+        'ฉบับภาษาไทย · ผู้แต่ง');
+  }
+
+  /* ---------- 6. เกณฑ์เฉพาะประเภท ---------- */
+  const legacyVol = raw.match(/(ปีที่\s*\d|ฉบับที่\s*\d|หน้า\s*\d|[Vv]ol\.\s*\d|[Nn]o\.\s*\d)/);
+  const colonVol = raw.match(/([^.:]{2,50})\s*:\s*(\d{1,4})\s*(\([^)]+\))?\s*:\s*(\d+)/);
+  if (colonVol) add('e','ใช้ทวิภาคคั่นเลขปีที่และเลขหน้า',
+      'APA 7 คั่นด้วยจุลภาค ไม่ใช่ทวิภาค รูปแบบคือ ชื่อวารสาร, ปีที่(ฉบับที่), เลขหน้า เช่น วารสารสภาการพยาบาล, 37(3), 144–155',
+      'APA 7 · บทความวารสาร', colonVol[0].slice(-20));
+  if (type === 'journal'){
+    if (!RE_VOLISSUE.test(raw) && !RE_VOLONLY.test(raw) && !RE_ARTNO.test(raw))
+      add('e','ไม่พบเลขปีที่/ฉบับที่/เลขหน้าในรูปแบบ APA',
+        'รูปแบบคือ ชื่อวารสาร, ปีที่(ฉบับที่), เลขหน้า. เช่น วิทยาจารย์, 95(1), 91–94.',
+        'APA 7 · บทความวารสาร');
+    if (legacyVol) add('e','ใช้คำว่า ปีที่/ฉบับที่/หน้า หรือ Vol./No.',
+        'APA 7 ไม่เขียนคำเหล่านี้ ให้ใช้ตัวเลขตามรูปแบบ 95(1), 91–94',
+        'APA 7 · บทความวารสาร', legacyVol[0]);
+    if (/\bpp?\.\s*\d/.test(raw)) add('e','ใช้ pp. กับเลขหน้าบทความวารสาร',
+        'pp. ใช้เฉพาะบทในหนังสือและ proceedings บทความวารสารระบุเลขหน้าเปล่า ๆ',
+        'APA 7 · บทความวารสาร', /pp?\.\s*\d/);
+    const gap = raw.match(/\d+\s+\(\d/);
+    if (gap) add('w','เว้นวรรคระหว่างเลขปีที่กับวงเล็บฉบับที่',
+        'เลขปีที่และวงเล็บฉบับที่ต้องติดกัน เช่น 95(1)',
+        'APA 7 · บทความวารสาร', gap[0]);
+  }
+  if (/\(\s*Suppl\s+\d/i.test(raw))
+    add('w','คำย่อ Suppl ไม่มีจุด',
+      'APA 7 เขียนฉบับเพิ่มเติมเป็น (Suppl. 2) โดยมีจุดหลังคำย่อ',
+      'APA 7 · บทความวารสาร', (raw.match(/\(\s*Suppl\s+\d+/i) || [])[0]);
+  if (type === 'chapter'){
+    if (!/\((น\.|pp?\.)\s*\d/.test(raw)) add('e','ไม่ระบุช่วงเลขหน้าของบท',
+        'บทในหนังสือต้องระบุเลขหน้าในวงเล็บ ภาษาไทยใช้ (น. 1–18) ภาษาอังกฤษใช้ (pp. 1–18)',
+        'APA 7 · บทในหนังสือ');
+    if (!/\(บ\.ก\.\)|\((Ed|Eds)\.\)/.test(raw)) add('e','ไม่ระบุบรรณาธิการ',
+        'ต้องระบุบรรณาธิการพร้อมวงเล็บ (บ.ก.) หรือ (Ed.)/(Eds.)',
+        'APA 7 · บทในหนังสือ');
+    if (lang==='en' && /In\s+[A-Z][a-z]+,\s*[A-Z]\./.test(raw))
+      add('e','สลับลำดับชื่อบรรณาธิการ',
+        'ชื่อบรรณาธิการเขียนอักษรย่อชื่อนำหน้าสกุล เช่น In K. Whalen (Ed.),',
+        'APA 7 · บทในหนังสือ', /In\s+[A-Z][a-z]+,\s*[A-Z]\./);
+  }
+  if (type === 'website'){
+    if (!RE_URL.test(raw)) add('e','ไม่พบ URL',
+        'รายการประเภทเว็บไซต์ต้องระบุ URL ที่เข้าถึงได้',
+        'APA 7 · เว็บไซต์');
+    else if (/\.\s*https?:\/\//.test(raw) && (raw.match(/\.\s/g)||[]).length < 3)
+      add('w','อาจไม่ได้ระบุชื่อเว็บไซต์',
+        'ลำดับคือ ชื่อบทความ. ชื่อเว็บไซต์. URL — ยกเว้นกรณีชื่อผู้แต่งกับชื่อเว็บไซต์เป็นชื่อเดียวกันจึงตัดออกได้',
+        'APA 7 · เว็บไซต์');
+  }
+  if (/(วิทยานิพนธ์|สารนิพนธ์|ดุษฎีนิพนธ์)/.test(raw) && !/\[/.test(raw))
+    add('e','ระบุประเภทวิทยานิพนธ์โดยไม่ใช้วงเล็บเหลี่ยม',
+      'APA 7 ให้ใส่ประเภทและชื่อสถาบันไว้ในวงเล็บเหลี่ยมต่อท้ายชื่อเรื่อง เช่น [วิทยานิพนธ์ปริญญามหาบัณฑิต, มหาวิทยาลัยบูรพา] ไม่ใช่เขียนต่อท้ายด้วยจุลภาค',
+      'APA 7 · วิทยานิพนธ์', (raw.match(/วิทยานิพนธ์[^.]{0,40}/) || [])[0]);
+  if (type === 'thesis'){
+    const br = raw.match(/\[[^\]]+\]/);
+    if (!br) add('e','ไม่มีวงเล็บเหลี่ยมระบุประเภทวิทยานิพนธ์',
+        'ต้องระบุ [วิทยานิพนธ์ปริญญาดุษฎีบัณฑิต, ชื่อมหาวิทยาลัย] หรือ [Doctoral dissertation, University]',
+        'APA 7 · วิทยานิพนธ์');
+    else if (!/ไม่ได้ตีพิมพ์|Unpublished/i.test(br[0]) && !/,/.test(br[0]))
+      add('w','ไม่ระบุชื่อมหาวิทยาลัยในวงเล็บเหลี่ยม',
+        'วิทยานิพนธ์ที่เผยแพร่ให้ระบุชื่อสถาบันไว้ในวงเล็บเหลี่ยม แล้วตามด้วยชื่อคลังข้อมูลและ URL',
+        'APA 7 · วิทยานิพนธ์', br[0]);
+    if (!/ไม่ได้ตีพิมพ์|Unpublished/i.test(raw)){
+      const hasRepo = /database|ฐานข้อมูล|Repository|คลัง\s*ปัญญา/i.test(raw);
+      if (!RE_URL.test(raw) && !hasRepo)
+        add('w','ไม่ระบุแหล่งที่เข้าถึง','วิทยานิพนธ์ที่เผยแพร่ต้องระบุชื่อคลังข้อมูล/ฐานข้อมูล และ URL',
+          'APA 7 · วิทยานิพนธ์');
+      else if (!RE_URL.test(raw))
+        add('e','ระบุคลังข้อมูลแต่ไม่มี URL',
+          'วิทยานิพนธ์ที่เผยแพร่ผ่านคลังข้อมูลออนไลน์ต้องมี URL ต่อท้ายชื่อคลังข้อมูลเสมอ เพื่อให้ผู้อ่านตามไปสืบค้นได้',
+          'APA 7 · วิทยานิพนธ์');
+    }
+  }
+  if (type === 'book'){
+    if (/\(1st ed\.\)|\(พิมพ์ครั้งที่\s*1\)/.test(raw))
+      add('w','ระบุการพิมพ์ครั้งที่ 1','การพิมพ์ครั้งที่ 1 ไม่ต้องระบุ',
+        'APA 7 · หนังสือ', /\((1st ed\.|พิมพ์ครั้งที่\s*1)\)/);
+    const segs = tail.replace(/https?:\/\/\S+/,'').split(/\.\s+/).filter(x => x.trim().length > 1);
+    if (segs.length < 2)
+      add('w','อาจไม่ได้ระบุสำนักพิมพ์','หนังสือต้องมีชื่อสำนักพิมพ์ต่อจากชื่อเรื่องเสมอ',
+        'APA 7 · หนังสือ');
+  }
+  if (type === 'conference' && !/,/.test(tail.split(/\]/).pop()||''))
+    add('w','ไม่ระบุสถานที่จัดประชุม','ระบุชื่อการประชุม ตามด้วยเมืองและประเทศ',
+      'APA 7 · การประชุมวิชาการ');
+  if (type === 'law' && !/เล่ม\s*\d+|No\.\s*\d+/.test(raw))
+    add('e','ไม่ระบุเล่ม/ตอน/หน้าของราชกิจจานุเบกษา',
+      'รูปแบบคือ ราชกิจจานุเบกษา. เล่ม 135 ตอนที่ 33 ก. หน้า 1–18.',
+      'ฉบับภาษาไทย · ราชกิจจานุเบกษา');
+
+  /* ---------- 7. ชื่อเรื่องภาษาอังกฤษ (sentence case) ---------- */
+  if (lang === 'en' && ['journal','chapter','proceeding','book','report','thesis'].includes(type) && tail){
+    const title = tail.split(/\.\s/)[0] || '';
+    /* ประเมินทุกส่วนของชื่อเรื่อง แต่ไม่นับคำแรกของแต่ละส่วน เพราะคำแรกและคำแรก
+       หลังทวิภาคใช้ตัวพิมพ์ใหญ่ได้ตามกฎอยู่แล้ว */
+    const words = title.split(/:\s+/)
+      .flatMap(seg => seg.split(/\s+/).slice(1))
+      .filter(w => w.length > 3);
+    const caps = words.filter(w => /^[A-Z][a-z]/.test(w));
+    if (words.length >= 3 && caps.length >= 3 && caps.length / words.length > 0.6)
+      add('w','ชื่อบทความใช้ Title Case',
+        'ชื่อบทความภาษาอังกฤษใช้ sentence case คือขึ้นต้นด้วยตัวพิมพ์ใหญ่เฉพาะคำแรก ชื่อเฉพาะ และคำแรกหลังเครื่องหมายทวิภาค ส่วนชื่อวารสารจึงใช้ Title Case',
+        'APA 7 · ชื่อเรื่อง', title.slice(0, 30));
+  }
+
+  /* ---------- 8. ตัวเอียง (ตรวจได้เฉพาะไฟล์ .docx) ---------- */
+  if (opts.fromDocx){
+    const needItalic = {journal:'ชื่อวารสารและเลขปีที่', book:'ชื่อหนังสือ', chapter:'ชื่อหนังสือ',
+      thesis:'ชื่อวิทยานิพนธ์', website:'ชื่อบทความ', report:'ชื่อเรื่อง',
+      conference:'ชื่อเรื่องที่นำเสนอ', proceeding:'ชื่อหัวข้อการประชุม',
+      newspaper:'ชื่อหนังสือพิมพ์', law:'ชื่อราชกิจจานุเบกษา', unpublished:'ชื่อเอกสาร'}[type];
+    if (needItalic && !italTxt.trim())
+      add('e','ไม่พบการจัดตัวเอียง', 'ต้องจัด ' + needItalic + ' เป็นตัวเอียง',
+        'APA 7 · ตัวเอียง');
+    else if (type === 'journal' && italTxt && !/\d/.test(italTxt))
+      add('w','เลขปีที่ไม่ได้เป็นตัวเอียง',
+        'ชื่อวารสารและเลขปีที่ (volume) เป็นตัวเอียงทั้งคู่ ส่วนเลขฉบับที่ในวงเล็บเป็นตัวธรรมดา',
+        'APA 7 · ตัวเอียง');
+  }
+
+  if (opts.strict) issues.forEach(i => { if (i.sev === 'w') i.sev = 'e'; });
+
+  const fix = autofix(raw, type, lang, issues, opts);
+  return {raw, type, typeInfo, lang, issues, fix, hasItalic: !!italTxt.trim()};
+}
+
+/* ---- ระบุช่วงข้อความที่ต้องจัดเป็นตัวเอียง คืน [เริ่ม, จบ] หรือ null ----
+   ทำเฉพาะกรณีที่รูปแบบชัดเจนพอ ถ้าไม่มั่นใจให้คืน null แล้วบอกผู้ใช้ไปจัดเอง */
+function italicRange(text, type){
+  const yr = text.match(RE_YEAR);
+  const afterYear = yr ? yr.index + yr[0].length : 0;
+
+  if (type === 'journal' || type === 'newspaper'){
+    /* ชื่อวารสารและเลขปีที่ ที่อยู่หน้าเลขฉบับหรือเลขหน้า */
+    const m = text.match(/(?:^|[.\]]\s)([^.\[\]]{2,90}?,\s*\d{1,4})(?=\s*(\([^)]*\))?\s*,\s*(e?\d+|บทความ|Article))/);
+    if (m) { const a = m.index + m[0].lastIndexOf(m[1]); return [a, a + m[1].length]; }
+    const n = text.match(/(?:^|[.\]]\s)([^.\[\]]{2,90}?)(?=\s*,\s*\d{1,4}\s*$|\s*,\s*\d{1,4}\s*\.)/);
+    if (n) { const a = n.index + n[0].lastIndexOf(n[1]); return [a, a + n[1].length]; }
+    return null;
+  }
+
+  if (type === 'chapter' || type === 'proceeding'){
+    /* ชื่อหนังสือ/ชื่อการประชุม ที่อยู่หน้าวงเล็บเลขหน้า */
+    const m = text.match(/(?:\(บ\.ก\.\),|\((Ed|Eds)\.\),|(?:^|\.\s)ใน\s|(?:^|\.\s)In\s)\s*([^.]{2,120}?)\s*(?=\(\s*(น\.|pp?\.))/);
+    if (m) { const a = m.index + m[0].lastIndexOf(m[2]); return [a, a + m[2].length]; }
+    return null;
+  }
+
+  /* หนังสือ รายงาน วิทยานิพนธ์ เว็บไซต์ เอกสารไม่ตีพิมพ์: ชื่อเรื่องหลังวงเล็บปี */
+  if (!yr) return null;
+  const rest = text.slice(afterYear).replace(/^[.\s]+/, '');
+  const base = text.length - rest.length;
+  const stop = rest.search(/\s*(\((พิมพ์ครั้งที่|\d+(st|nd|rd|th)\s+ed\.|เล่ม|Vol\.)|\s\[|\.\s|\.$|https?:\/\/)/);
+  if (stop < 3) return null;
+  const title = rest.slice(0, stop).trim();
+  if (!title || title.length < 3 || title.length > 200) return null;
+  return [base, base + title.length];
+}
+
+/* ============================================================
+   ส่วนที่ 4 — เสนอฉบับแก้ไขอัตโนมัติ (เฉพาะจุดที่แก้ได้เชิงรูปแบบ)
+   ============================================================ */
+/* ---- Tokenizer: แยกรายการเป็นโซน author | year | body | link ----
+   กฎแก้ไขแต่ละข้อจะระบุได้ว่าอนุญาตให้แตะโซนไหนบ้าง
+   โซน link จะไม่ถูกแตะเลย จึงไม่มีทางที่การแก้ข้อความจะทำ URL/DOI พัง   */
+const RE_LINK_SEG = /(https?:\/\/\S+|10\.\d{4,}\/\S+)/g;
+
+function tokenize(raw){
+  const parts = [];
+  const pushBody = txt => {
+    txt.split(RE_LINK_SEG).forEach((seg, i) => {
+      if (seg) parts.push({zone: i % 2 ? 'link' : 'body', text: seg});
+    });
+  };
+  const m = raw.match(RE_YEAR);
+  if (m){
+    if (m.index > 0) parts.push({zone:'author', text: raw.slice(0, m.index)});
+    parts.push({zone:'year', text: m[0]});
+    pushBody(raw.slice(m.index + m[0].length));
+  } else pushBody(raw);
+  return parts;
+}
+const detok = parts => parts.map(p => p.text).join('');
+
+function autofix(raw, type, lang, issues, opts){
+  const applied = [];
+
+  /* ---- ขั้นที่ 1: ทำให้ DOI เป็นมาตรฐานก่อน เพื่อให้ตัวแยกโซนมองเห็นเป็นลิงก์ ---- */
+  let pre = raw;
+  const P = (re, to, note) => { const n = pre.replace(re, to); if (n !== pre){ pre = n; applied.push(note); } };
+  P(/([^\s.])\.(?=https?:\/\/)/g, '$1. ', 'เติมช่องว่างก่อน URL');
+  if (/(?:https?:\/\/)?doi\.org\/10\.|\bdoi\s*:\s*10\./i.test(pre))
+    P(/\s*(PubMed|PMC|Full text|Full-text|ScienceDirect|Available at|เข้าถึงได้ที่)\s*:\s*https?:\/\/\S+/gi, '', 'ตัดลิงก์ซ้ำซ้อนต่อท้าย DOI');
+  P(/\b(doi|DOI)\s*:\s*(?=https?:\/\/)/g, '', 'ตัดคำว่า DOI นำหน้าลิงก์');
+  P(/\b(doi|DOI)\s*:\s*(?=10\.)/g, 'https://doi.org/', 'แปลง doi: เป็นลิงก์เต็ม');
+  P(/https?:\/\/dx\.doi\.org\//g, 'https://doi.org/', 'แก้ dx.doi.org');
+  P(/(^|\s)doi\.org\/(?=10\.)/g, '$1https://doi.org/', 'เติม https:// หน้า doi.org');
+
+  /* ---- ขั้นที่ 2: แยกโซน แล้วแก้เฉพาะโซนที่อนุญาต ---- */
+  const parts = tokenize(pre);
+  const Z = (zones, re, to, note) => {
+    let hit = false;
+    for (const p of parts){
+      if (!zones.includes(p.zone)) continue;
+      const n = p.text.replace(re, to);
+      if (n !== p.text){ p.text = n; hit = true; }
+    }
+    if (hit) applied.push(note);
+  };
+  const BODY = ['body'], AUTH = ['author'], TEXT = ['author','year','body'];
+
+  Z(BODY, /(Retrieved from|Available at\s*:|สืบค้นจาก|เข้าถึงได้จาก)\s*/gi, '', 'ตัดคำนำหน้า URL');
+  Z(BODY, /จาก\s*$/g, '', 'ตัดคำว่า “จาก” หน้า URL');
+  if (['book','report'].includes(type)){
+    Z(BODY, /(^|\.\s)(กรุงเทพฯ|กรุงเทพมหานคร|นนทบุรี|เชียงใหม่|ปทุมธานี|นครปฐม|สงขลา|ชลบุรี)\s*[:\s]\s*/g, '$1', 'ตัดชื่อเมืองที่พิมพ์');
+    Z(BODY, /(^|\.\s)([A-Z][A-Za-z.\s]{2,24},\s*[A-Z]{2}):\s*/g, '$1', 'ตัดชื่อเมืองที่พิมพ์');
+  }
+  if (type === 'book'){
+    Z(BODY, /\(1st ed\.\)\s*/g, '', 'ตัดการพิมพ์ครั้งที่ 1');
+    Z(BODY, /\s*\(พิมพ์ครั้งที่\s*1\)/g, '', 'ตัดการพิมพ์ครั้งที่ 1');
+  }
+  if (type === 'journal'){
+    Z(BODY, /([^.:]{2,50}?)\s*:\s*(\d{1,4})\s*(\([^)]+\))?\s*:\s*(?=\d)/g, '$1, $2$3, ', 'เปลี่ยนทวิภาคเป็นจุลภาค');
+    Z(BODY, /ปีที่\s*(\d+)\s*,?\s*ฉบับที่\s*(\d+)\s*,?\s*(?:หน้า\s*)?/g, '$1($2), ', 'จัดรูปแบบปีที่/ฉบับที่');
+    Z(BODY, /[Vv]ol\.\s*(\d+)\s*,?\s*[Nn]o\.\s*(\d+)\s*,?\s*(?:pp?\.\s*)?/g, '$1($2), ', 'จัดรูปแบบ Vol./No.');
+  }
+  if (type === 'journal') Z(BODY, /\bpp?\.\s*(?=\d)/g, '', 'ตัด pp. ในบทความวารสาร');
+  Z(BODY, /\(\s*Suppl\s+(?=\d)/gi, '(Suppl. ', 'เติมจุดหลังคำย่อ Suppl');
+  Z(BODY, /(\d)\s+(\(\d)/g, '$1$2', 'ลบช่องว่างหน้าเลขฉบับที่');
+  if (['journal','chapter','proceeding','newspaper','law'].includes(type))
+    Z(BODY, /(e?\d+)\s*-\s*(e?\d+)(?=\s*[.,]|\s*$)/g, '$1–$2', 'เปลี่ยนยัติภังค์เป็น en dash');
+
+  /* กฎเกี่ยวกับผู้แต่ง แตะได้เฉพาะโซนผู้แต่งเท่านั้น */
+  if (opts.langMode === 'en'){
+    Z(AUTH, /,?\s+and\s+(?=[A-Z][A-Za-z'’\-]+,\s*[A-Z]\.)/g, ', & ', 'เปลี่ยน and เป็น &');
+    Z(AUTH, /([A-Z]\.)(?=[A-Z]\.)/g, '$1 ', 'เว้นวรรคระหว่างอักษรย่อชื่อ');
+  }
+  if (opts.langMode === 'th'){
+    /* ยุบตัวเชื่อมซ้ำซ้อนก่อน มิฉะนั้นจะกลายเป็น “และ และ” */
+    Z(AUTH, /\s*,?\s*(และ\s*,?\s*&|&\s*,?\s*และ|และ\s+และ)\s*/g, ', และ ', 'ยุบตัวเชื่อมผู้แต่งที่ซ้ำซ้อน');
+    Z(AUTH, /\s*&\s*/g, ' และ ', 'เปลี่ยน & เป็น และ');
+  }
+
+  Z(TEXT, /(?<![.\s])\s+([.,])(?![.\s]*[.…])/g, '$1', 'ลบช่องว่างก่อนเครื่องหมาย');
+  /* จุดที่ตามหลังวงเล็บปีจะอยู่ต้นโซนเนื้อความ เพราะวงเล็บปีถูกแยกเป็นคนละโซน */
+  Z(BODY, /^,\s*/g, '. ', 'เปลี่ยนจุลภาคหลังวงเล็บปีเป็นจุด');
+  Z(BODY, /^\.(?=[^\s.])/g, '. ', 'เติมช่องว่างหลังวงเล็บปี');
+  Z(BODY, /\)\.(?=[^\s.])/g, '). ', 'เติมช่องว่างหลังวงเล็บ');
+  Z(BODY, /([ก-๙]{3,})\.(?=[ก-๙A-Za-z])/g, '$1. ', 'เติมช่องว่างหลังจุด');
+  Z(BODY, /([A-Za-z]{3,})\.(?=[ก-๙])/g, '$1. ', 'เติมช่องว่างหลังจุด');
+  Z(TEXT, /\s{2,}/g, ' ', 'ยุบช่องว่างซ้อน');
+
+  if (issues.some(i => i.title === 'ไม่พบจุดหลังชื่อผู้แต่ง'))
+    Z(AUTH, /\s*$/, '. ', 'เติมจุดหลังชื่อผู้แต่ง');
+
+  let s = detok(parts).trim();
+  if (/(https?:\/\/\S+[^\s.])\.$/.test(s)){ s = s.replace(/(https?:\/\/\S+[^\s.])\.$/, '$1'); applied.push('ลบจุดหลัง URL'); }
+  if (!/(https?:\/\/|doi\.org\/)\S*$/i.test(s) && !/[.\]]$/.test(s)){ s += '.'; applied.push('เติมจุดปิดท้าย'); }
+
+  /* ---- ขั้นที่ 3: ส่วนที่ระบบเติมแทนไม่ได้ แทรกช่องว่างสีแดงลงในข้อความ ---- */
+  const gaps = [], notes = [];
+  const gap = (re, label) => {
+    if (re.test(s)){ s = s.replace(re, '\u27E6' + label + '\u27E7'); gaps.push(label); return true; }
+    return false;
+  };
+  const append = (label) => { s = s.replace(/\s*$/, '') + ' \u27E6' + label + '\u27E7'; gaps.push(label); };
+
+  gap(/\s*,?\s*(และคณะ|et al\.)/i, 'เติมชื่อผู้แต่งที่เหลือให้ครบทุกคน');
+
+  const miss = t => issues.some(i => i.title.includes(t));
+  if (miss('ไม่พบปีที่พิมพ์')) append('เติมปีที่พิมพ์');
+  if (miss('ไม่พบชื่อผู้แต่ง')) s = '\u27E6เติมชื่อผู้แต่ง\u27E7 ' + s, gaps.push('เติมชื่อผู้แต่ง');
+  if (miss('ไม่พบเลขปีที่') && !RE_VOLISSUE.test(s) && !RE_VOLONLY.test(s) && !RE_ARTNO.test(s))
+    append('เติมเลขปีที่(ฉบับที่) และเลขหน้า');
+  if (miss('อาจไม่ได้ระบุสำนักพิมพ์')) append('เติมชื่อสำนักพิมพ์');
+  if (miss('ไม่ระบุช่วงเลขหน้าของบท')) append('เติมเลขหน้าของบท เช่น (น. 1–18)');
+  if (miss('ไม่ระบุบรรณาธิการ')) append('เติมชื่อบรรณาธิการ (บ.ก.)');
+  if (miss('ไม่พบ URL')) append('เติม URL');
+  if (miss('อาจไม่ได้ระบุชื่อเว็บไซต์')) append('เติมชื่อเว็บไซต์');
+  if (miss('ไม่มีวงเล็บเหลี่ยมระบุประเภทวิทยานิพนธ์')) append('เติม [ประเภทวิทยานิพนธ์, ชื่อมหาวิทยาลัย]');
+  if (miss('ไม่ระบุชื่อมหาวิทยาลัย')) append('เติมชื่อมหาวิทยาลัยในวงเล็บเหลี่ยม');
+  if (miss('ไม่ระบุแหล่งที่เข้าถึง')) append('เติมชื่อคลังข้อมูลและ URL');
+  if (miss('ไม่ระบุสถานที่จัดประชุม')) append('เติมเมืองและประเทศที่จัดประชุม');
+  if (miss('ไม่ระบุเล่ม/ตอน/หน้า')) append('เติมเล่ม ตอนที่ และเลขหน้า');
+  if (miss('ลิงก์มีช่องว่าง')) notes.push('ลบช่องว่างที่แทรกอยู่กลาง URL หรือ DOI');
+  if (miss('มีวันที่สืบค้นแต่ไม่พบ URL')) notes.push('ตรวจวันที่สืบค้นกับต้นฉบับ: ต้องมี URL และใช้เฉพาะเนื้อหาที่เปลี่ยนแปลงตลอดเวลา');
+  if (miss('พบวันที่สืบค้น — ต้องตรวจทาน')) notes.push('ยืนยันว่าจำเป็นต้องมีวันที่สืบค้นสำหรับเนื้อหาที่เปลี่ยนแปลงตลอดเวลา');
+  if (miss('อาจเขียนชื่อผู้แต่งเต็ม')) notes.push('ตรวจและแก้ชื่อผู้แต่งกับ DOI หรือฐานข้อมูลต้นฉบับก่อนคัดลอกไปใช้');
+  if (miss('พบเครื่องหมาย ? ในชื่อผู้แต่ง')) notes.push('คัดลอกชื่อผู้แต่งใหม่จาก DOI หรือฐานข้อมูลต้นฉบับเพื่อให้ได้อักขระพิเศษครบถ้วน');
+
+  /* จัดตัวเอียงให้เสมอ เพราะการคัดลอกข้อความมาวางจะทำให้ตัวเอียงหายทั้งหมด */
+  const ir = italicRange(s, type);
+  const needItal = miss('ตัวเอียง') || !(opts && opts.fromDocx);
+  if (needItal && !ir) notes.push('จัดตัวเอียงในไฟล์ Word');
+  if (miss('Title Case')) notes.push('แก้ชื่อบทความเป็น sentence case');
+  if (miss('ชื่อต้นเต็ม')) notes.push('ย่อชื่อต้นผู้แต่งเป็นอักษรย่อ');
+  if (miss('อาจกลับชื่อ–สกุล')) notes.push('เรียงชื่อไทยเป็น ชื่อ เว้นวรรค นามสกุล');
+  if (miss('ผู้แต่งหลายคนแต่ไม่มีคำว่า')) notes.push('เติมคำว่า “และ” หน้าผู้แต่งคนสุดท้าย');
+
+  if (ir && needItal) applied.push('จัดตัวเอียงให้แล้ว');
+  /* ตอนแสดงผล วงเล็บ ⟦ ⟧ จะถูกตัดออก ตำแหน่งตัวเอียงจึงต้องเลื่อนตาม */
+  const irShown = ir ? ir.map(x => x - (s.slice(0, x).match(/[\u27E6\u27E7]/g) || []).length) : null;
+  return {text:s, changed: s !== raw || !!ir, applied:[...new Set(applied)],
+          gaps:[...new Set(gaps)], notes:[...new Set(notes)], italic: ir, italicShown: irShown,
+          usable: gaps.length === 0 && notes.length === 0};
+}
+
+/* ---------- ตรวจภาพรวมทั้งชุด ---------- */
+function analyzeList(items){
+  const notes = [];
+  const keys = items.map(r => r.raw.replace(/\s+/g,' ').trim().toLowerCase());
+  const dup = keys.map((k,i) => [k,i]).filter(([k,i]) => keys.indexOf(k) !== i);
+  if (dup.length) notes.push({sev:'e', text:'พบรายการซ้ำ ' + dup.length + ' รายการ ให้คงไว้เพียงรายการเดียว'});
+
+  const th = items.filter(r => r.lang === 'th').map(r => r.raw);
+  const en = items.filter(r => r.lang === 'en').map(r => r.raw);
+  const sortedTh = [...th].sort((a,b) => a.localeCompare(b,'th'));
+  const sortedEn = [...en].sort((a,b) => a.localeCompare(b,'en'));
+  if (th.join('|') !== sortedTh.join('|')) notes.push({sev:'w', text:'รายการภาษาไทยยังไม่ได้เรียงตามลำดับอักษร (ก–ฮ) ตามพจนานุกรมฉบับราชบัณฑิตยสถาน'});
+  if (en.join('|') !== sortedEn.join('|')) notes.push({sev:'w', text:'รายการภาษาอังกฤษยังไม่ได้เรียงตามลำดับอักษร A–Z'});
+  if (th.length && en.length){
+    const firstEn = items.findIndex(r => r.lang === 'en');
+    const lastTh  = items.map(r => r.lang).lastIndexOf('th');
+    if (firstEn >= 0 && lastTh > firstEn) notes.push({sev:'w', text:'ลำดับกลุ่มภาษายังสลับกัน ควรเรียงรายการภาษาไทยทั้งหมดก่อน แล้วจึงตามด้วยภาษาอังกฤษ'});
+  }
+  return notes;
+}
+
+/* ============================================================
+   ส่วนที่ 5 — การแสดงผล
+   ============================================================ */
+const MAX_ITEMS = 300, SOFT_LIMIT = 150, CHUNK = 20;
+const $ = id => document.getElementById(id);
+let STATE = {items:[], notes:[], filter:'all', src:'paste', typeOverrides:{}};
+
+function highlight(raw, issues){
+  const taken = [];
+  issues.forEach((iss, i) => {
+    if (!iss.find) return;
+    let start = -1, len = 0;
+    if (iss.find instanceof RegExp){
+      const m = raw.match(new RegExp(iss.find.source, iss.find.flags.replace('g','')));
+      if (m){ start = m.index; len = m[0].length; }
+    } else {
+      const idx = raw.indexOf(iss.find);
+      if (idx >= 0){ start = idx; len = iss.find.length; }
+    }
+    if (start < 0 || !len) return;
+    if (taken.some(r => start < r.end && start + len > r.start)) return;
+    taken.push({start, end:start+len, n:i+1, sev:iss.sev});
+  });
+  taken.sort((a,b) => a.start - b.start);
+  let html = '', pos = 0;
+  for (const r of taken){
+    html += esc(raw.slice(pos, r.start));
+    html += '<mark class="' + (r.sev === 'e' ? 'flagmark' : 'warnmark') + '">' +
+            esc(raw.slice(r.start, r.end)) + '<sup>' + r.n + '</sup></mark>';
+    pos = r.end;
+  }
+  html += esc(raw.slice(pos));
+  return html;
+}
+
+/* ---- เทียบต้นฉบับกับฉบับแก้ไขระดับตัวอักษร (LCS) เพื่อชี้ว่าระบบแก้ตรงไหน ---- */
+function diffMark(before, after){
+  /* ยุบช่องว่างที่ต้องเติมเองให้เป็นสัญลักษณ์ตัวเดียว จะได้ไม่ถูกหั่นเป็นชิ้น */
+  const holes = [];
+  const packed = after.replace(/\u27E6[^\u27E7]*\u27E7/g, m => { holes.push(m); return '\u0001'; });
+  const A = [...before], B = [...packed];
+  if (A.length > 900 || B.length > 900) return phText(after);   /* ยาวเกินไป ข้ามการเทียบ */
+  const n = A.length, m = B.length;
+  const dp = new Uint16Array((n + 1) * (m + 1));
+  for (let i = n - 1; i >= 0; i--)
+    for (let j = m - 1; j >= 0; j--)
+      dp[i * (m + 1) + j] = A[i] === B[j]
+        ? dp[(i + 1) * (m + 1) + j + 1] + 1
+        : Math.max(dp[(i + 1) * (m + 1) + j], dp[i * (m + 1) + j + 1]);
+
+  const parts = [];                       /* {ins:bool, text} */
+  let i = 0, j = 0;
+  const push = (ins, ch) => {
+    const last = parts[parts.length - 1];
+    if (last && last.ins === ins) last.text += ch;
+    else parts.push({ins, text: ch});
+  };
+  while (i < n && j < m){
+    if (A[i] === B[j]){ push(false, B[j]); i++; j++; }
+    else if (dp[(i + 1) * (m + 1) + j] >= dp[i * (m + 1) + j + 1]) i++;   /* ตัวอักษรที่ถูกลบ */
+    else { push(true, B[j]); j++; }
+  }
+  while (j < m){ push(true, B[j]); j++; }
+
+  let hi = 0;
+  return parts.map(p => {
+    const html = phText(p.text.replace(/\u0001/g, () => holes[hi++] || ''));
+    if (!p.ins) return html;
+    if (!p.text.trim()) return '<ins class="sp">' + html + '</ins>';   /* ช่องว่างที่เติมให้ */
+    return '<ins>' + html + '</ins>';
+  }).join('');
+}
+
+/* ครอบ <em> ให้ช่วงที่ต้องเป็นตัวเอียง โดยนับตำแหน่งจากตัวอักษรจริง ไม่นับแท็ก */
+function withItalic(html, plain, range){
+  if (!range) return html;
+  let pos = 0, out = '', i = 0;
+  const open = '<em class="ital">', close = '</em>';
+  let inside = false;
+  while (i < html.length){
+    if (html[i] === '<'){                       /* ข้ามแท็ก ไม่นับเป็นตัวอักษร */
+      const j = html.indexOf('>', i);
+      out += html.slice(i, j + 1); i = j + 1; continue;
+    }
+    if (html[i] === '&'){                       /* เอนทิตี HTML นับเป็น 1 ตัวอักษร */
+      const j = html.indexOf(';', i);
+      if (j > 0 && j - i < 8){
+        if (pos === range[0] && !inside){ out += open; inside = true; }
+        out += html.slice(i, j + 1); i = j + 1; pos++;
+        if (pos === range[1] && inside){ out += close; inside = false; }
+        continue;
+      }
+    }
+    if (pos === range[0] && !inside){ out += open; inside = true; }
+    out += html[i]; i++; pos++;
+    if (pos === range[1] && inside){ out += close; inside = false; }
+  }
+  if (inside) out += close;
+  return out;
+}
+
+function rankText(ti){
+  if (!ti || !ti.ranked || !ti.ranked.length) return '';
+  return 'คะแนนที่ได้: ' + ti.ranked.slice(0,3)
+    .map(([k,v]) => ((TYPES[k]||{}).label || k) + ' ' + v).join(' · ');
+}
+
+function phText(str){
+  return esc(str).replace(/\u27E6([^\u27E7]+)\u27E7/g, '<span class="ph">$1</span>');
+}
+
+function cardHTML(item, i){
+  const T = TYPES[item.type] || TYPES.unknown;
+  const errs = item.issues.filter(x => x.sev === 'e').length;
+  const warns = item.issues.filter(x => x.sev === 'w').length;
+  const cls = errs ? 'err' : (warns ? 'warn' : 'ok');
+  const glyph = errs ? '✕' : (warns ? '!' : '✓');
+  const verdict = errs ? 'ต้องแก้ไข ' + errs + ' จุด'
+                : (warns ? 'ควรตรวจทาน ' + warns + ' จุด' : 'ไม่พบข้อผิดพลาดตามกฎที่ตรวจ');
+
+  let h = '<article class="card ' + cls + '" data-state="' + cls + '">';
+  h += '<div class="rail"><span class="idx">' + (i+1) + '</span><span class="glyph">' + glyph + '</span></div>';
+  h += '<div class="card-body">';
+  const conf = item.typeInfo ? item.typeInfo.confidence : 'high';
+  const typeChoices = Object.entries(TYPES).filter(([k]) => k !== 'unknown').map(([k,v]) =>
+    '<option value="' + esc(k) + '"' + (item.typeInfo.forced && item.type === k ? ' selected' : '') + '>' + esc(v.label) + '</option>'
+  ).join('');
+  /* 2) ป้ายประเภทเอกสาร พร้อมบอกว่ามาจากการประเมินของระบบหรือผู้ใช้ระบุเอง */
+  h += '<div class="card-top"><span class="lead-in">' +
+       (item.typeInfo.forced ? 'ประเภทที่คุณระบุ' : 'ระบบประเมินประเภทเอกสารเป็น') + '</span>' +
+       '<span class="tag">' + esc(T.label) + '</span></div>';
+
+  /* แม่แบบและตัวอย่างมาตรฐาน */
+  const tmplBody = '<div class="tmpl-in">' +
+       '<div class="form">' + ital(T.form[item.lang]) + '</div>' +
+       '<div class="ex">' + ital(T.ex[item.lang]) + '</div>' +
+       '<div class="ex" style="font-size:13px;font-family:var(--sans);color:var(--ink-faint);margin-top:6px">ข้อความตัวเอียงคือส่วนที่ต้องจัดเป็นตัวเอียงในเอกสาร</div>' +
+       '</div>';
+
+  /* 3) รูปแบบมาตรฐาน — มาก่อน เพื่อให้เห็นว่าที่ถูกต้องหน้าตาเป็นอย่างไร ก่อนดูงานตัวเอง */
+  if (item.issues.length){
+    h += '<div class="sec-label">รูปแบบมาตรฐาน <span class="tag">' + esc(T.label) + '</span></div>' +
+         '<div class="tmpl" style="border:1px solid var(--rule-soft);border-radius:2px;background:#FBFCFC;padding-top:10px">' + tmplBody + '</div>';
+  } else {
+    h += '<details class="tmpl"><summary>รูปแบบมาตรฐาน <span class="tag">' + esc(T.label) + '</span></summary>' + tmplBody + '</details>';
+  }
+
+  /* 4) รายการที่ส่งตรวจ พร้อมไฮไลต์จุดผิด */
+  h += '<div class="sec-label">รายการที่ส่งตรวจ</div>';
+  h += '<div class="ref-text hang">' + highlight(item.raw, item.issues) + '</div>';
+
+  /* 5) แถบเตือนความมั่นใจของการจำแนกประเภท (ถ้ามี) */
+  if (!item.typeInfo.forced && conf !== 'high'){
+    const alt = (item.typeInfo.ranked[1] || [])[0];
+    h += '<div class="notice warn" style="margin:10px 0 0">ระบบไม่มั่นใจว่ารายการนี้เป็น “' + esc(T.label) + '”' +
+         (alt ? ' อีกความเป็นไปได้คือ “' + esc((TYPES[alt]||{}).label || alt) + '”' : '') +
+         ' โปรดเทียบกับแม่แบบด้านบนด้วยตัวเองก่อนเชื่อผลตรวจ เพราะกฎที่ใช้ตรวจขึ้นกับประเภทที่เดาได้</div>';
+  }
+
+  /* 6) เมนูเปลี่ยนประเภท + ป้ายภาษา + คำตัดสิน ชิดขวา */
+  h += '<div class="card-top verdict-row"><select class="type-select inline" data-type="' + i + '" aria-label="ยืนยันประเภทเอกสาร" title="ยืนยันหรือเปลี่ยนประเภทเอกสารของรายการนี้">' +
+       '<option value=""' + (!item.typeInfo.forced ? ' selected' : '') + '>เปลี่ยนประเภท…</option>' + typeChoices + '</select>' +
+        (item.typeInfo.forced ? '<span class="tag guess">ผู้ใช้ระบุประเภท</span>' :
+        (conf !== 'high' ? '<span class="tag guess" title="' + esc(rankText(item.typeInfo)) + '">' +
+        (conf === 'medium' ? 'ประเภทอาจคลาดเคลื่อน' : 'เดาประเภทไม่ชัด') + '</span>' : '')) +
+       '<span class="tag lang">' + (item.lang === 'th' ? 'ไทย' : 'อังกฤษ') + '</span>' +
+       '<span class="verdict">' + verdict + '</span></div>';
+
+  /* 7) จุดที่ไม่ตรงตามหลักเกณฑ์ */
+  if (item.issues.length){
+    h += '<div class="sec-label">จุดที่ไม่ตรงตามหลักเกณฑ์</div><ol class="issues">';
+    item.issues.forEach((iss, n) => {
+      h += '<li class="' + (iss.sev === 'w' ? 'w' : '') + '"><span class="num">' + (n+1) + '</span>' +
+           '<span class="txt"><strong>' + esc(iss.title) + '</strong><span>' + esc(iss.detail) + '</span>' +
+           '<span class="rule">' + esc(iss.rule) + '</span></span></li>';
+    });
+    h += '</ol>';
+    const F = item.fix;
+    if (F.changed){
+      const draft = !F.usable;
+      h += '<div class="sec-label">' + (draft ? 'ฉบับร่าง — ยังใช้ไม่ได้ทันที' : 'ฉบับแก้ไข — ใช้ได้ทันที') + '</div>';
+      h += '<div class="fixbox' + (draft ? ' draft' : '') + '">';
+      h += '<span class="head">' + (draft ? 'ยังไม่สมบูรณ์' : 'พร้อมนำไปใช้') + '</span>';
+      h += '<span class="fixtext">' + withItalic(diffMark(item.raw, F.text), F.text, F.italicShown) + '</span>';
+      if (F.applied.length)
+        h += '<span class="note">ส่วนที่ไฮไลต์คือจุดที่ระบบแก้ให้ — ' + esc(F.applied.join(' · ')) + '</span>';
+      if (draft){
+        let w = 'อย่าเพิ่งคัดลอกไปใช้ ';
+        if (F.gaps.length) w += 'ต้องแทนที่ช่องสีแดงในข้อความด้วยข้อมูลจริงจากต้นฉบับก่อน';
+        if (F.gaps.length && F.notes.length) w += ' และ';
+        if (F.notes.length) w += 'ต้อง' + F.notes.join(' · ') + ' ในไฟล์เอกสารเอง';
+        h += '<span class="warnline">' + esc(w) + '</span>';
+      }
+      h += '</div><button class="copy' + (draft ? ' locked' : '') + '" data-copy="' + i + '">' +
+           (draft ? 'คัดลอกฉบับร่าง (ยังไม่สมบูรณ์)' : 'คัดลอกฉบับแก้ไข') + '</button>';
+    }
+  }
+  const doi = (item.raw.match(/10\.\d{4,}\/[^\s,;)\]]+/) || [])[0];
+  if (doi || /^(journal|proceeding)$/.test(item.type)){
+    h += '<div class="verify" data-i="' + i + '">' +
+         '<button class="vbtn" data-verify="' + i + '">ตรวจกับฐานข้อมูล CrossRef' +
+         (doi ? ' (ใช้ DOI)' : ' (ค้นจากชื่อเรื่อง)') + '</button>' +
+         '<div class="vout"></div></div>';
+  }
+  h += '</div></article>';
+  return h;
+}
+
+function render(){
+  const box = $('results');
+  const items = STATE.items;
+  if (!items.length){
+    box.innerHTML = '<div class="empty"><h3>ไม่พบรายการอ้างอิง</h3><p>ตรวจสอบว่าแต่ละรายการอยู่คนละย่อหน้า หรือปิดตัวเลือก “ตัดเฉพาะส่วนรายการอ้างอิง” หากไฟล์ไม่มีหัวข้อนั้น</p></div>';
+    return;
+  }
+  const errN = items.filter(r => r.issues.some(x => x.sev === 'e')).length;
+  const warnN = items.filter(r => !r.issues.some(x => x.sev === 'e') && r.issues.length).length;
+  const okN = items.length - errN - warnN;
+
+  let head = '';
+  if (STATE.src === 'paste')
+    head += '<div class="notice">ข้อความที่วางมาไม่มีข้อมูลตัวเอียง ระบบจึงข้ามการตรวจตัวเอียงของชื่อวารสาร ชื่อหนังสือ และชื่อเรื่อง — อัปโหลดไฟล์ .docx เพื่อให้ตรวจส่วนนี้ด้วย</div>';
+  if (items.length > SOFT_LIMIT)
+    head += '<div class="notice warn">ตรวจ ' + items.length + ' รายการในรอบเดียว เกินจำนวนที่แนะนำ (' + SOFT_LIMIT + ' รายการ) ผลยังครบถ้วน แต่การเลื่อนหน้าจออาจหน่วง และการทบทวนทีละรายการจะเหนื่อยกว่าการแบ่งเป็นชุด</div>';
+  STATE.notes.forEach(n => {
+    head += '<div class="notice' + (n.sev === 'e' ? ' warn' : '') + '"><b>ภาพรวมทั้งชุด:</b> ' + esc(n.text) + '</div>';
+  });
+
+  head += '<div class="summary">' +
+    '<div class="stat"><div class="n">' + items.length + '</div><div class="k">รายการทั้งหมด</div></div>' +
+    '<div class="stat pass"><div class="n">' + okN + '</div><div class="k">ถูกต้อง</div></div>' +
+    '<div class="stat flag"><div class="n">' + errN + '</div><div class="k">ต้องแก้ไข</div></div>' +
+    '<div class="stat warn"><div class="n">' + warnN + '</div><div class="k">ควรตรวจทาน</div></div></div>';
+
+  head += '<div class="toolbar">' +
+    '<button class="chip" data-f="all" aria-pressed="' + (STATE.filter==='all') + '">ทั้งหมด</button>' +
+    '<button class="chip" data-f="err" aria-pressed="' + (STATE.filter==='err') + '">ต้องแก้ไข</button>' +
+    '<button class="chip" data-f="warn" aria-pressed="' + (STATE.filter==='warn') + '">ควรตรวจทาน</button>' +
+    '<button class="chip" data-f="ok" aria-pressed="' + (STATE.filter==='ok') + '">ถูกต้อง</button>' +
+    '<span class="spacer"></span>' +
+    '<button class="chip" id="expBtn">บันทึกรายงาน (.html)</button>' +
+    '<button class="chip" id="copyAll">คัดลอกฉบับแก้ไขทั้งชุด</button></div>';
+
+  box.innerHTML = head + '<div id="cards"></div>';
+
+  const view = items.map((it,i) => ({it,i})).filter(({it}) => {
+    const e = it.issues.some(x => x.sev === 'e'), w = it.issues.length && !e;
+    return STATE.filter === 'all' || (STATE.filter === 'err' && e) ||
+           (STATE.filter === 'warn' && w) || (STATE.filter === 'ok' && !it.issues.length);
+  });
+  const target = $('cards');
+  if (!view.length){ target.innerHTML = '<div class="empty"><p>ไม่มีรายการในหมวดนี้</p></div>'; return; }
+  let k = 0;
+  (function paint(){
+    const part = view.slice(k, k + CHUNK);
+    target.insertAdjacentHTML('beforeend', part.map(({it,i}) => cardHTML(it,i)).join(''));
+    k += CHUNK;
+    if (k < view.length) requestAnimationFrame(paint);
+  })();
+}
+
+/* ---------- รายงานสำหรับบันทึก ---------- */
+function buildReport(){
+  const d = new Date().toLocaleString('th-TH');
+  let h = '<!DOCTYPE html><html lang="th"><head><meta charset="utf-8"><title>รายงานตรวจรายการอ้างอิง APA 7</title>' +
+    '<style>body{font-family:"Sarabun","Noto Sans Thai",sans-serif;max-width:900px;margin:30px auto;padding:0 20px;line-height:1.7;color:#111820}' +
+    'h1{font-size:22px}h2{font-size:15px;margin:26px 0 6px;border-top:1px solid #ccc;padding-top:14px}' +
+    '.ref{background:#F6F8F9;padding:10px;border-left:3px solid #999}.fix{background:#EAF3EE;padding:10px;border-left:3px solid #1C6647}' +
+    'li{margin-bottom:6px}.ok{color:#1C6647;font-weight:700}.err{color:#A22A1E;font-weight:700}</style></head><body>';
+  h += '<h1>รายงานตรวจรายการอ้างอิงตามหลัก APA 7</h1><p>วันที่ตรวจ ' + d + ' · จำนวน ' + STATE.items.length + ' รายการ</p>';
+  STATE.items.forEach((it,i) => {
+    const T = TYPES[it.type] || TYPES.unknown;
+    const errs = it.issues.filter(x => x.sev === 'e').length;
+    const cf = it.typeInfo ? it.typeInfo.confidence : 'high';
+    h += '<h2>' + (i+1) + '. ' + esc(T.label) +
+         (cf === 'high' ? '' : ' <span style="color:#8A5800;font-size:13px">(' +
+            (cf === 'medium' ? 'ประเภทอาจคลาดเคลื่อน' : 'เดาประเภทไม่ชัด — โปรดตรวจเอง') + ')</span>') +
+         ' — <span class="' + (errs?'err':'ok') + '">' +
+         (errs ? 'ต้องแก้ไข ' + errs + ' จุด' : (it.issues.length ? 'ควรตรวจทาน' : 'ถูกต้อง')) + '</span></h2>';
+    h += '<div class="ref">' + esc(it.raw) + '</div>';
+    if (it.issues.length){
+      h += '<ol>' + it.issues.map(x => '<li><b>' + esc(x.title) + '</b> — ' + esc(x.detail) + ' <i>(' + esc(x.rule) + ')</i></li>').join('') + '</ol>';
+      if (it.fix.changed){
+        h += '<p><b>' + (it.fix.usable ? 'ฉบับแก้ไข (ใช้ได้ทันที)' : 'ฉบับร่าง (ยังใช้ไม่ได้)') + '</b></p>' +
+             '<div class="fix">' + esc(it.fix.text) + '</div>';
+      }
+      if (it.fix.gaps.length) h += '<p><b class="err">ต้องเติมเอง:</b> ' + esc(it.fix.gaps.join(' · ')) + '</p>';
+      if (it.fix.notes.length) h += '<p><b class="err">ต้องแก้ในไฟล์เอกสาร:</b> ' + esc(it.fix.notes.join(' · ')) + '</p>';
+    }
+  });
+  h += '<hr><p style="font-size:12px;color:#667">เกณฑ์: Publication Manual of the APA (7th ed., 2020) และการอ้างอิงสารสนเทศตาม APA 7th ฉบับภาษาไทย (คณะครุศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย, 2564)</p>' +
+       '<p style="font-size:12px;color:#667">รายงานนี้จัดทำด้วย APA 7 Reference Checker · © สงวนลิขสิทธิ์ พ.ศ. 2569 ชาญณรงค์ ประสารกก</p></body></html>';
+  return h;
+}
+
+/* ============================================================
+   ส่วนที่ 6 — การนำเข้าไฟล์และการทำงานของปุ่ม
+   ============================================================ */
+let DOCX_PARAS = null;
+
+async function readDocx(file){
+  if (typeof mammoth === 'undefined'){
+    alert('อ่านไฟล์ .docx ไม่ได้เพราะตัวอ่านไฟล์ยังโหลดไม่สำเร็จ (ต้องต่ออินเทอร์เน็ตครั้งแรก) ระหว่างนี้ใช้วิธีคัดลอกข้อความมาวางแทนได้');
+    return;
+  }
+  $('srcTag').textContent = 'กำลังอ่านไฟล์…';
+  try{
+    const buf = await file.arrayBuffer();
+    const res = await mammoth.convertToHtml({arrayBuffer: buf});
+    const doc = new DOMParser().parseFromString(res.value, 'text/html');
+    DOCX_PARAS = [...doc.querySelectorAll('p,li,h1,h2,h3')].map(p => ({
+      text: p.textContent.replace(/\s+/g,' ').trim(),
+      italics: [...p.querySelectorAll('em,i')].map(e => e.textContent.trim()).filter(Boolean)
+    })).filter(p => p.text);
+    $('input').value = DOCX_PARAS.map(p => p.text).join('\n\n');
+    $('srcTag').textContent = file.name.length > 22 ? file.name.slice(0,20) + '…' : file.name;
+    STATE.src = 'docx'; STATE.typeOverrides = {};
+    updateCount();
+    run();
+  }catch(err){
+    DOCX_PARAS = null;
+    $('srcTag').textContent = 'อ่านไฟล์ไม่สำเร็จ';
+    alert('เปิดไฟล์นี้ไม่ได้: ' + err.message + '\nรองรับเฉพาะ .docx (ไม่รองรับ .doc รุ่นเก่าและไฟล์ PDF)');
+  }
+}
+
+function currentParagraphs(){
+  if (DOCX_PARAS && STATE.src === 'docx') return DOCX_PARAS;
+  return $('input').value.split(/\n\s*\n|\n/).map(t => ({text:t, italics:[]}));
+}
+
+function updateCount(){
+  const n = splitReferences(currentParagraphs(), $('optSection').checked).length;
+  $('count').textContent = n + ' รายการ';
+}
+
+function run(){
+  const opts = {strict: $('optStrict').checked, fromDocx: STATE.src === 'docx', langMode: $('optLang').value};
+  let refs = splitReferences(currentParagraphs(), $('optSection').checked);
+  let trimmed = false;
+  if (refs.length > MAX_ITEMS){ refs = refs.slice(0, MAX_ITEMS); trimmed = true; }
+  STATE.items = refs.map((r, i) => analyzeOne(r, {...opts, typeOverride:STATE.typeOverrides[i] || ''}));
+  STATE.notes = $('optList').checked ? analyzeList(STATE.items) : [];
+  if (trimmed) STATE.notes.unshift({sev:'e', text:'ตรวจให้เฉพาะ ' + MAX_ITEMS + ' รายการแรก ส่วนที่เหลือให้แบ่งตรวจรอบถัดไป'});
+  render();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+/* ============================================================
+   ตรวจข้อมูลจริงกับ CrossRef — ทำงานเมื่อผู้ใช้กดปุ่มเท่านั้น
+   ระบบตรวจรูปแบบทำงานออฟไลน์ได้เสมอ ส่วนนี้เป็นของเสริมที่ต้องใช้เน็ต
+   ============================================================ */
+const norm = x => String(x || '').toLowerCase().replace(/[^a-z0-9ก-๙]+/g, ' ').trim();
+
+function cmpRow(k, mine, theirs){
+  if (!theirs) return '<div class="vrow"><span class="vk">' + esc(k) + '</span><span class="vv" style="color:var(--ink-faint)">ฐานข้อมูลไม่ระบุ</span></div>';
+  const same = mine && (norm(mine) === norm(theirs) || norm(theirs).includes(norm(mine)) || norm(mine).includes(norm(theirs)));
+  return '<div class="vrow"><span class="vk">' + esc(k) + '</span><span class="vv">' +
+         '<span class="' + (same ? 'match' : 'diff') + '">' + esc(theirs) + '</span>' +
+         (same ? ' ตรงกัน' : (mine ? ' — ในรายการคุณเขียนว่า ' + esc(mine) : '')) +
+         '</span></div>';
+}
+
+async function verifyItem(idx, box){
+  const it = STATE.items[idx];
+  const raw = it.raw;
+  const doi = (raw.match(/10\.\d{4,}\/[^\s,;)\]]+/) || [])[0];
+  box.innerHTML = '<span style="color:var(--ink-faint)">กำลังค้น…</span>';
+  try{
+    let work = null;
+    if (doi){
+      const r = await fetch('https://api.crossref.org/works/' + encodeURIComponent(doi.replace(/[.,]$/, '')));
+      if (r.ok) work = (await r.json()).message;
+      else if (r.status === 404){
+        box.innerHTML = '<span class="diff">ไม่พบ DOI นี้ในฐานข้อมูล CrossRef</span> — ตรวจว่าพิมพ์ถูกต้องหรือมีช่องว่างแทรกหรือไม่';
+        return;
+      }
+    }
+    if (!work){
+      const yr = (raw.match(RE_YEAR) || [])[1] || '';
+      const q  = raw.replace(RE_YEAR, ' ').replace(/https?:\/\/\S+/g, ' ')
+                    .replace(/[^A-Za-z\s]/g, ' ').split(/\s+/).filter(w => w.length > 3).slice(0, 14).join(' ');
+      if (!q){ box.innerHTML = '<span style="color:var(--ink-faint)">รายการนี้ไม่มีข้อความภาษาอังกฤษพอให้ค้นหา</span>'; return; }
+      const r = await fetch('https://api.crossref.org/works?rows=1&query.bibliographic=' + encodeURIComponent(q + ' ' + yr));
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      work = ((await r.json()).message.items || [])[0];
+      if (!work){ box.innerHTML = '<span style="color:var(--ink-faint)">ค้นไม่พบรายการที่ตรงกัน</span>'; return; }
+    }
+
+    const title = (work.title || [])[0] || '';
+    const jour  = (work['container-title'] || [])[0] || '';
+    const year  = ((work.issued || {})['date-parts'] || [[]])[0][0] || '';
+    const a1    = (work.author || [])[0];
+    const auth  = a1 ? ((a1.family || '') + (a1.given ? ', ' + a1.given : '')) : '';
+    const vol   = work.volume || '', iss = work.issue || '', pg = work.page || '';
+
+    const myYear = ((raw.match(RE_YEAR) || [])[1] || '');
+    const myYearCE = /^\d{4}$/.test(myYear) && +myYear > 2300 ? String(+myYear - 543) : myYear;
+
+    let h = '';
+    h += cmpRow('ชื่อเรื่อง', '', title);
+    h += cmpRow('วารสาร', '', jour);
+    h += cmpRow('ปี', myYearCE, String(year));
+    h += cmpRow('ผู้แต่งคนแรก', '', auth);
+    h += cmpRow('ปีที่/ฉบับ', '', vol ? vol + (iss ? '(' + iss + ')' : '') : '');
+    h += cmpRow('เลขหน้า', '', pg);
+    if (work.DOI) h += cmpRow('DOI', doi ? doi.replace(/[.,]$/, '') : '', work.DOI);
+    h += '<div style="margin-top:8px;font-size:12.5px;color:var(--ink-faint)">ข้อมูลจาก CrossRef — ใช้เทียบด้วยสายตา ระบบไม่แก้ให้อัตโนมัติ</div>';
+    box.innerHTML = h;
+  }catch(err){
+    box.innerHTML = '<span class="diff">เชื่อมต่อ CrossRef ไม่ได้</span> — ' + esc(err.message) +
+      ' (ต้องมีอินเทอร์เน็ต หากเปิดไฟล์จากเครื่องโดยตรง เบราว์เซอร์อาจบล็อกการเรียกข้ามเว็บ)';
+  }
+}
+
+/* สร้าง HTML สำหรับวางลง Word ให้ตัวเอียงติดไปด้วย (ไม่มีแถบไฮไลต์) */
+function richHTML(it){
+  const t = it.fix.text, r = it.fix.italic;
+  if (!r) return esc(t);
+  return esc(t.slice(0, r[0])) + '<i>' + esc(t.slice(r[0], r[1])) + '</i>' + esc(t.slice(r[1]));
+}
+
+/* ---------- คัดลอก: มีทางสำรองเมื่อ Clipboard API ใช้ไม่ได้ ---------- */
+function copyRich(plain, htmlStr, btn, doneLabel, backLabel){
+  const ok = () => { btn.textContent = doneLabel; setTimeout(() => btn.textContent = backLabel, 1800); };
+  if (htmlStr && navigator.clipboard && window.ClipboardItem && window.isSecureContext){
+    const item = new ClipboardItem({
+      'text/html':  new Blob([htmlStr], {type:'text/html'}),
+      'text/plain': new Blob([plain],   {type:'text/plain'})
+    });
+    navigator.clipboard.write([item]).then(ok).catch(() => copyText(plain, btn, doneLabel, backLabel));
+    return;
+  }
+  copyText(plain, btn, doneLabel, backLabel);
+}
+
+function copyText(text, btn, doneLabel, backLabel){
+  const ok = () => { btn.textContent = doneLabel; setTimeout(() => btn.textContent = backLabel, 1600); };
+  const fail = () => {
+    btn.textContent = 'คัดลอกไม่สำเร็จ';
+    setTimeout(() => btn.textContent = backLabel, 2200);
+    window.prompt('เบราว์เซอร์ไม่อนุญาตให้คัดลอกอัตโนมัติ กด Ctrl+C เพื่อคัดลอกข้อความนี้', text);
+  };
+  const legacy = () => {
+    try{
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly','');
+      ta.style.cssText = 'position:fixed;left:-9999px;top:0';
+      document.body.appendChild(ta);
+      ta.select();
+      const done = document.execCommand('copy');
+      document.body.removeChild(ta);
+      done ? ok() : fail();
+    }catch(e){ fail(); }
+  };
+  if (navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(text).then(ok).catch(legacy);
+  } else legacy();
+}
+
+/* ---------- events ---------- */
+$('run').addEventListener('click', run);
+$('clear').addEventListener('click', () => {
+  $('input').value = ''; DOCX_PARAS = null; STATE = {items:[],notes:[],filter:'all',src:'paste',typeOverrides:{}};
+  $('srcTag').textContent = 'ยังไม่มีข้อมูล'; updateCount();
+  $('results').innerHTML = '<div class="empty"><h3>ยังไม่มีผลการตรวจ</h3><p>วางรายการอ้างอิงหรืออัปโหลดไฟล์ .docx แล้วกด “ตรวจรายการอ้างอิง”</p></div>';
+});
+$('input').addEventListener('input', () => { STATE.src = 'paste'; DOCX_PARAS = null; STATE.typeOverrides = {}; updateCount(); });
+$('optSection').addEventListener('change', updateCount);
+$('optLang').addEventListener('change', () => { if (STATE.items.length) run(); });
+$('file').addEventListener('change', e => { if (e.target.files[0]) readDocx(e.target.files[0]); });
+
+const drop = $('drop');
+['dragenter','dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
+['dragleave','drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('over'); }));
+drop.addEventListener('drop', e => { const f = e.dataTransfer.files[0]; if (f) readDocx(f); });
+
+$('results').addEventListener('click', e => {
+  const chip = e.target.closest('.chip');
+  if (chip && chip.dataset.f){ STATE.filter = chip.dataset.f; render(); return; }
+  if (e.target.id === 'expBtn'){
+    const blob = new Blob([buildReport()], {type:'text/html;charset=utf-8'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'รายงานตรวจอ้างอิง-APA7.html';
+    a.click(); URL.revokeObjectURL(a.href); return;
+  }
+  if (e.target.id === 'copyAll'){
+    const draftN = STATE.items.filter(it => !it.fix.usable).length;
+    if (draftN && !confirm('มี ' + draftN + ' รายการที่ยังเป็นฉบับร่าง (มีช่องว่างในวงเล็บ ⟦ ⟧ ที่ต้องเติมเอง)\nคัดลอกทั้งชุดต่อหรือไม่')) return;
+    const txt  = STATE.items.map(it => it.fix.text).join('\n\n');
+    const rich = STATE.items.map(it => '<p style="margin:0 0 10pt;text-indent:-36pt;padding-left:36pt">' +
+                 richHTML(it) + '</p>').join('');
+    copyRich(txt, rich, e.target, 'คัดลอกแล้ว (มีตัวเอียง)', 'คัดลอกฉบับแก้ไขทั้งชุด');
+    return;
+  }
+  const vb = e.target.closest('[data-verify]');
+  if (vb){
+    const box = vb.parentElement.querySelector('.vout');
+    vb.disabled = true;
+    verifyItem(+vb.dataset.verify, box).finally(() => { vb.disabled = false; });
+    return;
+  }
+  const cp = e.target.closest('.copy');
+  if (cp){
+    const it = STATE.items[+cp.dataset.copy];
+    const back = it.fix.usable ? 'คัดลอกฉบับแก้ไข' : 'คัดลอกฉบับร่าง (ยังไม่สมบูรณ์)';
+    copyRich(it.fix.text, richHTML(it), cp, 'คัดลอกแล้ว (มีตัวเอียง)', back);
+  }
+});
+
+$('results').addEventListener('change', e => {
+  const pick = e.target.closest('select[data-type]');
+  if (!pick) return;
+  const i = +pick.dataset.type;
+  if (pick.value) STATE.typeOverrides[i] = pick.value;
+  else delete STATE.typeOverrides[i];
+  run();
+});
+
+/* ---------- ตัวอย่าง ---------- */
+$('sample').addEventListener('click', () => {
+  $('input').value = [
+    'สิริฉันท์ สถิรกุล. (2540). สอนวิชาธุรกิจในระดับมัธยมศึกษาอย่างไรจึงจะจูงใจผู้เรียน. วิทยาจารย์, 95(1), 91–94.',
+    'ธัญนาฏ ญาณพิบูลย์, สุจินดา โพธิ์ไพฑูรย์ และคณะ. (2563). ความสามารถในการใช้ความรู้และนวัตกรรม. จุฬาลงกรณ์ธุรกิจปริทัศน์, ปีที่ 42 ฉบับที่ 2 หน้า 54-72. doi:10.14456/cbsr.2020.3',
+    'วิธาน ฐานะวุฑฒ์. (2547). หัวใจใหม่–ชีวิตใหม่. กรุงเทพฯ: ปิติศึกษา.',
+    'Mertens, David M. (2014). Research And Evaluation In Education And Psychology (4th ed.). Thousand Oaks, CA: Sage',
+    'Herbst-Damm, K. L., and Kulik, J. A. (2005). Volunteer support, marital status, and the survival times of terminally ill patients. Health Psychology, 24, 225-229. Retrieved from https://doi.org/10.1037/0278-6133.24.2.225.',
+    'Centers for Disease Control and Prevention. (2018, August 22). Preventing HPV-associated cancers. https://www.cdc.gov/cancer/hpv/basic_info/prevention.htm',
+    'รณชัย ศิลากร. (2547). ผลของโครงการปฏิบัติสมาธิเบื้องต้นตามทฤษฎีของมาสโลว์ [วิทยานิพนธ์ปริญญามหาบัณฑิต ไม่ได้ตีพิมพ์]. จุฬาลงกรณ์มหาวิทยาลัย.'
+  ].join('\n\n');
+  STATE.src = 'paste'; DOCX_PARAS = null; STATE.typeOverrides = {}; updateCount(); run();
+});
+
+/* ---------- ข้อจำกัดท้ายหน้า ---------- */
+const LIM_A = [
+  '<b>จำนวนต่อรอบ:</b> แนะนำ 100–150 รายการ รองรับสูงสุด 300 รายการต่อการตรวจ 1 ครั้ง เกินกว่านั้นระบบจะตรวจให้เฉพาะ 300 รายการแรก',
+  '<b>ทำไมจึงจำกัด:</b> ทุกการ์ดถูกสร้างเป็นองค์ประกอบในหน้าเว็บ การแสดงพร้อมกันหลายร้อยรายการทำให้เบราว์เซอร์หน่วง และคนอ่านทวนทีละรายการไม่ไหวในรอบเดียว',
+  '<b>ขนาดไฟล์:</b> .docx ที่มีรูปภาพจำนวนมากอาจอ่านช้า แนะนำแยกเฉพาะหน้ารายการอ้างอิงมาเป็นไฟล์ใหม่',
+  '<b>การตัดรายการ:</b> ระบบถือว่า 1 ย่อหน้า = 1 รายการ ถ้าเอกสารขึ้นบรรทัดใหม่กลางรายการ ระบบจะพยายามรวมให้ แต่ควรตรวจตัวเลขจำนวนรายการก่อนกดตรวจทุกครั้ง'
+];
+const LIM_B = [
+  '<b>ตรวจได้เฉพาะรูปแบบ:</b> ระบบตรวจโครงสร้าง เครื่องหมาย และลำดับองค์ประกอบ ไม่สามารถยืนยันว่าชื่อผู้แต่ง ปี เลขหน้า หรือ DOI ตรงกับต้นฉบับจริงหรือไม่',
+  '<b>ตัวเอียง:</b> ตรวจได้เฉพาะเมื่ออัปโหลด .docx การคัดลอกข้อความมาวางจะสูญเสียข้อมูลตัวเอียงทั้งหมด',
+  '<b>การจำแนกประเภท:</b> ใช้รูปแบบข้อความเป็นตัวชี้ หากรายการเขียนผิดมากจนไม่เหลือเค้าโครง ระบบอาจจัดประเภทคลาดเคลื่อน ให้ดูแม่แบบในการ์ดประกอบเสมอ',
+  '<b>ฉบับแก้ไขอัตโนมัติ:</b> แก้ให้เฉพาะจุดที่เป็นรูปแบบล้วน ๆ ส่วนข้อมูลที่ขาด เช่น ชื่อผู้แต่งครบทุกคน ชื่อสำนักพิมพ์ หรือเลขหน้า ระบบเดาแทนไม่ได้ ต้องเติมเอง',
+  '<b>ขอบเขต:</b> ตรวจเฉพาะรายการอ้างอิงท้ายเล่ม ยังไม่ตรวจการอ้างอิงในเนื้อหา (in-text citation) และการเทียบว่าอ้างในเนื้อหาครบตามรายการท้ายเล่มหรือไม่'
+];
+$('limitsA').innerHTML = LIM_A.map(t => '<li>' + t + '</li>').join('');
+$('limitsB').innerHTML = LIM_B.map(t => '<li>' + t + '</li>').join('');
+updateCount();
+</script>
+</body>
+</html>
