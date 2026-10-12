@@ -720,6 +720,14 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':
 const ital = s => esc(s).replace(/\*([^*]+)\*/g, '<em>$1</em>').replace(/&amp;amp;/g,'&amp;');
 const isThai = s => RE_THAI.test(s);
 
+/* URL/DOI อยู่ท้ายรายการเสมอ ถ้าส่วนท้ายเป็นชิ้นลิงก์ที่ถูกเว้นวรรคคั่น (ไม่มีอักษรไทย ไม่มีคำอังกฤษแยกเดี่ยว)
+   ถือว่าเป็นลิงก์เดียวกันที่ถูกเคาะแยก รวมกลับได้อย่างปลอดภัย */
+function joinableLink(tail){
+  const frags = tail.trim().split(/\s+/);
+  if (frags.length < 2 || frags.length > 6 || RE_THAI.test(tail)) return false;
+  return frags.slice(1).every(f => !/^[A-Z][a-z]+[.,]?$/.test(f) && !/^(Retrieved|from|and|Available)$/i.test(f));
+}
+
 /* ---- ตัดข้อความทั้งก้อนให้เป็นรายการอ้างอิงทีละรายการ ---- */
 const HEAD_RE = /^\s*(รายการอ้างอิง|บรรณานุกรม|เอกสารอ้างอิง|References?|Reference List|Bibliography|REFERENCES)\s*(\(ต่อ\)|\(cont\.?\))?\s*$/i;
 
@@ -899,7 +907,10 @@ function analyzeOne(ref, opts){
       'APA 7 · สำนักพิมพ์');
 
   /* ---------- 2. การปิดท้ายรายการ ---------- */
-  const linkEnd = /(https?:\/\/|doi\.org\/|doi\s*:\s*10\.)\S*$/i.test(raw);
+  /* ช่องว่างแทรกใน URL/DOI (มักเกิดจากการเคาะเพื่อจัดหน้า) ทำให้ข้อผิดพลาดอื่นตามมา จึงตรวจก่อน */
+  const linkStartAt = raw.search(/https?:\/\/|(?:^|\s)10\.\d{4,}\//);
+  const brokenTail = linkStartAt >= 0 && /\s/.test(raw.slice(linkStartAt).trim()) && joinableLink(raw.slice(linkStartAt));
+  const linkEnd = /(https?:\/\/|doi\.org\/|doi\s*:\s*10\.)\S*$/i.test(raw) || brokenTail;
   if (/https?:\/\/\S+[^\s.]\.$/.test(raw)){
     add('e','มีจุดปิดท้ายหลัง URL/DOI',
         'APA 7 ไม่ใส่เครื่องหมายใดต่อท้าย URL หรือ DOI เพราะอาจทำให้ลิงก์เสีย',
@@ -953,10 +964,10 @@ function analyzeOne(ref, opts){
   if (cityEn || cityTh) add('e','ระบุเมืองที่พิมพ์',
       'APA 7 ตัดชื่อเมืองออก ให้ระบุเฉพาะชื่อสำนักพิมพ์',
       'APA 7 · สำนักพิมพ์', (cityEn ? cityEn[2] : cityTh[0]));
-  const brokenLink = raw.match(/(https?:\/\/\S*|10\.\d{4,}\/\S*)\s+\S*[\/.=?&]\S*/);
-  if (brokenLink) add('e','ลิงก์มีช่องว่างแทรกอยู่ตรงกลาง',
-      'URL หรือ DOI ที่มีช่องว่างคั่นจะคลิกไม่ได้และค้นไม่เจอ มักเกิดจากการตัดบรรทัดใน Word ให้ลบช่องว่างออกและปิดการตัดคำอัตโนมัติในย่อหน้านั้น',
-      'APA 7 · URL และ DOI', brokenLink[0].slice(0, 40));
+  const brokenLink = brokenTail ? null : raw.match(/(https?:\/\/\S*|10\.\d{4,}\/\S*)\s+\S*[\/.=?&]\S*/);
+  if (brokenLink || brokenTail) add('e','ลิงก์มีช่องว่างแทรกอยู่ตรงกลาง',
+      'URL หรือ DOI ที่มีช่องว่างคั่นจะคลิกไม่ได้และค้นไม่เจอ มักเกิดจากการเคาะเว้นวรรคเพื่อจัดหน้า ให้ลบช่องว่างออก แล้วตั้งย่อหน้ารายการอ้างอิงเป็น “ชิดซ้าย” แทน “กระจายแบบไทย” Word จะตัดบรรทัด URL ให้เอง (APA 7 ไม่ให้แทรกช่องว่างหรือขึ้นบรรทัดใน URL ด้วยมือ)',
+      'APA 7 · URL และ DOI', (brokenLink ? brokenLink[0] : raw.slice(linkStartAt).trim()).slice(0, 40));
   const extraLink = raw.match(/\s*(PubMed|PMC|Full text|Full-text|ScienceDirect|Available at|เข้าถึงได้ที่)\s*:\s*https?:\/\/\S+/i);
   const hasDoiLink = /(?:https?:\/\/)?doi\.org\/10\.|\bdoi\s*:\s*10\./i.test(raw);
   if (extraLink && hasDoiLink) add('e','ใส่ลิงก์ซ้ำซ้อนต่อท้าย DOI',
@@ -968,7 +979,7 @@ function analyzeOne(ref, opts){
       'APA 7 ให้เขียน DOI เป็นลิงก์เต็มโดยไม่มีคำว่า DOI: หรือ doi: นำหน้า เพราะ https://doi.org/ บอกอยู่แล้วว่าเป็น DOI',
       'APA 7 · URL และ DOI', doiLabel[0].trim());
   if (/\b(doi|DOI)\s*:\s*10\./.test(raw) || /dx\.doi\.org/.test(raw) ||
-      (/(^|\s)doi\.org\/10\./.test(raw) && !/https?:\/\/doi\.org/.test(raw)))
+      (/(^|\s)doi\.org\/10\./.test(raw) && !/https?:\/\/\s*doi\.org/.test(raw)))
     add('e','รูปแบบ DOI ไม่ถูกต้อง',
         'APA 7 ใช้รูปแบบลิงก์เต็ม https://doi.org/10.xxxx ไม่ใช้ doi: หรือ dx.doi.org',
         'APA 7 · URL และ DOI', /(\b(doi|DOI)\s*:\s*10\.|dx\.doi\.org)/);
@@ -981,12 +992,13 @@ function analyzeOne(ref, opts){
   if (noGap) add('e','ไม่เว้นวรรคหลังเครื่องหมายจุด',
       'ต้องเว้นวรรค 1 ระยะหลังจุดที่คั่นระหว่างองค์ประกอบ เช่น (2560). ชื่อเรื่อง. สำนักพิมพ์.',
       'APA 7 · เครื่องหมายวรรคตอน', noGap[0]);
-  if (/\s+\./.test(raw)) add('w','มีช่องว่างก่อนเครื่องหมายจุด','ไม่เว้นวรรคก่อนจุดหรือจุลภาค','การพิมพ์', /\s+\./);
+  const rawNoLink = brokenTail ? raw.slice(0, linkStartAt) : raw;
+  if (/\s+\./.test(rawNoLink)) add('w','มีช่องว่างก่อนเครื่องหมายจุด','ไม่เว้นวรรคก่อนจุดหรือจุลภาค','การพิมพ์', /\s+\./);
   const q = raw.match(/[“"][^”"]{12,}[”"]/);
   if (q) add('e','ใส่เครื่องหมายคำพูดคร่อมชื่อเรื่อง',
       'รายการอ้างอิงท้ายเล่มไม่ใส่เครื่องหมายคำพูด (จะใช้เฉพาะการระบุที่มาใต้ภาพ/ตาราง)',
       'APA 7 · ชื่อเรื่อง', q[0].slice(0,18));
-  const dash = raw.replace(/https?:\/\/\S+|10\.\d{4,}\/\S+/g,' ').match(/e?\d+\s*-\s*e?\d+(?=\s*[.,]|\s*$)/);
+  const dash = rawNoLink.replace(/https?:\/\/\S+|10\.\d{4,}\/\S+/g,' ').match(/e?\d+\s*-\s*e?\d+(?=\s*[.,]|\s*$)/);
   if (dash && ['journal','chapter','proceeding','newspaper','law'].includes(type))
     add('w','ช่วงเลขหน้าใช้ยัติภังค์ (-)',
         'APA ใช้ en dash (–) คั่นช่วงเลขหน้า เช่น 91–94',
@@ -1021,7 +1033,14 @@ function analyzeOne(ref, opts){
       add('w','ไม่มีจุลภาคก่อนเครื่องหมาย &',
         'กรณีผู้แต่ง 3 คนขึ้นไป ต้องมีจุลภาคก่อน & เช่น Ary, D., Jacobs, L. C., & Walker, D. A.',
         'APA 7 · ผู้แต่ง');
-  } else if (languageRules === 'th') {
+  }
+  if (languageRules === 'th' || (!languageRules && RE_THAI.test(authors))){
+    if (/^[^,]+,\s*และ\s+[^,]+\.?\s*$/.test(authors) && !ORG_TH.test(authors))
+      add('w','ผู้แต่ง 2 คนมีจุลภาคหน้าคำว่า “และ”',
+        'ผู้แต่งภาษาไทย 2 คนเขียน ชื่อ สกุล และ ชื่อ สกุล โดยไม่มีจุลภาค (จุลภาคหน้า “และ” ใช้เมื่อมี 3 คนขึ้นไป) มักเกิดจาก Zotero ที่ใช้รูปแบบภาษาอังกฤษ',
+        'ฉบับภาษาไทย · ผู้แต่ง 2 คน', /,\s*และ/);
+  }
+  if (languageRules === 'th') {
     const dupConj = authors.match(/(และ\s*,?\s*&|&\s*และ|และ\s+และ)/);
     if (dupConj) add('e','มีตัวเชื่อมผู้แต่งซ้ำซ้อน',
         'พบทั้ง “และ” และ “&” ติดกัน มักเป็นร่องรอยค้างจากโปรแกรมจัดการบรรณานุกรม ให้เหลือคำว่า “และ” เพียงตัวเดียว',
@@ -1046,7 +1065,11 @@ function analyzeOne(ref, opts){
       'APA 7 คั่นด้วยจุลภาค ไม่ใช่ทวิภาค รูปแบบคือ ชื่อวารสาร, ปีที่(ฉบับที่), เลขหน้า เช่น วารสารสภาการพยาบาล, 37(3), 144–155',
       'APA 7 · บทความวารสาร', colonVol[0].slice(-20));
   if (type === 'journal'){
-    if (!RE_VOLISSUE.test(raw) && !RE_VOLONLY.test(raw) && !RE_ARTNO.test(raw))
+    if (!RE_VOLISSUE.test(raw) && !RE_VOLONLY.test(raw) && !RE_ARTNO.test(raw) && /,\s*\d+\s*\([^)]+\)\s*\.(\s|$)/.test(raw))
+      add('w','ไม่พบเลขหน้าหรือเลขบทความ',
+        'มีเลขปีที่(ฉบับที่) แต่ไม่มีเลขหน้า ตรวจกับต้นฉบับ หากบทความมีเลขหน้าหรือเลขบทความ (เช่น e12345) ให้เติมหลังเลขฉบับ ถ้าไม่มีจริงจึงละไว้ได้',
+        'APA 7 · บทความวารสาร');
+    else if (!RE_VOLISSUE.test(raw) && !RE_VOLONLY.test(raw) && !RE_ARTNO.test(raw))
       add('e','ไม่พบเลขปีที่/ฉบับที่/เลขหน้าในรูปแบบ APA',
         'รูปแบบคือ ชื่อวารสาร, ปีที่(ฉบับที่), เลขหน้า. เช่น วิทยาจารย์, 95(1), 91–94.',
         'APA 7 · บทความวารสาร');
@@ -1228,6 +1251,13 @@ function autofix(raw, type, lang, issues, opts){
   let pre = raw;
   const P = (re, to, note) => { const n = pre.replace(re, to); if (n !== pre){ pre = n; applied.push(note); } };
   P(/([^\s.])\.(?=https?:\/\/)/g, '$1. ', 'เติมช่องว่างก่อน URL');
+  {
+    const at = pre.search(/https?:\/\/|(?:^|\s)10\.\d{4,}\//);
+    if (at >= 0 && /\s/.test(pre.slice(at).trim()) && joinableLink(pre.slice(at))){
+      pre = pre.slice(0, at) + pre.slice(at).replace(/^\s+/, m => m).replace(/(\S)\s+(?=\S)/g, '$1');
+      applied.push('ลบช่องว่างที่แทรกใน URL/DOI');
+    }
+  }
   if (/(?:https?:\/\/)?doi\.org\/10\.|\bdoi\s*:\s*10\./i.test(pre))
     P(/\s*(PubMed|PMC|Full text|Full-text|ScienceDirect|Available at|เข้าถึงได้ที่)\s*:\s*https?:\/\/\S+/gi, '', 'ตัดลิงก์ซ้ำซ้อนต่อท้าย DOI');
   P(/\b(doi|DOI)\s*:\s*(?=https?:\/\/)/g, '', 'ตัดคำว่า DOI นำหน้าลิงก์');
@@ -1274,6 +1304,8 @@ function autofix(raw, type, lang, issues, opts){
     Z(AUTH, /,?\s+and\s+(?=[A-Z][A-Za-z'’\-]+,\s*[A-Z]\.)/g, ', & ', 'เปลี่ยน and เป็น &');
     Z(AUTH, /([A-Z]\.)(?=[A-Z]\.)/g, '$1 ', 'เว้นวรรคระหว่างอักษรย่อชื่อ');
   }
+  if (opts.langMode === 'th' || (opts.langMode !== 'en' && issues.some(i => i.title.startsWith('ผู้แต่ง 2 คนมีจุลภาค'))))
+    Z(AUTH, /^([^,]+),\s*(และ\s+[^,]+)$/, '$1 $2', 'ลบจุลภาคหน้า “และ” (ผู้แต่ง 2 คน)');
   if (opts.langMode === 'th'){
     /* ยุบตัวเชื่อมซ้ำซ้อนก่อน มิฉะนั้นจะกลายเป็น “และ และ” */
     Z(AUTH, /\s*,?\s*(และ\s*,?\s*&|&\s*,?\s*และ|และ\s+และ)\s*/g, ', และ ', 'ยุบตัวเชื่อมผู้แต่งที่ซ้ำซ้อน');
@@ -1309,6 +1341,7 @@ function autofix(raw, type, lang, issues, opts){
   const miss = t => issues.some(i => i.title.includes(t));
   if (miss('ไม่พบปีที่พิมพ์')) append('เติมปีที่พิมพ์');
   if (miss('ไม่พบชื่อผู้แต่ง')) s = '\u27E6เติมชื่อผู้แต่ง\u27E7 ' + s, gaps.push('เติมชื่อผู้แต่ง');
+  if (miss('ไม่พบเลขหน้าหรือเลขบทความ')) notes.push('ตรวจเลขหน้าหรือเลขบทความกับต้นฉบับ');
   if (miss('ไม่พบเลขปีที่') && !RE_VOLISSUE.test(s) && !RE_VOLONLY.test(s) && !RE_ARTNO.test(s))
     append('เติมเลขปีที่(ฉบับที่) และเลขหน้า');
   if (miss('อาจไม่ได้ระบุสำนักพิมพ์')) append('เติมชื่อสำนักพิมพ์');
@@ -1321,7 +1354,7 @@ function autofix(raw, type, lang, issues, opts){
   if (miss('ไม่ระบุแหล่งที่เข้าถึง')) append('เติมชื่อคลังข้อมูลและ URL');
   if (miss('ไม่ระบุสถานที่จัดประชุม')) append('เติมเมืองและประเทศที่จัดประชุม');
   if (miss('ไม่ระบุเล่ม/ตอน/หน้า')) append('เติมเล่ม ตอนที่ และเลขหน้า');
-  if (miss('ลิงก์มีช่องว่าง')) notes.push('ลบช่องว่างที่แทรกอยู่กลาง URL หรือ DOI');
+  if (miss('ลิงก์มีช่องว่าง') && !applied.includes('ลบช่องว่างที่แทรกใน URL/DOI')) notes.push('ลบช่องว่างที่แทรกอยู่กลาง URL หรือ DOI');
   if (miss('มีวันที่สืบค้นแต่ไม่พบ URL')) notes.push('ตรวจวันที่สืบค้นกับต้นฉบับ: ต้องมี URL และใช้เฉพาะเนื้อหาที่เปลี่ยนแปลงตลอดเวลา');
   if (miss('พบวันที่สืบค้น — ต้องตรวจทาน')) notes.push('ยืนยันว่าจำเป็นต้องมีวันที่สืบค้นสำหรับเนื้อหาที่เปลี่ยนแปลงตลอดเวลา');
   if (miss('อาจเขียนชื่อผู้แต่งเต็ม')) notes.push('ตรวจและแก้ชื่อผู้แต่งกับ DOI หรือฐานข้อมูลต้นฉบับก่อนคัดลอกไปใช้');
@@ -1362,6 +1395,20 @@ function analyzeList(items){
     const lastTh  = items.map(r => r.lang).lastIndexOf('th');
     if (firstEn >= 0 && lastTh > firstEn) notes.push({sev:'w', text:'ลำดับกลุ่มภาษายังสลับกัน ควรเรียงรายการภาษาไทยทั้งหมดก่อน แล้วจึงตามด้วยภาษาอังกฤษ'});
   }
+  /* ชื่อวารสารเดียวกันแต่เว้นวรรคต่างกัน = มีการเคาะเว้นวรรคเพื่อจัดหน้า */
+  const jn = {};
+  items.filter(r => r.type === 'journal').forEach((r, k) => {
+    const ir = italicRange(r.raw, 'journal');
+    if (!ir) return;
+    const name = r.raw.slice(ir[0], ir[1]).replace(/,\s*\d+$/, '').trim();
+    const key = name.replace(/\s+/g, '');
+    (jn[key] = jn[key] || []).push({name, n: items.indexOf(r) + 1});
+  });
+  Object.values(jn).forEach(v => {
+    if (new Set(v.map(x => x.name)).size > 1)
+      notes.push({sev:'w', text:'ชื่อวารสารเดียวกันเขียนเว้นวรรคไม่เหมือนกัน: ' + v.map(x => '“' + x.name + '” (รายการที่ ' + x.n + ')').join(' กับ ') +
+        ' — มักเกิดจากการเคาะเว้นวรรคเพื่อจัดหน้า ช่องว่างกลางคำภาษาไทยจะติดไปกับเอกสาร ควรลบออกแล้วจัดย่อหน้าเป็นชิดซ้ายแทน'});
+  });
   /* ผู้แต่งชุดเดียวกัน ปีเดียวกัน ต้องเติม a, b (ไทยใช้ ก, ข) ต่อท้ายปี มิฉะนั้นการอ้างในเนื้อหาจะแยกไม่ออก */
   const seen = {};
   buildRefIndex(items).forEach(r => {
@@ -1416,6 +1463,8 @@ function parseRefAuthors0(authorText){
   if (!a) return {names:[], group:false, thai:false};
   const bare = a.replace(/\.\s*$/, '');
   if (RE_THAI.test(a)){
+    /* ชื่อหน่วยงานหรือชื่อกฎหมายใช้ทั้งก้อน แม้มีจุลภาคหรือคำว่า “และ” อยู่ในชื่อ */
+    if (ORG_TH.test(bare)) return {names:[{display:bare, key:nameKey(bare)}], group:true, thai:true};
     const parts = bare.split(/\s*,\s*(?:และ\s+)?|\s+และ\s+/).map(x => x.replace(/^และ\s*/, '').trim()).filter(Boolean);
     const group = parts.length === 1 && (ORG_TH.test(parts[0]) || parts[0].split(/\s+/).length > 3);
     return {names: parts.map(p => ({display:p, key:nameKey(p)})), group, thai:true};
@@ -1491,7 +1540,7 @@ function looksLikeAuthor(a){
 function extractCitations(body){
   const units = [];
   body.forEach((para, pi) => {
-    const re = /\(([^()]{1,400})\)/g;
+    const re = /\(((?:[^()]|\([^()]*\)){1,400})\)/g;
     let m;
     while ((m = re.exec(para))){
       const inner = m[1];
@@ -1536,7 +1585,7 @@ let NARR_REFS = [];
 function narrativeAuthor(pre){
   const trailingComma = /,\s*$/.test(pre);
   const p = pre.replace(/,?\s*$/, '');
-  const lastCh = p.slice(-1);
+  const lastCh = (p.match(/[A-Za-zก-๙](?=[^A-Za-zก-๙]*$)/) || [''])[0];
   if (!lastCh) return null;
   if (RE_THAI.test(lastCh)){
     /* ภาษาไทยไม่เว้นวรรคระหว่างคำ จึงเทียบกับชื่อผู้แต่งในรายการท้ายเล่มโดยตรง */
@@ -1549,8 +1598,9 @@ function narrativeAuthor(pre){
       while ((mm = nre.exec(tail))) last = mm.index;
       if (last < 0) continue;
       const span = tail.slice(last);
-      let left = span;
-      r.names.forEach(n => { left = left.replace(n.display, ''); });
+      /* เทียบแบบไม่สนใจช่องว่าง เพราะชื่อในรายการท้ายเล่มอาจถูกเคาะเว้นวรรคเพื่อจัดหน้า */
+      let left = span.replace(/\s+/g, '');
+      r.names.forEach(n => { left = left.replace(n.display.replace(/\s+/g, ''), ''); });
       left = left.replace(/และ\s*คณะ|และ|,|\s/g, '');
       if (left.length <= 2 && (!best || last > best.at)) best = {at:last, text:span.trim()};
     }
