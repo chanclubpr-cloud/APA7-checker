@@ -20,7 +20,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>APA 7 Reference Checker — ตรวจรายการอ้างอิง</title>
+<title>APA 7 Reference Checker — ตรวจรายการอ้างอิงและการอ้างอิงในเนื้อหา</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js" defer></script>
 <style>
 :root{
@@ -428,6 +428,56 @@ footer.limits{
 @media(max-width:760px){.limits-grid .cols{grid-template-columns:1fr}}
 .sig{margin-top:16px;font-size:12px;color:var(--ink-faint);font-family:var(--mono)}
 .sig.copyright{margin-top:8px;padding-top:10px;border-top:1px solid var(--rule-soft);color:var(--ink-soft);font-family:var(--sans);font-size:12.5px}
+
+/* ---------- ขั้นตอนใช้งาน ---------- */
+ol.steps{margin:0 0 14px;padding:0;list-style:none;counter-reset:st;display:grid;gap:5px}
+ol.steps li{counter-increment:st;display:flex;gap:9px;align-items:baseline;font-size:14.5px;color:var(--ink-soft);line-height:1.5}
+ol.steps li:before{
+  content:counter(st);flex:none;width:21px;height:21px;border-radius:50%;background:var(--teal);color:#fff;
+  font-family:var(--mono);font-size:11.5px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;
+}
+ol.steps b{color:var(--ink)}
+
+/* ---------- แท็บผลการตรวจ ---------- */
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.tab{
+  text-align:left;border:1px solid var(--rule);background:var(--card);border-radius:3px;
+  padding:11px 14px;color:var(--ink-soft);box-shadow:var(--shadow);
+}
+.tab b{display:block;font-size:16px;color:var(--ink)}
+.tab small{display:block;font-size:13px;line-height:1.5;margin-top:2px}
+.tab small .e{color:var(--flag);font-weight:700}
+.tab small .w{color:var(--warn);font-weight:700}
+.tab small .p{color:var(--pass);font-weight:700}
+.tab[aria-selected="true"]{background:var(--teal);border-color:var(--teal);color:#CFE3E8}
+.tab[aria-selected="true"] b{color:#fff}
+.tab[aria-selected="true"] small .e,.tab[aria-selected="true"] small .w,.tab[aria-selected="true"] small .p{color:#fff}
+@media(max-width:620px){.tab{padding:9px 10px}.tab b{font-size:14.5px}.tab small{font-size:12px}}
+
+/* ---------- การอ้างอิงในเนื้อหา ---------- */
+.ctx{
+  font-family:var(--ref);font-size:16.5px;line-height:1.85;padding:10px 13px;background:#F4F1EC;
+  border-left:3px solid #B8AE9E;border-radius:0 2px 2px 0;word-break:break-word;
+}
+.ctx mark{background:var(--flag-bg);color:#7C1F16;border-bottom:1.5px solid var(--flag);padding:1px 2px;border-radius:2px}
+.card.warn .ctx mark{background:var(--warn-bg);color:#6B4500;border-bottom-color:var(--warn)}
+.card.ok .ctx mark{background:var(--pass-bg);color:#14503A;border-bottom-color:var(--pass)}
+.fixbox.plain{text-indent:0;padding-left:13px}
+.refline{margin-top:10px;font-size:13.5px;color:var(--ink-soft);line-height:1.6}
+.refline b{color:var(--ink)}
+.card.mini{grid-template-columns:52px 1fr}
+.card.mini .card-body{padding:9px 16px}
+.card.mini .ctx{background:transparent;border:0;padding:0;font-size:15.5px}
+.uncited{margin:0;padding-left:20px;font-size:14.5px;line-height:1.65}
+.uncited li{margin-bottom:6px;word-break:break-word}
+.uncited .n{font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+.tag.cited{background:var(--pass-bg);color:var(--pass);border-color:#C4DCCE}
+.tag.uncited-tag{background:var(--flag-bg);color:var(--flag);border-color:#E8C4BE}
+table.cheat{width:100%;border-collapse:collapse;font-size:14.5px;margin-top:4px;background:#fff}
+table.cheat th,table.cheat td{border:1px solid #D8E6EA;padding:6px 9px;text-align:left;vertical-align:top}
+table.cheat th{background:#F2F7F8;font-weight:650;color:var(--teal)}
+table.cheat td{font-family:var(--ref)}
+@media(max-width:620px){table.cheat{font-size:13px}table.cheat th,table.cheat td{padding:5px 6px}}
 </style>
 </head>
 <body>
@@ -436,9 +486,9 @@ footer.limits{
   <div class="masthead-in">
     <div>
       <span class="mark">APA 7th edition · reference checker</span>
-      <h1>ตรวจรายการอ้างอิง <em>ทีละรายการ</em></h1>
+      <h1>ตรวจรายการอ้างอิง <em>และการอ้างอิงในเนื้อหา</em></h1>
     </div>
-    <p class="lede">วางข้อความหรืออัปโหลดไฟล์ .docx เพื่อคัดกรองรูปแบบ APA 7 เบื้องต้น ระบบประเมินประเภทเอกสาร ชี้จุดที่ควรแก้ และเสนอเฉพาะการแก้ไขที่ปลอดภัย โดยทำงานในเครื่องคุณ</p>
+    <p class="lede">อัปโหลดไฟล์ .docx ทั้งเล่ม หรือวางข้อความ ระบบตรวจรูปแบบ APA 7 ทั้งรายการท้ายเล่มและการอ้างในเนื้อหา (in-text) พร้อมจับคู่ว่าอ้างครบตรงกันหรือไม่ โดยทำงานในเครื่องคุณ</p>
   </div>
 </header>
 
@@ -448,6 +498,12 @@ footer.limits{
     <div class="panel-head"><h2>ข้อมูลนำเข้า</h2><span class="mark" id="srcTag">ยังไม่มีข้อมูล</span></div>
     <div class="panel-body">
 
+      <ol class="steps">
+        <li><b>ใส่ข้อมูล</b> อัปโหลด .docx ทั้งเล่ม หรือวางข้อความ</li>
+        <li><b>กดปุ่ม</b> “ตรวจ”</li>
+        <li><b>ดูผล 2 แท็บ</b> รายการท้ายเล่ม · การอ้างในเนื้อหา</li>
+      </ol>
+
       <div class="drop" id="drop">
         <strong>ลากไฟล์ .docx มาวางที่นี่</strong>
         <span>ระบบอ่านตัวเอียงจากไฟล์ Word ได้ด้วย</span>
@@ -456,13 +512,14 @@ footer.limits{
       </div>
 
       <div class="field-label">
-        <span>หรือวางรายการอ้างอิง</span>
+        <span>หรือวางข้อความ</span>
         <span id="count">0 รายการ</span>
       </div>
-      <textarea id="input" placeholder="วางรายการอ้างอิง 1 รายการต่อ 1 ย่อหน้า เช่น&#10;&#10;สิริฉันท์ สถิรกุล. (2540). สอนวิชาธุรกิจในระดับมัธยมศึกษาอย่างไรจึงจะจูงใจผู้เรียน. วิทยาจารย์, 95(1), 91-94.&#10;&#10;Sillick, T. J., & Schutte, N. S. (2006). Emotional intelligence and self-esteem mediate between perceived early parental love and adult happiness. E-Journal of Applied Psychology, 2(2), 38-48."></textarea>
+      <textarea id="input" placeholder="ตรวจเฉพาะรายการอ้างอิง: วาง 1 รายการต่อ 1 ย่อหน้า&#10;ตรวจในเนื้อหาด้วย: วางเนื้อหา → บรรทัดหัวข้อ “รายการอ้างอิง” → รายการอ้างอิง&#10;&#10;ตัวอย่างรายการ&#10;สิริฉันท์ สถิรกุล. (2540). สอนวิชาธุรกิจในระดับมัธยมศึกษาอย่างไรจึงจะจูงใจผู้เรียน. วิทยาจารย์, 95(1), 91-94.&#10;&#10;Sillick, T. J., & Schutte, N. S. (2006). Emotional intelligence and self-esteem mediate between perceived early parental love and adult happiness. E-Journal of Applied Psychology, 2(2), 38-48."></textarea>
 
       <div class="opts">
-        <label class="opt"><input type="checkbox" id="optSection" checked><span><b>ตัดเฉพาะส่วนรายการอ้างอิง</b> — ข้ามเนื้อหาก่อนหัวข้อ “รายการอ้างอิง / บรรณานุกรม / References”</span></label>
+        <label class="opt"><input type="checkbox" id="optSection" checked><span><b>แยกเนื้อหากับรายการอ้างอิง</b> — ใช้หัวข้อ “รายการอ้างอิง / บรรณานุกรม / เอกสารอ้างอิง / References” เป็นเส้นแบ่ง</span></label>
+        <label class="opt"><input type="checkbox" id="optCite" checked><span><b>ตรวจการอ้างอิงในเนื้อหา (in-text)</b> — ตรวจรูปแบบ และจับคู่กับรายการท้ายเล่มว่าครบตรงกัน</span></label>
         <label class="opt"><input type="checkbox" id="optStrict"><span><b>โหมดเข้มงวด</b> — เปลี่ยนข้อสังเกตระดับเตือนเป็นข้อผิดพลาด</span></label>
         <label class="opt"><input type="checkbox" id="optList" checked><span><b>ตรวจภาพรวมทั้งชุด</b> — การเรียงลำดับ รายการซ้ำ และความสม่ำเสมอของศักราช</span></label>
       </div>
@@ -478,12 +535,12 @@ footer.limits{
       </div>
 
       <div class="actions">
-        <button class="btn" id="run">ตรวจรายการอ้างอิง</button>
+        <button class="btn" id="run">ตรวจ</button>
         <button class="btn-ghost" id="sample">ตัวอย่าง</button>
         <button class="btn-ghost" id="clear">ล้าง</button>
       </div>
 
-      <p class="hint"><b>ขีดจำกัดต่อรอบ:</b> แนะนำไม่เกิน <b>150 รายการ</b> ต่อการตรวจ 1 ครั้ง (รองรับสูงสุด 300 รายการ) รายละเอียดอยู่ท้ายหน้า</p>
+      <p class="hint">กด <b>ตัวอย่าง</b> เพื่อดูการทำงานทั้ง 2 ส่วนก่อนใช้งานจริง · <b>ขีดจำกัดต่อรอบ:</b> แนะนำไม่เกิน <b>150 รายการ</b> ต่อการตรวจ 1 ครั้ง (รองรับสูงสุด 300 รายการ) รายละเอียดอยู่ท้ายหน้า</p>
     </div>
   </section>
 
@@ -491,7 +548,7 @@ footer.limits{
   <section id="results">
     <div class="empty">
       <h3>ยังไม่มีผลการตรวจ</h3>
-      <p>วางรายการอ้างอิงหรืออัปโหลดไฟล์ .docx แล้วกด “ตรวจรายการอ้างอิง” ผลจะแสดงเป็นการ์ดทีละรายการ พร้อมหมายเลขกำกับจุดที่ต้องแก้ในตัวข้อความ</p>
+      <p>อัปโหลดไฟล์ .docx หรือวางข้อความ แล้วกด “ตรวจ” ผลจะแยกเป็น 2 แท็บ คือ รายการอ้างอิงท้ายเล่ม และการอ้างอิงในเนื้อหา พร้อมหมายเลขกำกับจุดที่ต้องแก้</p>
     </div>
   </section>
 </div>
@@ -664,15 +721,23 @@ const ital = s => esc(s).replace(/\*([^*]+)\*/g, '<em>$1</em>').replace(/&amp;am
 const isThai = s => RE_THAI.test(s);
 
 /* ---- ตัดข้อความทั้งก้อนให้เป็นรายการอ้างอิงทีละรายการ ---- */
-const HEAD_RE = /^\s*(รายการอ้างอิง|บรรณานุกรม|เอกสารอ้างอิง|References?|Bibliography|REFERENCES)\s*(\(ต่อ\)|\(cont\.?\))?\s*$/i;
+const HEAD_RE = /^\s*(รายการอ้างอิง|บรรณานุกรม|เอกสารอ้างอิง|References?|Reference List|Bibliography|REFERENCES)\s*(\(ต่อ\)|\(cont\.?\))?\s*$/i;
 
-function splitReferences(paragraphs, cutSection){
+/* แยกเอกสารเป็น 2 ส่วน: เนื้อหา (ก่อนหัวข้อรายการอ้างอิง) และรายการอ้างอิง
+   ส่วนเนื้อหาใช้ตรวจการอ้างอิงในเนื้อหา (in-text citation)                */
+function splitDocument(paragraphs, cutSection){
   let lines = paragraphs.map(p => (typeof p === 'string' ? {text:p, italics:[]} : p))
                         .filter(p => p.text.trim() !== '');
+  let body = [];
   const END_RE = /^\s*(ภาคผนวก|ประวัติผู้เขียน|ประวัติผู้วิจัย|ประวัติผู้จัดทำ|ประวัติย่อ)(?![ก-๙])|^\s*(Appendix(es)?|Appendices|Curriculum Vitae|About the Author)\b/i;
   if (cutSection){
-    const at = lines.findIndex(l => HEAD_RE.test(l.text.trim()));
+    /* ใช้หัวข้อตัวสุดท้าย เพราะหัวข้อแรกมักอยู่ในสารบัญ ซึ่งจะทำให้ทั้งเล่มถูกนับเป็นรายการอ้างอิง
+       ยกเว้นหัวข้อต่อเนื่อง “(ต่อ)” ที่อยู่กลางรายการ */
+    let at = -1;
+    lines.forEach((l, k) => { if (HEAD_RE.test(l.text.trim()) && !/\((ต่อ|cont)/i.test(l.text)) at = k; });
+    if (at < 0) at = lines.findIndex(l => HEAD_RE.test(l.text.trim()));
     if (at >= 0){
+      body = lines.slice(0, at).map(l => l.text.replace(/\s+/g,' ').trim());
       lines = lines.slice(at + 1);
       const end = lines.findIndex(l => END_RE.test(l.text.trim()));
       if (end >= 0) lines = lines.slice(0, end);
@@ -701,8 +766,9 @@ function splitReferences(paragraphs, cutSection){
       out.push({text:t.replace(/\s+/g,' '), italics:(l.italics||[]).slice()});
     }
   }
-  return out.filter(r => r.text.length > 12);
+  return {refs: out.filter(r => r.text.length > 12), body};
 }
+const splitReferences = (paragraphs, cutSection) => splitDocument(paragraphs, cutSection).refs;
 
 /* ---- จำแนกประเภทเอกสาร (เรียงจากเฉพาะเจาะจงไปกว้าง) ---- */
 /* ---- สัญญาณบ่งชี้ประเภทเอกสาร: ให้คะแนนแล้วเลือกอันดับสูงสุด ----
@@ -845,9 +911,9 @@ function analyzeOne(ref, opts){
   }
 
   /* ---------- 3. ร่องรอยรูปแบบเก่า (APA 6) ---------- */
-  if (/et al\./i.test(raw)) add('e','ใช้ et al. ในรายการอ้างอิงท้ายเล่ม',
+  if (/\bet\.?\s*al\b\.?/i.test(authors)) add('e','ใช้ et al. ในรายการอ้างอิงท้ายเล่ม',
       'et al. ใช้เฉพาะการอ้างอิงในเนื้อหา ส่วนรายการอ้างอิงต้องระบุผู้แต่งครบทุกคน (ไม่เกิน 20 คน) หากมี 21 คนขึ้นไปจึงใส่คนที่ 1–19 ตามด้วย . . . แล้วปิดท้ายด้วยคนสุดท้าย',
-      'APA 7 · จำนวนผู้แต่ง', /et al\./i);
+      'APA 7 · จำนวนผู้แต่ง', /\bet\.?\s*al\b\.?/i);
   if (/และคณะ/.test(raw)) add('e','ใช้ “และคณะ” ในรายการอ้างอิงท้ายเล่ม',
       '“และคณะ” ใช้เฉพาะการอ้างอิงในเนื้อหา รายการท้ายเล่มต้องระบุชื่อผู้แต่งครบทุกคน',
       'ฉบับภาษาไทย · จำนวนผู้แต่ง', 'และคณะ');
@@ -1238,7 +1304,7 @@ function autofix(raw, type, lang, issues, opts){
   };
   const append = (label) => { s = s.replace(/\s*$/, '') + ' \u27E6' + label + '\u27E7'; gaps.push(label); };
 
-  gap(/\s*,?\s*(และคณะ|et al\.)/i, 'เติมชื่อผู้แต่งที่เหลือให้ครบทุกคน');
+  gap(/\s*,?\s*(และคณะ|\bet\.?\s*al\b\.?)/i, 'เติมชื่อผู้แต่งที่เหลือให้ครบทุกคน');
 
   const miss = t => issues.some(i => i.title.includes(t));
   if (miss('ไม่พบปีที่พิมพ์')) append('เติมปีที่พิมพ์');
@@ -1296,7 +1362,462 @@ function analyzeList(items){
     const lastTh  = items.map(r => r.lang).lastIndexOf('th');
     if (firstEn >= 0 && lastTh > firstEn) notes.push({sev:'w', text:'ลำดับกลุ่มภาษายังสลับกัน ควรเรียงรายการภาษาไทยทั้งหมดก่อน แล้วจึงตามด้วยภาษาอังกฤษ'});
   }
+  /* ผู้แต่งชุดเดียวกัน ปีเดียวกัน ต้องเติม a, b (ไทยใช้ ก, ข) ต่อท้ายปี มิฉะนั้นการอ้างในเนื้อหาจะแยกไม่ออก */
+  const seen = {};
+  buildRefIndex(items).forEach(r => {
+    if (!r.names.length || !r.yearKey || r.suffix) return;
+    const k = r.names.map(n => n.key).join('|') + '#' + r.yearKey;
+    (seen[k] = seen[k] || []).push(r.i + 1);
+  });
+  Object.values(seen).filter(v => v.length > 1).forEach(v => notes.push({sev:'e',
+    text:'รายการที่ ' + v.join(', ') + ' เป็นผู้แต่งเดียวกันและปีเดียวกัน ต้องเติมอักษรต่อท้ายปี เช่น (2020a) (2020b) หรือ (2563ก) (2563ข) ทั้งในรายการอ้างอิงและในเนื้อหา'}));
   return notes;
+}
+
+/* ============================================================
+   ส่วนที่ 4.5 — ตรวจการอ้างอิงในเนื้อหา (In-text citation)
+   อิงตาม APA 7 บทที่ 8 (8.10–8.36) และฉบับภาษาไทย
+   ขั้นตอน: 1) ดึงการอ้างอิงจากเนื้อหา ทั้งแบบในวงเล็บ (Smith, 2020)
+               และแบบในประโยค Smith (2020)
+            2) ตรวจรูปแบบของแต่ละจุด
+            3) จับคู่กับรายการท้ายเล่ม — อ้างแล้วต้องมีในรายการ
+               และรายการท้ายเล่มทุกรายการต้องถูกอ้างอย่างน้อย 1 ครั้ง
+   ============================================================ */
+const nameKey = s => String(s || '').toLowerCase().replace(/['’]s$/, '').replace(/[^\p{L}\p{M}\p{N}]+/gu, '');
+const ORG_EN = /(Agency|Association|Institute|Ministry|Department|Organi[sz]ation|Council|Cent(er|re)s?\b|Administration|Society|Foundation|University|College|Committee|Office|Bureau|Board|Commission|Hospital|Group|Network|Services|Federation|Alliance|Trust|Coalition|Program|Collaboration|Taskforce|Task Force)/i;
+const ORG_TH = /^(สำนักงาน|สำนัก|กระทรวง|กรม|กอง|มูลนิธิ|สถาบัน|ศูนย์|โรงพยาบาล|สมาคม|คณะ|มหาวิทยาลัย|สภา|องค์การ|ราชวิทยาลัย|วิทยาลัย|ชมรม|บริษัท|ธนาคาร|พระราชบัญญัติ|ประกาศ|ระเบียบ)/;
+/* ปีในเนื้อหา: 2020, 2020a, 2563ก, n.d., n.d.-a, ม.ป.ป. */
+const YR_SRC = '(?:(?<![\\d.])\\d{4}(?!\\d)|n\\.\\s?d\\.|ม\\.\\s?ป\\.\\s?ป\\.)(?:-?[a-zก-ฮ](?![A-Za-zก-๙]))?';
+const RE_YR_ONE   = new RegExp('^(' + '(?:\\d{4}|n\\.\\s?d\\.|ม\\.\\s?ป\\.\\s?ป\\.)' + ')-?([a-zก-ฮ])?$');
+const RE_CITE_ITEM = new RegExp('^(.*?)(,\\s*|\\s+)(' + YR_SRC + '(?:\\s*,\\s*' + YR_SRC + ')*)(.*)$', 'u');
+const RE_YEARONLY = new RegExp('^\\s*(' + YR_SRC + '(?:\\s*,\\s*' + YR_SRC + ')*)\\s*(,.*)?$', 'u');
+const RE_HAS_YR   = new RegExp(YR_SRC, 'u');
+const RE_LOC      = /^(?:pp?|paras?|pages?|pg|chap|ch|chapter|table|figure|slide|section|sec|lines?)(?![a-z])\.?|^(?:น\.|หน้า|ตาราง|ภาพ|บทที่|ย่อหน้า)/i;
+const RE_PREFIX   = /^(see also|see|e\.g\.,?|i\.e\.,?|cf\.|for example,?|เช่น|ดูเพิ่มเติมใน|ดูเพิ่มเติม|ดู)\s+/i;
+const RE_SECONDARY = /,?\s*(as cited in|อ้างถึงใน|อ้างใน|อ้างอิงใน)\s+/i;
+
+const normYear = s => String(s).replace(/\s+/g, '').toLowerCase();
+function parseYearTok(tok){
+  const m = normYear(tok).match(RE_YR_ONE);
+  return m ? {key: m[1] + (m[2] || ''), base: m[1], suffix: m[2] || '', text: tok.trim()} : null;
+}
+
+/* ---- อ่านชื่อผู้แต่งจากรายการท้ายเล่ม ---- */
+function parseRefAuthors(authorText){
+  const truncated = /(และคณะ|\bet\.?\s*al\b)/i.test(authorText || '');
+  const r = parseRefAuthors0(authorText);
+  r.truncated = truncated;
+  return r;
+}
+function parseRefAuthors0(authorText){
+  let a = String(authorText || '').trim()
+    .replace(/\s*\((?:Eds?\.|บ\.\s?ก\.|[A-Z]{2,10})\)\s*\.?\s*$/, '')   /* (Ed.) (บ.ก.) (AHRQ) */
+    .replace(/,?\s*(และคณะ|\bet\.?\s*al\b\.?)\s*\.?\s*$/i, '');
+  if (!a) return {names:[], group:false, thai:false};
+  const bare = a.replace(/\.\s*$/, '');
+  if (RE_THAI.test(a)){
+    const parts = bare.split(/\s*,\s*(?:และ\s+)?|\s+และ\s+/).map(x => x.replace(/^และ\s*/, '').trim()).filter(Boolean);
+    const group = parts.length === 1 && (ORG_TH.test(parts[0]) || parts[0].split(/\s+/).length > 3);
+    return {names: parts.map(p => ({display:p, key:nameKey(p)})), group, thai:true};
+  }
+  const isInit = c => /^(?:\p{Lu}\p{Ll}?\.\s*-?\s*)+$/u.test(c) || /^(Jr\.?|Sr\.?|I{2,3}|IV)$/.test(c);
+  const chunks = a.split(/\s*,\s*/)
+    .map(c => c.replace(/^(?:&|and)\s+/i, '').replace(/^(?:\.\s*){2,}|^…\s*/, '').trim()).filter(Boolean);
+  /* ไม่มีอักษรย่อชื่อและไม่มีจุลภาค หรือมีคำบ่งชี้หน่วยงาน = ผู้แต่งเป็นหน่วยงาน
+     (Mertens, David M. ไม่มีอักษรย่อแต่ยังเป็นบุคคล) */
+  if (!chunks.some(isInit) && (chunks.length < 2 || ORG_EN.test(bare)))
+    return {names:[{display:bare, key:nameKey(bare)}], group:true, thai:false};
+  const names = [];
+  let wantSurname = true;
+  for (const c of chunks){
+    if (wantSurname){
+      if (isInit(c)) continue;
+      names.push({display:c.replace(/\.$/, ''), key:nameKey(c)});
+      wantSurname = false;
+    } else wantSurname = true;              /* ส่วนนี้คืออักษรย่อชื่อต้น */
+  }
+  return {names, group:false, thai:false};
+}
+
+function buildRefIndex(items){
+  return items.map((it, i) => {
+    const ym = it.raw.match(RE_YEAR);
+    const authorText = ym ? it.raw.slice(0, ym.index) : '';
+    const p = parseRefAuthors(authorText);
+    const suffix = ym ? ((ym[2] || '').match(/^-?([a-zก-ฮ])(?![A-Za-zก-๙])/) || [])[1] || '' : '';
+    const base = ym ? normYear(ym[1]) : '';
+    const initials = p.group && !p.thai
+      ? p.names[0].display.split(/\s+/).filter(w => /^\p{Lu}/u.test(w)).map(w => w[0]).join('').toLowerCase() : '';
+    return {i, raw: it.raw, names: p.names, group: p.group, thai: p.thai, truncated: p.truncated,
+            full: nameKey(authorText.replace(/\s*\([^)]*\)\s*\.?\s*$/, '')),
+            initials, yearBase: base, suffix, yearKey: base ? base + suffix : '', cites: 0};
+  });
+}
+
+/* ---- อ่านชื่อผู้แต่งจากการอ้างในเนื้อหา ---- */
+function parseCiteAuthors(authorText){
+  let t = authorText.trim();
+  const abbrM = t.match(/\[([^\]]+)\]/);
+  t = t.replace(/\s*\[[^\]]*\]/g, '');
+  const etal = /\bet\.?\s*al\b\.?|และ\s*คณะ/i.test(t);
+  const fullKey = nameKey(t.replace(/,?\s*(\bet\.?\s*al\b\.?|และ\s*คณะ)\s*$/i, ''));
+  t = t.replace(/,?\s*(\bet\.?\s*al\b\.?|และ\s*คณะ)/gi, '');
+  const thai = RE_THAI.test(t);
+  let initials = false;
+  const names = t.split(thai ? /\s*,\s*(?:และ\s+)?|\s+และ\s+|\s*&\s*/ : /\s*,\s*(?:&|and\s)?\s*|\s+and\s+|\s*&\s*/i)
+    .map(x => x.replace(/^(และ|and|&)\s+/i, '').trim())
+    .filter(x => {
+      if (/^(\p{Lu}\.\s*)+$/u.test(x)){ initials = true; return false; }   /* Smith, J. */
+      return !!x;
+    })
+    .map(x => {
+      if (/^(\p{Lu}\.\s*)+\S/u.test(x)){ initials = true; x = x.replace(/^(\p{Lu}\.\s*)+/u, ''); }   /* J. Smith */
+      return {display:x.replace(/['’]s$/, ''), key:nameKey(x)};
+    });
+  return {names, etal, thai, fullKey, abbr: abbrM ? abbrM[1].trim() : '', initials};
+}
+
+/* ข้อความในวงเล็บที่มีปี แต่ไม่ใช่การอ้างอิง เช่น (พ.ศ. 2563) (n = 30, 2020) */
+function looksLikeAuthor(a){
+  const t = a.replace(/\[[^\]]*\]/g, '').trim();
+  if (!t || t.length > 140 || /\d|[=<>%]/.test(t)) return false;
+  if (RE_THAI.test(t))
+    return !/^(พ\.ศ\.|ค\.ศ\.|ปี|ข้อมูล|ณ|เดือน|ร้อยละ|ตั้งแต่|ถึง|จำนวน|ระหว่าง|ประมาณ|ช่วง|ภายใน|หลัง|ก่อน|ฉบับ|ประจำปี)/.test(t)
+        && !/(พ\.ศ\.|ค\.ศ\.|ปี)$/.test(t);
+  return /^\p{Lu}/u.test(t) && !/^(Table|Figure|Since|In|From|Until|Before|After|During|Year)\b/.test(t);
+}
+
+/* ---- ดึงการอ้างอิงทั้งหมดจากเนื้อหา ---- */
+function extractCitations(body){
+  const units = [];
+  body.forEach((para, pi) => {
+    const re = /\(([^()]{1,400})\)/g;
+    let m;
+    while ((m = re.exec(para))){
+      const inner = m[1];
+      if (!RE_HAS_YR.test(inner)) continue;
+      if (/personal communication|การสื่อสารส่วนบุคคล|การติดต่อสื่อสารส่วนบุคคล/i.test(inner)) continue;
+      const yo = inner.match(RE_YEARONLY);
+      if (yo){                                             /* Smith (2020) — อ้างในประโยค */
+        const loc = (yo[2] || '').replace(/^,\s*/, '');
+        if (loc && !RE_LOC.test(loc)) continue;
+        const nar = narrativeAuthor(para.slice(0, m.index));
+        if (!nar) continue;
+        units.push({kind:'narr', para:pi, start:m.index - nar.len, end:m.index + m[0].length,
+          raw: para.slice(m.index - nar.len, m.index + m[0].length).trim(), pre: nar,
+          items:[{authorText: nar.text, sep: ', ', years: yo[1], rest: yo[2] || '', prefix:''}]});
+        continue;
+      }
+      /* (Smith, 2020; Lee, 2021) — อ้างในวงเล็บ */
+      let text = inner, commaSep = false;
+      const wrongSep = new RegExp('(' + YR_SRC + ')\\s*,\\s*(?=[\\p{Lu}ก-๙][^;,()]*?(?:,\\s*|\\s+)' + YR_SRC + ')', 'gu');
+      if (wrongSep.test(text)){ commaSep = true; text = text.replace(wrongSep, '$1; '); }
+      const items = [];
+      for (let part of text.split(/\s*;\s*/)){
+        let prefix = '';
+        const pm = part.match(RE_PREFIX);
+        if (pm){ prefix = pm[0]; part = part.slice(pm[0].length); }
+        const sec = part.match(RE_SECONDARY);
+        let secondary = '';
+        if (sec){ secondary = part.slice(0, sec.index + sec[0].length); part = part.slice(sec.index + sec[0].length); }
+        const im = part.trim().match(RE_CITE_ITEM);
+        if (!im || !looksLikeAuthor(im[1].replace(RE_PREFIX, ''))) continue;
+        items.push({authorText: im[1].trim(), sep: im[2], years: im[3], rest: im[4] || '', prefix: prefix + secondary});
+      }
+      if (items.length) units.push({kind:'paren', para:pi, start:m.index, end:m.index + m[0].length,
+                                    raw:m[0], items, commaSep, preText: para.slice(Math.max(0, m.index - 160), m.index)});
+    }
+  });
+  return units;
+}
+
+/* หาชื่อผู้แต่งที่อยู่หน้าวงเล็บปี สำหรับการอ้างแบบในประโยค เช่น Smith and Lee (2020) */
+let NARR_REFS = [];
+function narrativeAuthor(pre){
+  const trailingComma = /,\s*$/.test(pre);
+  const p = pre.replace(/,?\s*$/, '');
+  const lastCh = p.slice(-1);
+  if (!lastCh) return null;
+  if (RE_THAI.test(lastCh)){
+    /* ภาษาไทยไม่เว้นวรรคระหว่างคำ จึงเทียบกับชื่อผู้แต่งในรายการท้ายเล่มโดยตรง */
+    let best = null;
+    const tail = p.slice(-160), off = p.length - tail.length;
+    for (const r of NARR_REFS){
+      if (!r.thai || !r.names.length) continue;
+      const nre = new RegExp(r.names[0].display.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s*') + '(?![ก-๙])', 'g');
+      let mm, last = -1;
+      while ((mm = nre.exec(tail))) last = mm.index;
+      if (last < 0) continue;
+      const span = tail.slice(last);
+      let left = span;
+      r.names.forEach(n => { left = left.replace(n.display, ''); });
+      left = left.replace(/และ\s*คณะ|และ|,|\s/g, '');
+      if (left.length <= 2 && (!best || last > best.at)) best = {at:last, text:span.trim()};
+    }
+    if (best) return {text:best.text, len:p.length - (off + best.at) + (pre.length - p.length), comma:trailingComma};
+    if (/(ปี|พ\.ศ\.|ค\.ศ\.|ฉบับ|ประจำปี|งบประมาณ|การศึกษา)$/.test(p)) return null;
+    const toks = p.trim().split(/\s+/).slice(-2).join(' ');
+    return {text:toks, len:toks.length + (pre.length - p.length), comma:trailingComma, unsure:true};
+  }
+  /* ภาษาอังกฤษ: ไล่คำย้อนหลังที่ขึ้นต้นด้วยตัวพิมพ์ใหญ่ และคำเชื่อม and, &, et al. */
+  const toks = p.split(/(\s+)/);
+  const words = [];
+  let lower = 0;
+  for (let k = toks.length - 1; k >= 0; k--){
+    const w = toks[k];
+    if (/^\s+$/.test(w)) continue;
+    const bare = w.replace(/,$/, '');
+    let ok = false;
+    if (/^(et\.?|al\.?|and|&)$/i.test(bare)) ok = true;
+    else if (/^(of|for|the|on|in|de|van|von|der|den|da|di|du|la|le)$/.test(bare)){ ok = ++lower <= 2; }
+    else if (/^(\p{Lu}[\p{L}\p{M}'’\-]*|\[[A-Z&]+\])$/u.test(bare.replace(/['’]s$/, ''))){ ok = true; lower = 0; }
+    if (!ok) break;
+    words.unshift(w);
+    if (words.length > 16) break;
+  }
+  while (words.length && /^(of|for|the|on|in|and|&|et\.?|al\.?)$/i.test(words[0].replace(/,$/, ''))) words.shift();
+  if (!words.length) return null;
+  /* เลือกจุดเริ่มต้นที่ตรงกับผู้แต่งในรายการท้ายเล่มก่อน (ยาวที่สุด) */
+  const STOP = /^(In|According|As|The|However|This|These|That|Moreover|Furthermore|Similarly|Also|Although|While|When|Recently|Previously|Thus|Therefore|A|An|For|From|By|Based|Following|Unlike|Like|Both|Studies|Study|Research|Findings|Results|Data|Our|We|It|Then|Later|Here|Notably|Additionally|Interestingly|Nevertheless|Meanwhile|Consequently|Indeed|Overall|Finally|First|Second|Third|Lastly|Especially|Specifically)$/;
+  let pick = -1;
+  for (let s = 0; s < words.length && pick < 0; s++){
+    if (!/^\p{Lu}|^\[/u.test(words[s])) continue;
+    const pc = parseCiteAuthors(words.slice(s).join(' '));
+    if (pc.names.length && NARR_REFS.some(r => r.names.length && (r.names[0].key === pc.names[0].key || r.full === pc.fullKey)))
+      pick = s;
+    else if (pc.names.length === 1 && NARR_REFS.some(r => r.group && r.initials && r.initials === pc.names[0].key))
+      pick = s;
+  }
+  let unsure = false;
+  if (pick < 0){
+    pick = 0;
+    while (pick < words.length - 1 && STOP.test(words[pick].replace(/,$/, ''))) pick++;
+    if (words.length - pick > 6) pick = words.length - 3;
+    if (STOP.test(words[pick].replace(/,$/, ''))) return null;
+    unsure = true;
+  }
+  const text = words.slice(pick).join(' ');
+  const len = p.length - p.lastIndexOf(text) + (pre.length - p.length);
+  return {text, len, comma:trailingComma, unsure};
+}
+
+/* ---- รูปแบบผู้แต่งที่ถูกต้องตามจำนวนผู้แต่งในรายการท้ายเล่ม ---- */
+function expectedAuthor(r, kind){
+  const n = r.names.map(x => x.display);
+  if (r.group || n.length === 1) return n[0];
+  if (r.thai) return n.length === 2 ? n[0] + ' และ ' + n[1] : n[0] + ' และคณะ';
+  if (n.length === 2) return n[0] + (kind === 'paren' ? ' & ' : ' and ') + n[1];
+  return n[0] + ' et al.';
+}
+
+function fixLoc(rest, thai, issues, label){
+  let loc = rest.replace(/^\s*,?\s*/, '').trim();
+  if (!loc) return '';
+  if (!RE_LOC.test(loc)) return loc;          /* ไม่ใช่เลขหน้า คงไว้ตามเดิม */
+  if (!/^\s*,/.test(rest)) issues.push({sev:'e', title:label + 'ไม่มีจุลภาคหน้าเลขหน้า',
+      detail:'คั่นปีกับเลขหน้าด้วยจุลภาค เช่น (Smith, 2020, p. 25)', rule:'APA 7 · 8.13 การอ้างคำพูดโดยตรง'});
+  const range = /\d+\s*[–\-]\s*\d+/.test(loc);
+  const num = (loc.match(/[\dก-๙]+(?:\s*[–\-]\s*[\dก-๙]+)?\s*$/) || [''])[0].replace(/\s*-\s*/, '–');
+  if (/^(page|pages|pg)\b\.?|^P\./.test(loc)){
+    issues.push({sev:'e', title:label + 'เขียนเลขหน้าผิดรูปแบบ', detail:'ภาษาอังกฤษใช้ p. (หน้าเดียว) หรือ pp. (หลายหน้า) เช่น p. 25, pp. 25–27',
+      rule:'APA 7 · 8.13 การอ้างคำพูดโดยตรง'});
+    return (range ? 'pp. ' : 'p. ') + num;
+  }
+  if (/^หน้า/.test(loc)){
+    issues.push({sev:'e', title:label + 'ใช้คำว่า “หน้า” ในการอ้างอิง', detail:'ฉบับภาษาไทยใช้ตัวย่อ น. เช่น (สมชาย ใจดี, 2563, น. 25)',
+      rule:'ฉบับภาษาไทย · เลขหน้า'});
+    return 'น. ' + num;
+  }
+  if (/^pp?\./.test(loc)){
+    if (/^p\.\s*\d+\s*[–\-]/.test(loc)) issues.push({sev:'e', title:label + 'ใช้ p. กับช่วงหลายหน้า', detail:'หลายหน้าใช้ pp. เช่น pp. 25–27', rule:'APA 7 · 8.13'});
+    else if (/^pp\.\s*\d+\s*$/.test(loc)) issues.push({sev:'e', title:label + 'ใช้ pp. กับหน้าเดียว', detail:'หน้าเดียวใช้ p. เช่น p. 25', rule:'APA 7 · 8.13'});
+    else if (/^pp?\.\d/.test(loc)) issues.push({sev:'w', title:label + 'ไม่เว้นวรรคหลัง p.', detail:'เว้นวรรค 1 ระยะ เช่น p. 25', rule:'APA 7 · 8.13'});
+    else if (/\d\s*-\s*\d/.test(loc)) issues.push({sev:'w', title:label + 'ช่วงเลขหน้าใช้ยัติภังค์ (-)', detail:'ใช้ en dash (–) เช่น pp. 25–27', rule:'APA 7 · เลขหน้า'});
+    if (/^\d/.test(num)) return (range ? 'pp. ' : 'p. ') + num;
+  }
+  if (/^น\./.test(loc)){
+    if (/\d\s*-\s*\d/.test(loc)) issues.push({sev:'w', title:label + 'ช่วงเลขหน้าใช้ยัติภังค์ (-)', detail:'ใช้ en dash (–) เช่น น. 25–27', rule:'APA 7 · เลขหน้า'});
+    return 'น. ' + num;
+  }
+  if (/^pp?\s+\d/.test(loc)){
+    issues.push({sev:'e', title:label + 'p/pp ไม่มีจุด', detail:'เขียน p. หรือ pp. โดยมีจุด เช่น p. 25', rule:'APA 7 · 8.13'});
+    return (range ? 'pp. ' : 'p. ') + num;
+  }
+  return loc;
+}
+
+/* ---- ตรวจรูปแบบและจับคู่ทีละจุด ---- */
+function checkInText(body, items){
+  const R = buildRefIndex(items);
+  NARR_REFS = R;
+  const units = extractCitations(body);
+  const abbrMap = {};
+
+  const lookup = (pc, preText) => {
+    const first = pc.names[0];
+    if (!first && !pc.abbr) return {cands:[], via:''};
+    let c = first ? R.filter(r => r.names.length && (r.names[0].key === first.key || (r.full && r.full === pc.fullKey))) : [];
+    if (c.length) return {cands:c, via:'name'};
+    const ab = (pc.abbr || (pc.names.length === 1 && /^[A-Z][A-Za-z&]{1,11}$/.test(first.display) ? first.display : '')).toLowerCase();
+    if (ab && abbrMap[ab]){ c = R.filter(r => r.full === abbrMap[ab]); if (c.length) return {cands:c, via:'abbr'}; }
+    if (ab){
+      c = R.filter(r => r.group && r.initials === ab.replace(/&/g, ''));
+      if (c.length){
+        const declared = nameKey(preText || '').includes(c[0].full);   /* World Health Organization (WHO, 2020) */
+        if (declared) abbrMap[ab] = c[0].full;
+        return {cands:c, via: declared ? 'abbr' : 'initials'};
+      }
+    }
+    if (pc.thai && first){                 /* ใช้เฉพาะนามสกุลหรือเฉพาะชื่อต้น */
+      c = R.filter(r => r.thai && !r.group && r.names.length && r.names[0].display.split(/\s+/).some(w => nameKey(w) === first.key));
+      if (c.length) return {cands:c, via:'partial'};
+    }
+    return {cands:[], via:''};
+  };
+
+  for (const u of units){
+    u.issues = [];
+    const multi = u.items.length > 1;
+    const add = (sev, title, detail, rule) => u.issues.push({sev, title, detail, rule});
+    if (u.commaSep) add('e', 'ใช้จุลภาคคั่นระหว่างแหล่งอ้างอิง',
+      'การอ้างหลายแหล่งในวงเล็บเดียวกันให้คั่นด้วยอัฒภาค (;) เช่น (Lee, 2019; Smith, 2020)', 'APA 7 · 8.12 การอ้างหลายแหล่ง');
+    if (u.kind === 'narr' && u.pre.comma) add('e', 'มีจุลภาคก่อนวงเล็บปี',
+      'การอ้างในประโยคเขียนชื่อผู้แต่งแล้วตามด้วยวงเล็บปีทันที เช่น Smith et al. (2020)', 'APA 7 · 8.11 การอ้างในประโยค');
+
+    for (const it of u.items){
+      const label = multi ? '[' + it.authorText.replace(/\s*\[[^\]]*\]/, '').slice(0, 28) + '] ' : '';
+      const iss = [];
+      const pc = parseCiteAuthors(it.authorText);
+      it.pc = pc;
+      it.years = it.years.split(/\s*,\s*/).map(parseYearTok).filter(Boolean);
+      const thai = pc.thai;
+      const A = it.authorText;
+
+      /* --- รูปแบบ (ไม่ต้องพึ่งรายการท้ายเล่ม) --- */
+      if (u.kind === 'paren' && !/,/.test(it.sep)) iss.push({sev:'e', title:'ไม่มีจุลภาคคั่นผู้แต่งกับปี',
+        detail:'ในวงเล็บต้องมีจุลภาคระหว่างชื่อผู้แต่งกับปี เช่น (Smith, 2020) หรือ (สมชาย ใจดี, 2563)', rule:'APA 7 · 8.11 การอ้างในวงเล็บ'});
+      if (thai && /&/.test(A)) iss.push({sev:'e', title:'ใช้ & ในการอ้างอิงภาษาไทย',
+        detail:'ภาษาไทยใช้คำว่า “และ” เชื่อมผู้แต่ง เช่น (สมชาย ใจดี และ สมหญิง รักเรียน, 2563)', rule:'ฉบับภาษาไทย · ผู้แต่ง 2 คน'});
+      else if (!thai && u.kind === 'paren' && /\sand\s/.test(A) && !ORG_EN.test(A)) iss.push({sev:'e', title:'ใช้คำว่า and ในวงเล็บ', org:true,
+        detail:'การอ้างในวงเล็บใช้เครื่องหมาย & เช่น (Smith & Lee, 2020) ส่วนคำว่า and ใช้เมื่ออ้างในประโยค', rule:'APA 7 · 8.17 ผู้แต่ง 2 คน'});
+      else if (!thai && u.kind === 'narr' && /&/.test(A) && !ORG_EN.test(A)) iss.push({sev:'e', title:'ใช้ & ในประโยค', org:true,
+        detail:'การอ้างในประโยคใช้คำว่า and เช่น Smith and Lee (2020) ส่วน & ใช้เฉพาะในวงเล็บ', rule:'APA 7 · 8.17 ผู้แต่ง 2 คน'});
+      if (/\bet\.\s*al|\bet\s+al(?!\.)|\bet\.al|\betal\b/i.test(A)) iss.push({sev:'e', title:'เขียน et al. ไม่ถูกต้อง',
+        detail:'เขียนเป็น et al. (ไม่มีจุดหลัง et และมีจุดหลัง al)', rule:'APA 7 · 8.17'});
+      if (/^[^,]+,\s*et\.?\s*al/i.test(A)) iss.push({sev:'e', title:'มีจุลภาคหน้า et al.',
+        detail:'ผู้แต่งคนเดียวตามด้วย et al. ไม่ต้องมีจุลภาคคั่น เช่น (Smith et al., 2020)', rule:'APA 7 · 8.17'});
+      if (/และ\s+คณะ/.test(A)) iss.push({sev:'w', title:'เว้นวรรคระหว่าง “และ” กับ “คณะ”',
+        detail:'ฉบับภาษาไทยเขียน “และคณะ” ติดกัน', rule:'ฉบับภาษาไทย · ผู้แต่ง 3 คนขึ้นไป'});
+      if (pc.initials) iss.push({sev:'w', title:'ใส่อักษรย่อชื่อต้นในการอ้างอิงในเนื้อหา',
+        detail:'ในเนื้อหาใช้เฉพาะนามสกุล เช่น (Smith, 2020) — ใส่อักษรย่อได้เฉพาะกรณีมีผู้แต่งต่างคนที่นามสกุลเดียวกัน', rule:'APA 7 · 8.20'});
+
+      /* --- จับคู่กับรายการท้ายเล่ม --- */
+      const lk = lookup(pc, u.kind === 'narr' ? '' : u.preText);
+      it.refs = [];
+      let matched = null;
+      if (pc.abbr && lk.cands.length) abbrMap[pc.abbr.toLowerCase()] = lk.cands[0].full;
+      /* ชื่อหน่วยงานมีคำว่า and ได้ เช่น Centers for Disease Control and Prevention */
+      if (lk.cands.length && lk.cands[0].group) for (let q = iss.length - 1; q >= 0; q--) if (iss[q].org) iss.splice(q, 1);
+      if (!lk.cands.length){
+        if (!R.length) {/* ไม่มีรายการท้ายเล่มให้เทียบ */}
+        else if (u.kind === 'narr' && u.pre.unsure) iss.push({sev:'w', title:'ไม่พบผู้แต่งนี้ในรายการอ้างอิง',
+          detail:'ระบบเห็นปีในวงเล็บหลังคำว่า “' + it.authorText + '” แต่ไม่พบผู้แต่งชื่อนี้ในรายการท้ายเล่ม หากเป็นการอ้างอิง ต้องเพิ่มลงรายการอ้างอิง หรือตรวจการสะกดชื่อให้ตรงกัน',
+          rule:'APA 7 · 8.4 ความสอดคล้องเนื้อหากับรายการอ้างอิง'});
+        else iss.push({sev:'e', title:'ไม่พบในรายการอ้างอิงท้ายเล่ม',
+          detail:'ทุกแหล่งที่อ้างในเนื้อหาต้องมีในรายการอ้างอิง (ยกเว้นการสื่อสารส่วนบุคคล) ตรวจว่าลืมใส่ หรือสะกดชื่อผู้แต่งไม่ตรงกัน',
+          rule:'APA 7 · 8.4 ความสอดคล้องเนื้อหากับรายการอ้างอิง'});
+      } else {
+        if (lk.via === 'partial') iss.push({sev:'e', title:'ระบุชื่อผู้แต่งไทยไม่ครบ',
+          detail:'ผู้แต่งชาวไทยให้ระบุทั้งชื่อและนามสกุล เช่น (สมชาย ใจดี, 2563) ไม่ใช้นามสกุลหรือชื่ออย่างเดียว', rule:'ฉบับภาษาไทย · ผู้แต่ง'});
+        if (lk.via === 'initials') iss.push({sev:'w', title:'ใช้ชื่อย่อหน่วยงานโดยยังไม่ได้ประกาศชื่อเต็ม',
+          detail:'ครั้งแรกให้เขียนชื่อเต็มตามด้วยตัวย่อ เช่น (' + lk.cands[0].names[0].display + ' [' + pc.names[0].display + '], ' + (it.years[0] || {}).text + ') ครั้งต่อไปจึงใช้ตัวย่อ',
+          rule:'APA 7 · 8.21 ผู้แต่งเป็นหน่วยงาน'});
+        for (const y of it.years){
+          const exact = lk.cands.filter(r => r.yearKey === y.key);
+          if (exact.length){
+            const fit = r => {
+              const n = r.names.length;
+              if (r.group || n === 1) return pc.etal ? 1 : 3;
+              if (n === 2) return (!pc.etal && pc.names[1] && pc.names[1].key === r.names[1].key) ? 3 : 1;
+              return pc.etal ? 3 : 2;
+            };
+            const r = exact.sort((a, b) => fit(b) - fit(a))[0];
+            r.cites++; it.refs.push(r.i); matched = matched || r;
+            continue;
+          }
+          const sameBase = lk.cands.filter(r => r.yearBase === y.base);
+          const have = [...new Set(lk.cands.map(r => r.yearKey).filter(Boolean))];
+          if (sameBase.length) iss.push({sev:'e', title:'อักษรต่อท้ายปีไม่ตรงกับรายการอ้างอิง',
+            detail:'ในเนื้อหาเขียน ' + y.text + ' แต่ในรายการท้ายเล่มของผู้แต่งนี้เป็น ' + have.join(', ') + ' ต้องใช้ให้ตรงกันทั้ง 2 ที่',
+            rule:'APA 7 · 8.19 ผู้แต่งเดียวกันปีเดียวกัน'});
+          else {
+            const be = have.some(h => /^\d{4}$/.test(h) && /^\d{4}$/.test(y.base) && Math.abs(+h - +y.base) === 543);
+            iss.push({sev:'e', title:'ปีไม่ตรงกับรายการอ้างอิง',
+              detail:'ในเนื้อหาเขียน ' + y.text + ' แต่ในรายการท้ายเล่มของผู้แต่งนี้เป็น ' + have.join(', ') +
+                (be ? ' (ต่างกัน 543 ปี — น่าจะใช้ พ.ศ. กับ ค.ศ. ปนกัน ต้องใช้ศักราชเดียวกับรายการอ้างอิง)' : ' ตรวจกับต้นฉบับแล้วแก้ให้ตรงกัน'),
+              rule:'APA 7 · 8.4 ความสอดคล้องเนื้อหากับรายการอ้างอิง'});
+          }
+        }
+        /* จำนวนผู้แต่ง: เทียบกับรายการท้ายเล่มที่จับคู่ได้ */
+        const r = matched || lk.cands[0];
+        const n = r.names.length;
+        if (!r.group && !r.truncated && lk.via !== 'abbr' && lk.via !== 'initials'){
+          if (n === 1 && pc.etal) iss.push({sev:'e', title:'ผู้แต่งมีคนเดียว แต่ใช้ ' + (thai ? 'และคณะ' : 'et al.'),
+            detail:'รายการท้ายเล่มมีผู้แต่ง 1 คน ให้อ้างชื่อนั้นอย่างเดียว', rule:'APA 7 · 8.17'});
+          if (n === 2 && pc.etal) iss.push({sev:'e', title:'ผู้แต่ง 2 คน ต้องระบุทั้ง 2 คนทุกครั้ง',
+            detail:'APA 7 ไม่ใช้ ' + (thai ? 'และคณะ' : 'et al.') + ' กับผู้แต่ง 2 คน ให้เขียนครบทั้ง 2 ชื่อทุกครั้งที่อ้าง', rule:'APA 7 · 8.17 ผู้แต่ง 2 คน'});
+          else if (n === 2 && pc.names.length === 1) iss.push({sev:'e', title:'ระบุผู้แต่งไม่ครบ 2 คน',
+            detail:'รายการท้ายเล่มมีผู้แต่ง 2 คน ต้องเขียนทั้ง 2 ชื่อทุกครั้งที่อ้าง', rule:'APA 7 · 8.17 ผู้แต่ง 2 คน'});
+          else if (n === 2 && pc.names[1] && pc.names[1].key !== r.names[1].key) iss.push({sev:'w', title:'ชื่อผู้แต่งคนที่ 2 ไม่ตรงกับรายการอ้างอิง',
+            detail:'ในรายการท้ายเล่มเป็น “' + r.names[1].display + '” ตรวจการสะกดให้ตรงกัน', rule:'APA 7 · 8.4'});
+          if (n >= 3 && !pc.etal) iss.push({sev:'e', title:'ผู้แต่ง 3 คนขึ้นไป ต้องใช้ ' + (thai ? '“และคณะ”' : 'et al.') + ' ตั้งแต่ครั้งแรก',
+            detail:'APA 7 เปลี่ยนจาก APA 6: ผู้แต่งตั้งแต่ 3 คนให้ใส่ชื่อคนแรกตามด้วย ' + (thai ? 'และคณะ' : 'et al.') + ' ทุกครั้ง รวมถึงการอ้างครั้งแรก',
+            rule:'APA 7 · 8.17 ผู้แต่ง 3 คนขึ้นไป'});
+        }
+        it.ref = r;
+      }
+      if (!lk.cands.length && pc.names.length >= 3 && !pc.etal) iss.push({sev:'e', title:'ผู้แต่ง 3 คนขึ้นไป ต้องใช้ ' + (thai ? '“และคณะ”' : 'et al.'),
+        detail:'ใส่ชื่อผู้แต่งคนแรกตามด้วย ' + (thai ? 'และคณะ' : 'et al.') + ' ตั้งแต่การอ้างครั้งแรก', rule:'APA 7 · 8.17'});
+
+      /* --- ข้อความที่ควรเขียน --- */
+      let author;
+      if (it.ref && !it.ref.group && !it.ref.truncated && lk.via === 'name' && it.refs.length) author = expectedAuthor(it.ref, u.kind);
+      else if (it.ref && (lk.via === 'abbr' || lk.via === 'initials' || it.ref.group)) author = it.authorText.replace(/\s+/g, ' ');
+      else if (it.ref && lk.via === 'partial') author = expectedAuthor(it.ref, u.kind);
+      else {
+        const nm = pc.names.map(x => x.display);
+        author = (pc.etal || nm.length >= 3) ? nm[0] + (thai ? ' และคณะ' : ' et al.')
+               : nm.length === 2 ? nm[0] + (thai ? ' และ ' : (u.kind === 'paren' ? ' & ' : ' and ')) + nm[1]
+               : (nm[0] || it.authorText);
+        if (pc.abbr) author += ' [' + pc.abbr + ']';
+      }
+      const loc = fixLoc(it.rest, thai, iss, label);
+      it.fixed = {author, years: it.years.map(y => y.text).join(', '), loc};
+      iss.forEach(x => { x.title = (x.title.startsWith(label) ? '' : label) + x.title; u.issues.push(x); });
+    }
+
+    /* หลายแหล่งในวงเล็บเดียว: เรียงตามตัวอักษรเหมือนรายการท้ายเล่ม */
+    const sortKey = it => (RE_THAI.test(it.fixed.author) ? '0' : '1') + it.fixed.author;
+    let order = u.items;
+    if (u.kind === 'paren' && u.items.length > 1 && !u.items.slice(1).some(it => it.prefix)){
+      const sorted = [...u.items].sort((a, b) => sortKey(a).localeCompare(sortKey(b), 'th'));
+      if (sorted.some((it, k) => it !== u.items[k])){
+        add('w', 'เรียงแหล่งอ้างอิงในวงเล็บยังไม่ตามตัวอักษร',
+          'เมื่ออ้างหลายแหล่งในวงเล็บเดียว ให้เรียงตามลำดับเดียวกับรายการท้ายเล่ม (ก–ฮ แล้วตามด้วย A–Z)', 'APA 7 · 8.12 การอ้างหลายแหล่ง');
+        order = sorted;
+      }
+    }
+    const itemStr = it => it.prefix + it.fixed.author + ', ' + it.fixed.years + (it.fixed.loc ? ', ' + it.fixed.loc : '');
+    u.suggest = u.kind === 'narr'
+      ? u.items[0].fixed.author + ' (' + u.items[0].fixed.years + (u.items[0].fixed.loc ? ', ' + u.items[0].fixed.loc : '') + ')'
+      : '(' + order.map(itemStr).join('; ') + ')';
+    if (u.suggest.replace(/\s+/g, ' ').trim() === u.raw.replace(/\s+/g, ' ').trim()) u.suggest = '';
+    /* ปีไม่ตรงหรือหาแหล่งไม่พบ ระบบเดาข้อมูลที่ถูกแทนไม่ได้ */
+    u.needsManual = u.issues.some(x => /ไม่พบ|ปีไม่ตรง|อักษรต่อท้ายปี|ชื่อผู้แต่งคนที่ 2/.test(x.title));
+    u.refs = [...new Set(u.items.flatMap(it => it.refs || []))];
+    u.sev = u.issues.some(x => x.sev === 'e') ? 'e' : (u.issues.length ? 'w' : '');
+  }
+  return {units, refs: R, uncited: R.filter(r => r.cites === 0), hasRefs: R.length > 0};
 }
 
 /* ============================================================
@@ -1304,7 +1825,9 @@ function analyzeList(items){
    ============================================================ */
 const MAX_ITEMS = 300, SOFT_LIMIT = 150, CHUNK = 20;
 const $ = id => document.getElementById(id);
-let STATE = {items:[], notes:[], filter:'all', src:'paste', typeOverrides:{}};
+const freshState = () => ({items:[], notes:[], filter:'all', src:'paste', typeOverrides:{},
+                           cites:null, body:[], tab:'refs', cfilter:'all'});
+let STATE = freshState();
 
 function highlight(raw, issues){
   const taken = [];
@@ -1465,6 +1988,7 @@ function cardHTML(item, i){
         (conf !== 'high' ? '<span class="tag guess" title="' + esc(rankText(item.typeInfo)) + '">' +
         (conf === 'medium' ? 'ประเภทอาจคลาดเคลื่อน' : 'เดาประเภทไม่ชัด') + '</span>' : '')) +
        '<span class="tag lang">' + (item.lang === 'th' ? 'ไทย' : 'อังกฤษ') + '</span>' +
+       citedTag(i) +
        '<span class="verdict">' + verdict + '</span></div>';
 
   /* 7) จุดที่ไม่ตรงตามหลักเกณฑ์ */
@@ -1507,18 +2031,50 @@ function cardHTML(item, i){
   return h;
 }
 
+/* ป้ายบนการ์ดรายการอ้างอิง: ถูกอ้างในเนื้อหากี่ครั้ง */
+function citedTag(i){
+  const C = STATE.cites;
+  if (!C || !C.units || !C.units.length || !C.refs[i]) return '';
+  const n = C.refs[i].cites;
+  return n ? '<span class="tag cited">อ้างในเนื้อหา ' + n + ' ครั้ง</span>'
+           : '<span class="tag uncited-tag">ไม่พบการอ้างในเนื้อหา</span>';
+}
+
+function tabsHTML(){
+  const items = STATE.items, C = STATE.cites;
+  const e = items.filter(r => r.issues.some(x => x.sev === 'e')).length;
+  const w = items.filter(r => !r.issues.some(x => x.sev === 'e') && r.issues.length).length;
+  let sub2;
+  if (!C) sub2 = 'ปิดการตรวจไว้ — เปิดได้ที่ตัวเลือกด้านซ้าย';
+  else if (C.noBody) sub2 = 'ยังไม่มีเนื้อหาให้ตรวจ — กดเพื่อดูวิธีใส่';
+  else {
+    const ce = C.units.filter(u => u.sev === 'e').length, cw = C.units.filter(u => u.sev === 'w').length;
+    sub2 = C.units.length + ' จุด · ' + (ce ? '<span class="e">ต้องแก้ ' + ce + '</span>' : '<span class="p">ไม่มีจุดต้องแก้</span>') +
+           (cw ? ' · <span class="w">ตรวจทาน ' + cw + '</span>' : '') +
+           (C.units.length && C.uncited.length ? ' · <span class="e">ไม่ถูกอ้าง ' + C.uncited.length + ' รายการ</span>' : '');
+  }
+  return '<div class="tabs" role="tablist">' +
+    '<button class="tab" role="tab" data-tab="refs" aria-selected="' + (STATE.tab === 'refs') + '"><b>① รายการอ้างอิงท้ายเล่ม</b><small>' +
+      items.length + ' รายการ · ' + (e ? '<span class="e">ต้องแก้ ' + e + '</span>' : '<span class="p">ไม่มีรายการต้องแก้</span>') +
+      (w ? ' · <span class="w">ตรวจทาน ' + w + '</span>' : '') + '</small></button>' +
+    '<button class="tab" role="tab" data-tab="cites" aria-selected="' + (STATE.tab === 'cites') + '"><b>② การอ้างอิงในเนื้อหา</b><small>' + sub2 + '</small></button>' +
+    '</div>';
+}
+
 function render(){
   const box = $('results');
   const items = STATE.items;
-  if (!items.length){
-    box.innerHTML = '<div class="empty"><h3>ไม่พบรายการอ้างอิง</h3><p>ตรวจสอบว่าแต่ละรายการอยู่คนละย่อหน้า หรือปิดตัวเลือก “ตัดเฉพาะส่วนรายการอ้างอิง” หากไฟล์ไม่มีหัวข้อนั้น</p></div>';
+  const C = STATE.cites;
+  if (!items.length && !(C && C.units && C.units.length)){
+    box.innerHTML = '<div class="empty"><h3>ไม่พบรายการอ้างอิง</h3><p>ตรวจสอบว่าแต่ละรายการอยู่คนละย่อหน้า หรือปิดตัวเลือก “แยกเนื้อหากับรายการอ้างอิง” หากไฟล์ไม่มีหัวข้อรายการอ้างอิง</p></div>';
     return;
   }
+  if (STATE.tab === 'cites'){ renderCites(box); return; }
   const errN = items.filter(r => r.issues.some(x => x.sev === 'e')).length;
   const warnN = items.filter(r => !r.issues.some(x => x.sev === 'e') && r.issues.length).length;
   const okN = items.length - errN - warnN;
 
-  let head = '';
+  let head = tabsHTML();
   if (STATE.src === 'paste')
     head += '<div class="notice">ข้อความที่วางมาไม่มีข้อมูลตัวเอียง ระบบจึงข้ามการตรวจตัวเอียงของชื่อวารสาร ชื่อหนังสือ และชื่อเรื่อง — อัปโหลดไฟล์ .docx เพื่อให้ตรวจส่วนนี้ด้วย</div>';
   if (items.length > SOFT_LIMIT)
@@ -1560,15 +2116,125 @@ function render(){
   })();
 }
 
+/* ---------- แท็บการอ้างอิงในเนื้อหา ---------- */
+function snippet(para, start, end){
+  start = Math.max(0, start); end = Math.min(para.length, end);
+  const a = Math.max(0, start - 80), b = Math.min(para.length, end + 50);
+  let s0 = a > 0 ? para.lastIndexOf(' ', a) : 0;
+  if (s0 < 0 || a - s0 > 25) s0 = a;
+  let e0 = para.indexOf(' ', b);
+  if (e0 < 0 || e0 - b > 25) e0 = b;
+  return (s0 > 0 ? '… ' : '') + esc(para.slice(s0, start).trimStart()) + '<mark>' + esc(para.slice(start, end)) + '</mark>' +
+         esc(para.slice(end, e0)) + (e0 < para.length ? ' …' : '');
+}
+
+const shortRef = raw => raw.length > 150 ? raw.slice(0, 147) + '…' : raw;
+
+function citeCardHTML(u, k){
+  const C = STATE.cites;
+  const ctx = snippet(STATE.body[u.para] || '', u.start, u.end);
+  const refLine = u.refs.length
+    ? '<div class="refline">ตรงกับ' + u.refs.map(i => '<b>รายการอ้างอิงที่ ' + (i + 1) + '</b> — ' + esc(shortRef(C.refs[i].raw))).join('<br>และ') + '</div>' : '';
+  if (!u.issues.length){
+    return '<article class="card ok mini"><div class="rail"><span class="idx">' + (k + 1) + '</span><span class="glyph">✓</span></div>' +
+      '<div class="card-body"><div class="ctx">' + ctx + '</div>' + refLine + '</div></article>';
+  }
+  const errs = u.issues.filter(x => x.sev === 'e').length, warns = u.issues.length - errs;
+  const cls = errs ? 'err' : 'warn';
+  let h = '<article class="card ' + cls + '"><div class="rail"><span class="idx">' + (k + 1) + '</span><span class="glyph">' + (errs ? '✕' : '!') + '</span></div>';
+  h += '<div class="card-body"><div class="card-top">' +
+       '<span class="tag">' + (u.kind === 'paren' ? 'อ้างในวงเล็บ' : 'อ้างในประโยค') + '</span>' +
+       '<span class="lead-in">ย่อหน้าที่ ' + (u.para + 1) + ' ของเนื้อหา</span>' +
+       '<span class="verdict">' + (errs ? 'ต้องแก้ไข ' + errs + ' จุด' : 'ควรตรวจทาน ' + warns + ' จุด') + '</span></div>';
+  h += '<div class="ctx">' + ctx + '</div>';
+  h += '<div class="sec-label">จุดที่ไม่ตรงตามหลักเกณฑ์</div><ol class="issues">' + u.issues.map((iss, n) =>
+       '<li class="' + (iss.sev === 'w' ? 'w' : '') + '"><span class="num">' + (n + 1) + '</span><span class="txt"><strong>' + esc(iss.title) +
+       '</strong><span>' + esc(iss.detail) + '</span><span class="rule">' + esc(iss.rule) + '</span></span></li>').join('') + '</ol>';
+  if (u.suggest){
+    h += '<div class="sec-label">' + (u.needsManual ? 'ข้อเสนอ — ตรวจข้อมูลกับต้นฉบับก่อน' : 'ควรเขียนเป็น') + '</div>' +
+         '<div class="fixbox plain' + (u.needsManual ? ' draft' : '') + '">' + esc(u.suggest) +
+         (u.needsManual ? '<span class="warnline">ระบบแก้รูปแบบให้แล้ว แต่ชื่อผู้แต่งหรือปียังไม่ตรงกับรายการท้ายเล่ม ต้องตรวจกับต้นฉบับว่าฝั่งไหนถูก แล้วแก้ให้ตรงกันทั้ง 2 ที่</span>' : '') +
+         '</div><button class="copy" data-ccopy="' + k + '">คัดลอก</button>';
+  }
+  h += refLine + '</div></article>';
+  return h;
+}
+
+const CHEAT = '<details class="tmpl" style="margin-bottom:16px"><summary>รูปแบบการอ้างอิงในเนื้อหา APA 7 (กดเพื่อดูตัวอย่าง)</summary><div class="tmpl-in">' +
+  '<table class="cheat"><tr><th>ผู้แต่ง</th><th>ในวงเล็บ</th><th>ในประโยค</th></tr>' +
+  '<tr><th>1 คน</th><td>(Smith, 2020)<br>(สมชาย ใจดี, 2563)</td><td>Smith (2020)<br>สมชาย ใจดี (2563)</td></tr>' +
+  '<tr><th>2 คน</th><td>(Smith &amp; Lee, 2020)<br>(สมชาย ใจดี และ สมหญิง รักเรียน, 2563)</td><td>Smith and Lee (2020)<br>สมชาย ใจดี และ สมหญิง รักเรียน (2563)</td></tr>' +
+  '<tr><th>3 คนขึ้นไป</th><td>(Smith et al., 2020)<br>(สมชาย ใจดี และคณะ, 2563)</td><td>Smith et al. (2020)<br>สมชาย ใจดี และคณะ (2563)</td></tr>' +
+  '<tr><th>หน่วยงาน (ครั้งแรก)</th><td>(World Health Organization [WHO], 2020)</td><td>World Health Organization (WHO, 2020)</td></tr>' +
+  '<tr><th>หน่วยงาน (ครั้งต่อไป)</th><td>(WHO, 2020)</td><td>WHO (2020)</td></tr>' +
+  '<tr><th>อ้างคำพูดตรง</th><td>(Smith, 2020, p. 25)<br>(สมชาย ใจดี, 2563, น. 25)</td><td>Smith (2020, pp. 25–27)</td></tr>' +
+  '<tr><th>หลายแหล่ง</th><td colspan="2">(Lee, 2019; Smith, 2020) — คั่นด้วย ; และเรียงตามตัวอักษร</td></tr>' +
+  '</table><div class="ex" style="font-size:13px;font-family:var(--sans);color:var(--ink-faint);margin-top:8px;padding-left:0;text-indent:0">' +
+  'หลักสำคัญ: APA 7 ใช้ et al. / และคณะ ตั้งแต่การอ้างครั้งแรกเมื่อมีผู้แต่ง 3 คนขึ้นไป · ผู้แต่ง 2 คนต้องเขียนครบทุกครั้ง · ไทยใช้ชื่อเต็มและ “และ” ไม่ใช้ &</div></div></details>';
+
+function renderCites(box){
+  const C = STATE.cites;
+  let h = tabsHTML();
+  if (!C){
+    box.innerHTML = h + '<div class="empty"><h3>ปิดการตรวจการอ้างอิงในเนื้อหาไว้</h3><p>เปิดตัวเลือก “ตรวจการอ้างอิงในเนื้อหา (in-text)” ที่แผงด้านซ้าย แล้วกด “ตรวจ” อีกครั้ง</p></div>';
+    return;
+  }
+  if (C.noBody){
+    box.innerHTML = h + '<div class="empty"><h3>ยังไม่มีเนื้อหาให้ตรวจ</h3><p>ระบบต้องรู้ว่าส่วนไหนคือเนื้อหา และส่วนไหนคือรายการอ้างอิง<br><br>' +
+      '<b>วิธีที่ 1</b> อัปโหลดไฟล์ .docx ทั้งเล่มที่มีหัวข้อ “รายการอ้างอิง” หรือ “บรรณานุกรม”<br>' +
+      '<b>วิธีที่ 2</b> วางข้อความเรียงเป็น เนื้อหา → บรรทัดที่เขียนว่า <b>รายการอ้างอิง</b> → รายการอ้างอิง<br><br>' +
+      'และเปิดตัวเลือก “แยกเนื้อหากับรายการอ้างอิง” ไว้ · กดปุ่ม “ตัวอย่าง” เพื่อดูรูปแบบที่ถูกต้อง</p></div>' + CHEAT;
+    return;
+  }
+  const U = C.units;
+  const errN = U.filter(u => u.sev === 'e').length, warnN = U.filter(u => u.sev === 'w').length;
+  h += '<div class="notice"><b>ตรวจ 2 เรื่อง:</b> ① รูปแบบการเขียนแต่ละจุดถูกต้องตาม APA 7 หรือไม่ ' +
+       '② อ้างครบตรงกันหรือไม่ — ทุกจุดที่อ้างในเนื้อหาต้องมีในรายการท้ายเล่ม และทุกรายการท้ายเล่มต้องถูกอ้างในเนื้อหาอย่างน้อย 1 ครั้ง</div>';
+  if (!C.hasRefs) h += '<div class="notice warn">ไม่พบรายการอ้างอิงท้ายเล่ม ระบบจึงตรวจได้เฉพาะรูปแบบ ยังจับคู่กับรายการท้ายเล่มไม่ได้</div>';
+  h += '<div class="summary">' +
+    '<div class="stat"><div class="n">' + U.length + '</div><div class="k">จุดอ้างอิงที่พบ</div></div>' +
+    '<div class="stat pass"><div class="n">' + (U.length - errN - warnN) + '</div><div class="k">ถูกต้อง</div></div>' +
+    '<div class="stat flag"><div class="n">' + errN + '</div><div class="k">ต้องแก้ไข</div></div>' +
+    '<div class="stat warn"><div class="n">' + warnN + '</div><div class="k">ควรตรวจทาน</div></div></div>';
+  if (!U.length){
+    h += '<div class="notice warn">ไม่พบการอ้างอิงในเนื้อหาเลย ตรวจว่าการอ้างอิงเขียนเป็น (ผู้แต่ง, ปี) หรือ ผู้แต่ง (ปี) และปีเป็นตัวเลข 4 หลัก</div>';
+  } else if (C.uncited.length){
+    h += '<div class="notice warn"><b>รายการท้ายเล่มที่ไม่พบการอ้างในเนื้อหา (' + C.uncited.length + ' รายการ)</b> — ' +
+         'ต้องอ้างในเนื้อหา หรือลบออกจากรายการอ้างอิง (ระบบเทียบจากชื่อผู้แต่งคนแรกและปี หากสะกดต่างกันเล็กน้อยจะนับว่าไม่พบ)' +
+         '<ol class="uncited" style="margin-top:8px">' + C.uncited.map(r =>
+           '<li><span class="n">รายการที่ ' + (r.i + 1) + '</span> ' + esc(shortRef(r.raw)) + '</li>').join('') + '</ol></div>';
+  } else if (C.hasRefs){
+    h += '<div class="notice"><b>ครบถ้วน:</b> รายการท้ายเล่มทุกรายการถูกอ้างในเนื้อหาอย่างน้อย 1 ครั้ง</div>';
+  }
+  h += CHEAT;
+  const f = STATE.cfilter;
+  h += '<div class="toolbar">' +
+    '<button class="chip" data-cf="all" aria-pressed="' + (f === 'all') + '">ทั้งหมด</button>' +
+    '<button class="chip" data-cf="e" aria-pressed="' + (f === 'e') + '">ต้องแก้ไข</button>' +
+    '<button class="chip" data-cf="w" aria-pressed="' + (f === 'w') + '">ควรตรวจทาน</button>' +
+    '<button class="chip" data-cf="ok" aria-pressed="' + (f === 'ok') + '">ถูกต้อง</button>' +
+    '<span class="spacer"></span><button class="chip" id="expBtn">บันทึกรายงาน (.html)</button></div>';
+  box.innerHTML = h + '<div id="cards"></div>';
+  const view = U.map((u, k) => ({u, k})).filter(({u}) => f === 'all' || (f === 'ok' ? !u.sev : u.sev === f));
+  const target = $('cards');
+  if (!view.length){ target.innerHTML = '<div class="empty"><p>ไม่มีรายการในหมวดนี้</p></div>'; return; }
+  let k = 0;
+  (function paint(){
+    target.insertAdjacentHTML('beforeend', view.slice(k, k + CHUNK).map(({u, k}) => citeCardHTML(u, k)).join(''));
+    k += CHUNK;
+    if (k < view.length) requestAnimationFrame(paint);
+  })();
+}
+
 /* ---------- รายงานสำหรับบันทึก ---------- */
 function buildReport(){
   const d = new Date().toLocaleString('th-TH');
-  let h = '<!DOCTYPE html><html lang="th"><head><meta charset="utf-8"><title>รายงานตรวจรายการอ้างอิง APA 7</title>' +
+  let h = '<!DOCTYPE html><html lang="th"><head><meta charset="utf-8"><title>รายงานตรวจการอ้างอิง APA 7</title>' +
     '<style>body{font-family:"Sarabun","Noto Sans Thai",sans-serif;max-width:900px;margin:30px auto;padding:0 20px;line-height:1.7;color:#111820}' +
     'h1{font-size:22px}h2{font-size:15px;margin:26px 0 6px;border-top:1px solid #ccc;padding-top:14px}' +
     '.ref{background:#F6F8F9;padding:10px;border-left:3px solid #999}.fix{background:#EAF3EE;padding:10px;border-left:3px solid #1C6647}' +
     'li{margin-bottom:6px}.ok{color:#1C6647;font-weight:700}.err{color:#A22A1E;font-weight:700}</style></head><body>';
-  h += '<h1>รายงานตรวจรายการอ้างอิงตามหลัก APA 7</h1><p>วันที่ตรวจ ' + d + ' · จำนวน ' + STATE.items.length + ' รายการ</p>';
+  h += '<h1>รายงานตรวจการอ้างอิงตามหลัก APA 7</h1><p>วันที่ตรวจ ' + d + ' · จำนวน ' + STATE.items.length + ' รายการ</p>';
   STATE.items.forEach((it,i) => {
     const T = TYPES[it.type] || TYPES.unknown;
     const errs = it.issues.filter(x => x.sev === 'e').length;
@@ -1589,6 +2255,20 @@ function buildReport(){
       if (it.fix.notes.length) h += '<p><b class="err">ต้องแก้ในไฟล์เอกสาร:</b> ' + esc(it.fix.notes.join(' · ')) + '</p>';
     }
   });
+  const C = STATE.cites;
+  if (C && C.units){
+    h += '<h1 style="margin-top:40px">การอ้างอิงในเนื้อหา (In-text citation)</h1><p>พบ ' + C.units.length + ' จุด · ต้องแก้ไข ' +
+         C.units.filter(u => u.sev === 'e').length + ' · ควรตรวจทาน ' + C.units.filter(u => u.sev === 'w').length + '</p>';
+    if (C.units.length && C.uncited.length)
+      h += '<p><b class="err">รายการท้ายเล่มที่ไม่พบการอ้างในเนื้อหา:</b></p><ol>' +
+           C.uncited.map(r => '<li>(รายการที่ ' + (r.i + 1) + ') ' + esc(r.raw) + '</li>').join('') + '</ol>';
+    C.units.forEach((u, k) => {
+      if (!u.issues.length) return;
+      h += '<h2>' + (k + 1) + '. ' + esc(u.raw) + ' <span style="font-size:13px;color:#667">(ย่อหน้าที่ ' + (u.para + 1) + ')</span></h2>' +
+           '<ol>' + u.issues.map(x => '<li><b>' + esc(x.title) + '</b> — ' + esc(x.detail) + ' <i>(' + esc(x.rule) + ')</i></li>').join('') + '</ol>';
+      if (u.suggest) h += '<p><b>' + (u.needsManual ? 'ข้อเสนอ (ตรวจกับต้นฉบับก่อน)' : 'ควรเขียนเป็น') + '</b></p><div class="fix">' + esc(u.suggest) + '</div>';
+    });
+  }
   h += '<hr><p style="font-size:12px;color:#667">เกณฑ์: Publication Manual of the APA (7th ed., 2020) และการอ้างอิงสารสนเทศตาม APA 7th ฉบับภาษาไทย (คณะครุศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย, 2564)</p>' +
        '<p style="font-size:12px;color:#667">รายงานนี้จัดทำด้วย APA 7 Reference Checker · © สงวนลิขสิทธิ์ พ.ศ. 2569 ชาญณรงค์ ประสารกก</p></body></html>';
   return h;
@@ -1630,10 +2310,12 @@ async function readDocx(file){
     $('input').value = DOCX_PARAS.map(p => p.text).join('\n\n');
     $('srcTag').textContent = file.name.length > 22 ? file.name.slice(0,20) + '…' : file.name;
     STATE.src = 'docx'; STATE.typeOverrides = {};
+    $('file').value = '';            /* ให้เลือกไฟล์เดิมซ้ำได้ (เช่น หลังแก้ไฟล์แล้วตรวจใหม่) */
     updateCount();
     run();
   }catch(err){
     DOCX_PARAS = null;
+    $('file').value = '';
     $('srcTag').textContent = 'อ่านไฟล์ไม่สำเร็จ';
     alert('เปิดไฟล์นี้ไม่ได้: ' + err.message + '\nรองรับเฉพาะ .docx (ไม่รองรับ .doc รุ่นเก่าและไฟล์ PDF)');
   }
@@ -1645,21 +2327,28 @@ function currentParagraphs(){
 }
 
 function updateCount(){
-  const n = splitReferences(currentParagraphs(), $('optSection').checked).length;
-  $('count').textContent = n + ' รายการ';
+  const d = splitDocument(currentParagraphs(), $('optSection').checked);
+  $('count').textContent = d.refs.length + ' รายการ' + (d.body.length ? ' · เนื้อหา ' + d.body.length + ' ย่อหน้า' : '');
 }
 
 function run(){
   const opts = {strict: $('optStrict').checked, fromDocx: STATE.src === 'docx', langMode: $('optLang').value};
-  let refs = splitReferences(currentParagraphs(), $('optSection').checked);
+  const doc = splitDocument(currentParagraphs(), $('optSection').checked);
+  let refs = doc.refs;
   let trimmed = false;
   if (refs.length > MAX_ITEMS){ refs = refs.slice(0, MAX_ITEMS); trimmed = true; }
   STATE.items = refs.map((r, i) => analyzeOne(r, {...opts, typeOverride:STATE.typeOverrides[i] || ''}));
   STATE.notes = $('optList').checked ? analyzeList(STATE.items) : [];
   if (trimmed) STATE.notes.unshift({sev:'e', text:'ตรวจให้เฉพาะ ' + MAX_ITEMS + ' รายการแรก ส่วนที่เหลือให้แบ่งตรวจรอบถัดไป'});
+  STATE.body = doc.body;
+  STATE.cites = !$('optCite').checked ? null : (doc.body.length ? checkInText(doc.body, STATE.items) : {noBody:true});
+  if (STATE.cites && STATE.cites.units && opts.strict)
+    STATE.cites.units.forEach(u => { u.issues.forEach(i => { if (i.sev === 'w') i.sev = 'e'; }); if (u.sev) u.sev = 'e'; });
+  if (!STATE.items.length && STATE.cites && STATE.cites.units) STATE.tab = 'cites';
   render();
   window.scrollTo({top: 0, behavior: 'smooth'});
 }
+const rerun = () => { if (STATE.items.length || (STATE.cites && STATE.cites.units)) run(); };
 
 /* ============================================================
    ตรวจข้อมูลจริงกับ CrossRef — ทำงานเมื่อผู้ใช้กดปุ่มเท่านั้น
@@ -1777,13 +2466,14 @@ function copyText(text, btn, doneLabel, backLabel){
 /* ---------- events ---------- */
 $('run').addEventListener('click', run);
 $('clear').addEventListener('click', () => {
-  $('input').value = ''; DOCX_PARAS = null; STATE = {items:[],notes:[],filter:'all',src:'paste',typeOverrides:{}};
+  $('input').value = ''; $('file').value = ''; DOCX_PARAS = null; STATE = freshState();
   $('srcTag').textContent = 'ยังไม่มีข้อมูล'; updateCount();
-  $('results').innerHTML = '<div class="empty"><h3>ยังไม่มีผลการตรวจ</h3><p>วางรายการอ้างอิงหรืออัปโหลดไฟล์ .docx แล้วกด “ตรวจรายการอ้างอิง”</p></div>';
+  $('results').innerHTML = '<div class="empty"><h3>ยังไม่มีผลการตรวจ</h3><p>อัปโหลดไฟล์ .docx หรือวางข้อความ แล้วกด “ตรวจ”</p></div>';
 });
 $('input').addEventListener('input', () => { STATE.src = 'paste'; DOCX_PARAS = null; STATE.typeOverrides = {}; updateCount(); });
-$('optSection').addEventListener('change', updateCount);
-$('optLang').addEventListener('change', () => { if (STATE.items.length) run(); });
+/* เปลี่ยนการแยกส่วนแล้วลำดับรายการเปลี่ยน ประเภทที่ผู้ใช้ระบุไว้ตามลำดับเดิมจึงใช้ไม่ได้ */
+$('optSection').addEventListener('change', () => { STATE.typeOverrides = {}; updateCount(); rerun(); });
+['optLang','optStrict','optList','optCite'].forEach(id => $(id).addEventListener('change', rerun));
 $('file').addEventListener('change', e => { if (e.target.files[0]) readDocx(e.target.files[0]); });
 
 const drop = $('drop');
@@ -1792,8 +2482,13 @@ const drop = $('drop');
 drop.addEventListener('drop', e => { const f = e.dataTransfer.files[0]; if (f) readDocx(f); });
 
 $('results').addEventListener('click', e => {
+  const tab = e.target.closest('[data-tab]');
+  if (tab){ STATE.tab = tab.dataset.tab; render(); return; }
   const chip = e.target.closest('.chip');
   if (chip && chip.dataset.f){ STATE.filter = chip.dataset.f; render(); return; }
+  if (chip && chip.dataset.cf){ STATE.cfilter = chip.dataset.cf; render(); return; }
+  const cc = e.target.closest('[data-ccopy]');
+  if (cc){ copyText(STATE.cites.units[+cc.dataset.ccopy].suggest, cc, 'คัดลอกแล้ว', 'คัดลอก'); return; }
   if (e.target.id === 'expBtn'){
     const blob = new Blob([buildReport()], {type:'text/html;charset=utf-8'});
     const a = document.createElement('a');
@@ -1837,6 +2532,10 @@ $('results').addEventListener('change', e => {
 /* ---------- ตัวอย่าง ---------- */
 $('sample').addEventListener('click', () => {
   $('input').value = [
+    'การจูงใจผู้เรียนเป็นปัจจัยสำคัญของการจัดการเรียนรู้ (สิริฉันท์ สถิรกุล, 2540) ขณะที่การใช้ความรู้และนวัตกรรมช่วยเพิ่มขีดความสามารถขององค์กร (ธัญนาฏ ญาณพิบูลย์ และคณะ, 2563)',
+    'Mertens (2014) อธิบายว่าการวิจัยเชิงประเมินต้องใช้หลายวิธีการ ส่วนการสนับสนุนจากอาสาสมัครสัมพันธ์กับระยะเวลารอดชีวิต (Herbst-Damm and Kulik, 2005)',
+    'การฉีดวัคซีนช่วยป้องกันมะเร็งที่เกี่ยวข้องกับเชื้อ HPV (Centers for Disease Control and Prevention [CDC], 2018) และควรเริ่มตั้งแต่อายุ 11–12 ปี (CDC, 2019) ทั้งนี้ วิธาน ฐานะวุฑฒ์ (2547) ได้เสนอแนวคิดการดูแลตนเอง (Smith, Jones, & Lee, 2021, page 15)',
+    'รายการอ้างอิง',
     'สิริฉันท์ สถิรกุล. (2540). สอนวิชาธุรกิจในระดับมัธยมศึกษาอย่างไรจึงจะจูงใจผู้เรียน. วิทยาจารย์, 95(1), 91–94.',
     'ธัญนาฏ ญาณพิบูลย์, สุจินดา โพธิ์ไพฑูรย์ และคณะ. (2563). ความสามารถในการใช้ความรู้และนวัตกรรม. จุฬาลงกรณ์ธุรกิจปริทัศน์, ปีที่ 42 ฉบับที่ 2 หน้า 54-72. doi:10.14456/cbsr.2020.3',
     'วิธาน ฐานะวุฑฒ์. (2547). หัวใจใหม่–ชีวิตใหม่. กรุงเทพฯ: ปิติศึกษา.',
@@ -1853,6 +2552,7 @@ const LIM_A = [
   '<b>จำนวนต่อรอบ:</b> แนะนำ 100–150 รายการ รองรับสูงสุด 300 รายการต่อการตรวจ 1 ครั้ง เกินกว่านั้นระบบจะตรวจให้เฉพาะ 300 รายการแรก',
   '<b>ทำไมจึงจำกัด:</b> ทุกการ์ดถูกสร้างเป็นองค์ประกอบในหน้าเว็บ การแสดงพร้อมกันหลายร้อยรายการทำให้เบราว์เซอร์หน่วง และคนอ่านทวนทีละรายการไม่ไหวในรอบเดียว',
   '<b>ขนาดไฟล์:</b> .docx ที่มีรูปภาพจำนวนมากอาจอ่านช้า แนะนำแยกเฉพาะหน้ารายการอ้างอิงมาเป็นไฟล์ใหม่',
+  '<b>การแยกเนื้อหา:</b> ระบบใช้หัวข้อ “รายการอ้างอิง / บรรณานุกรม / References” ตัวสุดท้ายในเอกสารเป็นเส้นแบ่ง ข้อความก่อนหน้าคือเนื้อหา ข้อความหลังคือรายการอ้างอิง',
   '<b>การตัดรายการ:</b> ระบบถือว่า 1 ย่อหน้า = 1 รายการ ถ้าเอกสารขึ้นบรรทัดใหม่กลางรายการ ระบบจะพยายามรวมให้ แต่ควรตรวจตัวเลขจำนวนรายการก่อนกดตรวจทุกครั้ง'
 ];
 const LIM_B = [
@@ -1860,7 +2560,8 @@ const LIM_B = [
   '<b>ตัวเอียง:</b> ตรวจได้เฉพาะเมื่ออัปโหลด .docx การคัดลอกข้อความมาวางจะสูญเสียข้อมูลตัวเอียงทั้งหมด',
   '<b>การจำแนกประเภท:</b> ใช้รูปแบบข้อความเป็นตัวชี้ หากรายการเขียนผิดมากจนไม่เหลือเค้าโครง ระบบอาจจัดประเภทคลาดเคลื่อน ให้ดูแม่แบบในการ์ดประกอบเสมอ',
   '<b>ฉบับแก้ไขอัตโนมัติ:</b> แก้ให้เฉพาะจุดที่เป็นรูปแบบล้วน ๆ ส่วนข้อมูลที่ขาด เช่น ชื่อผู้แต่งครบทุกคน ชื่อสำนักพิมพ์ หรือเลขหน้า ระบบเดาแทนไม่ได้ ต้องเติมเอง',
-  '<b>ขอบเขต:</b> ตรวจเฉพาะรายการอ้างอิงท้ายเล่ม ยังไม่ตรวจการอ้างอิงในเนื้อหา (in-text citation) และการเทียบว่าอ้างในเนื้อหาครบตามรายการท้ายเล่มหรือไม่'
+  '<b>การอ้างอิงในเนื้อหา:</b> ตรวจการอ้างแบบ (ผู้แต่ง, ปี) และ ผู้แต่ง (ปี) แล้วจับคู่กับรายการท้ายเล่มด้วยชื่อผู้แต่งคนแรกและปี ถ้าสะกดชื่อต่างกันเล็กน้อยจะนับว่าไม่ตรงกัน ส่วนการอ้างในประโยคภาษาไทยจับคู่ได้เฉพาะชื่อที่มีในรายการท้ายเล่ม',
+  '<b>ไม่ตรวจ:</b> การสื่อสารส่วนบุคคล (personal communication) และแหล่งปฐมภูมิในการอ้างแบบ “as cited in / อ้างถึงใน” เพราะไม่ต้องอยู่ในรายการท้ายเล่ม'
 ];
 $('limitsA').innerHTML = LIM_A.map(t => '<li>' + t + '</li>').join('');
 $('limitsB').innerHTML = LIM_B.map(t => '<li>' + t + '</li>').join('');
