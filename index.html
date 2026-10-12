@@ -1194,8 +1194,11 @@ function italicRange(text, type){
 
   if (type === 'journal' || type === 'newspaper'){
     /* ชื่อวารสารและเลขปีที่ ที่อยู่หน้าเลขฉบับหรือเลขหน้า */
-    const m = text.match(/(?:^|[.\]]\s)([^.\[\]]{2,90}?,\s*\d{1,4})(?=\s*(\([^)]*\))?\s*,\s*(e?\d+|บทความ|Article))/);
+    const m = text.match(/(?:^|[.\]]\s)([^.\[\]]{2,90}?,\s*\d{1,4})(?=\s*(\([^)]*\))?\s*,\s*(e?\d+|[A-Z]{1,2}\d+|บทความ|Article))/);
     if (m) { const a = m.index + m[0].lastIndexOf(m[1]); return [a, a + m[1].length]; }
+    /* มีเลขปีที่(ฉบับที่) แต่ไม่มีเลขหน้า เช่น Journal, 26(2). */
+    const m2 = text.match(/(?:^|[.\]]\s)([^.\[\]]{2,90}?,\s*\d{1,4})(?=\([^)]*\)\s*\.(?:\s|$))/);
+    if (m2) { const a = m2.index + m2[0].lastIndexOf(m2[1]); return [a, a + m2[1].length]; }
     const n = text.match(/(?:^|[.\]]\s)([^.\[\]]{2,90}?)(?=\s*,\s*\d{1,4}\s*$|\s*,\s*\d{1,4}\s*\.)/);
     if (n) { const a = n.index + n[0].lastIndexOf(n[1]); return [a, a + n[1].length]; }
     return null;
