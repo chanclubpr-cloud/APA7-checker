@@ -527,7 +527,7 @@ table.cheat td{font-family:var(--ref)}
       <div class="setting">
         <label for="optLang">แนวทางภาษาในการตรวจ</label>
         <select id="optLang">
-          <option value="auto" selected>อัตโนมัติแบบระมัดระวัง (ไม่ตัดสิน พ.ศ./ค.ศ. และคำเชื่อมผู้แต่ง)</option>
+          <option value="auto" selected>อัตโนมัติ — ดูจากภาษาของชื่อผู้แต่งแต่ละรายการ (แนะนำ)</option>
           <option value="th">รายการภาษาไทย (ตามคู่มือ APA 7 ฉบับภาษาไทย)</option>
           <option value="en">รายการภาษาอังกฤษ (APA 7 ภาษาอังกฤษ)</option>
         </select>
@@ -709,10 +709,13 @@ const TYPES = {
    ============================================================ */
 const RE_THAI      = /[\u0E00-\u0E7F]/;
 const RE_URL       = /https?:\/\/[^\s)]+/;
-const RE_YEAR      = /\((\d{4}|n\.d\.|ม\.ป\.ป\.)([^)]*)\)/;
-const RE_VOLISSUE  = /,\s*\d+\s*\([^)]+\)\s*,/;   /* , 47(4), หรือ , 27(ฉบับพิเศษ), */
+const RE_YEAR      = /\((\d{4}|n\.d\.|ม\.ป\.ป\.|[Ii]n press|อยู่ระหว่างการ?ตีพิมพ์|กำลังจัดพิมพ์)([^)]*)\)/;   /* รวม (in press) */
+const RE_VOLISSUE  = /,\s*(?:\d+\s*\([^)]+\)|\(\d+[^)]*\))\s*,/;   /* , 47(4), หรือ , 27(ฉบับพิเศษ), */
 const RE_VOLONLY   = /,\s*\d{1,4}\s*,\s*e?\d+\s*[–\-]\s*e?\d+/;  /* , 24, 225–229 หรือ , 151, e771–e862 */
 const RE_PAGES     = /e?\d+\s*[–\-]\s*e?\d+/;
+/* เมืองที่พิมพ์แบบ APA 6 เช่น “New York: McGraw-Hill” (APA 7 ตัดออก) */
+const RE_CITY_EN   = /(^|\.\s)((?:New York|London|Boston|Chicago|Philadelphia|Oxford|Cambridge|San Francisco|Los Angeles|Thousand Oaks|Washington|Hoboken|Upper Saddle River|Englewood Cliffs|Geneva|St\. Louis|Toronto|Sydney|Amsterdam|Berlin|Singapore|Bangkok|Tokyo|Paris|New Delhi|Baltimore|San Diego|Princeton|Belmont|Malden|Mahwah|Hillsdale|Edinburgh|Dordrecht|Heidelberg|Khon Kaen|Chiang Mai|Nonthaburi)(?:,\s*[A-Z][A-Za-z.]{1,20})?:\s)/;
+const RE_CITY_TH   = /(?:^|\.\s)(กทม\.|ขอนแก่น|นครราชสีมา|พิษณุโลก|อุบลราชธานี|ภูเก็ต|เชียงราย|อุดรธานี|มหาสารคาม|สุราษฎร์ธานี|นครศรีธรรมราช|สมุทรปราการ|นครนายก|พระนครศรีอยุธยา|ลพบุรี|สระบุรี|ราชบุรี)\s*:\s*\S/;
 /* วารสารออนไลน์จำนวนมากใช้เลขบทความแทนเลขหน้า เช่น Frontiers, 11, 1509479 */
 const RE_ARTNO     = /,\s*\d{1,4}\s*(\([^)]*\))?\s*,\s*e?\d{3,}\s*(?=[.,]|\s*https?:|\s*$)/;
 
@@ -762,11 +765,21 @@ function splitDocument(paragraphs, cutSection){
      รายการใหม่สังเกตจากรูปแบบ “…ผู้แต่ง. (ปี).” ซึ่งต้องมีจุดขนาบวงเล็บปี
      ใช้ทั้งย่อหน้าไม่จำกัดระยะ เพราะรายการที่มีผู้แต่ง 19 คนจะมีปีอยู่ไกลมาก
      ส่วนปีที่ปรากฏในชื่อเรื่อง เช่น (Thai ACS Guidelines 2020) จะไม่เข้าเงื่อนไขนี้ */
-  const RE_REF_START = /(^|[.,\]]\s*|[ก-๙]\s*)\((\d{4}|n\.d\.|ม\.ป\.ป\.)[^)]*\)\s*\./;
+  const RE_REF_START = /(^|[.,\]]\s*|[ก-๙]\s*)\((\d{4}|n\.d\.|ม\.ป\.ป\.|[Ii]n press|อยู่ระหว่างการ?ตีพิมพ์|กำลังจัดพิมพ์)[^)]*\)\s*\./;
+  /* ย่อหน้าที่มีวงเล็บปีของตัวเอง และรายการก่อนหน้าจบสมบูรณ์แล้ว ถือเป็นรายการใหม่
+     แม้เขียนผิดรูปแบบ เช่น ไม่มีจุดหลังวงเล็บปี หรือไม่มีจุดหลังชื่อผู้แต่ง */
+  const RE_YEAR_PAREN = /\((\d{4}[a-zก-ฮ]?|n\.d\.|ม\.ป\.ป\.|[Ii]n press)(,[^)]*)?\)/;
   const out = [];
   for (const l of lines){
     const t = l.text.trim();
-    if (out.length && !RE_REF_START.test(t)){
+    let isNew = !out.length;
+    if (!isNew){
+      const pv = out[out.length - 1].text;
+      const pvDone = RE_YEAR.test(pv) && (/[.\])]$/.test(pv) || /(https?:\/\/|10\.\d{4,}\/)\S+$/.test(pv));
+      if (/^\(/.test(t)) isNew = false;                       /* ขึ้นบรรทัดใหม่ตรงวงเล็บปีพอดี */
+      else isNew = RE_REF_START.test(t) || (pvDone && RE_YEAR_PAREN.test(t.slice(0, 400)));
+    }
+    if (!isNew){
       const prev = out[out.length - 1];
       prev.text = (prev.text.trim() + ' ' + t).replace(/\s+/g,' ');
       prev.italics = prev.italics.concat(l.italics || []);
@@ -861,12 +874,16 @@ function analyzeOne(ref, opts){
   const type = typeInfo.type;
   const detectedLang = isThai(raw) ? 'th' : 'en';
   const lang = ['th','en'].includes(opts.langMode) ? opts.langMode : detectedLang;
-  const languageRules = ['th','en'].includes(opts.langMode) ? opts.langMode : null;
   const issues = [];
   const add = (sev,title,detail,rule,find) => issues.push({sev,title,detail,rule,find});
 
   const yearM   = raw.match(RE_YEAR);
   const authors = yearM ? raw.slice(0, yearM.index).trim() : raw;
+  /* กฎด้านภาษา: ถ้าผู้ใช้ไม่ได้กำหนด ให้ดูจากอักษรของชื่อผู้แต่งรายการนั้น
+     (รายการไทยที่แปลเป็นอังกฤษจะใช้กฎอังกฤษโดยอัตโนมัติ เพราะชื่อผู้แต่งเป็นอักษรโรมัน) */
+  const languageRules = ['th','en'].includes(opts.langMode) ? opts.langMode
+                      : (RE_THAI.test(yearM ? authors : raw.slice(0, 60)) ? 'th' : 'en');
+  const orgAuthor = ORG_EN.test(authors) || ORG_TH.test(authors.trim());
   const tail    = yearM ? raw.slice(yearM.index + yearM[0].length).replace(/^[.\s]+/,'').trim() : '';
   const italTxt = (ref.italics || []).join(' ');
 
@@ -883,7 +900,7 @@ function analyzeOne(ref, opts){
     const y = yearM[1];
     if (/^\d{4}$/.test(y)){
       if (languageRules==='th' && +y < 2300) add('w','ปีอาจไม่ใช่ พ.ศ.',
-        'รายการภาษาไทยใช้ พ.ศ. ส่วนการแปลงเป็น Translated Thai Reference จึงเปลี่ยนเป็น ค.ศ.',
+        'รายการภาษาไทยใช้ พ.ศ. (ถ้าแปลงเป็น Translated Thai Reference ที่เขียนด้วยอักษรโรมันจึงใช้ ค.ศ.) ตรวจให้ตรงกับที่อ้างในเนื้อหา',
         'ฉบับภาษาไทย · ศักราช', yearM[0]);
       if (languageRules==='en' && +y > 2300) add('w','ปีอาจเป็น พ.ศ. ในรายการภาษาอังกฤษ',
         'รายการภาษาอังกฤษและ Translated Thai Reference ใช้ ค.ศ.',
@@ -915,7 +932,7 @@ function analyzeOne(ref, opts){
     add('e','มีจุดปิดท้ายหลัง URL/DOI',
         'APA 7 ไม่ใส่เครื่องหมายใดต่อท้าย URL หรือ DOI เพราะอาจทำให้ลิงก์เสีย',
         'APA 7 · URL และ DOI', raw.slice(-14));
-  } else if (!linkEnd && !/[.\]]$/.test(raw)){
+  } else if (!linkEnd && !/[.\]]$/.test(raw) && !/\((Original work published|งานต้นฉบับ|ต้นฉบับตีพิมพ์)[^)]*\)$/i.test(raw)){
     add('e','ไม่ปิดท้ายด้วยจุด',
         'รายการที่ไม่ได้จบด้วย URL หรือ DOI ต้องปิดท้ายด้วยจุด',
         'APA 7 · เครื่องหมายวรรคตอน', raw.slice(-12));
@@ -952,15 +969,15 @@ function analyzeOne(ref, opts){
       'APA 7 · URL และ DOI', retr[0]);
   const retrievalDate = raw.match(/(?:Retrieved|ค้นเมื่อ|สืบค้นเมื่อ)\s+(?:[A-Za-z]+\s+\d{1,2},\s*\d{4}|\d{1,2}\s+[ก-๙]+\s+\d{4})/i);
   if (retrievalDate){
-    if (RE_URL.test(raw)) add('w','พบวันที่สืบค้น — ต้องตรวจทาน',
+    if (RE_URL.test(raw)){ if (!/dictionary|encyclopa?edia|wikipedia|พจนานุกรม|สารานุกรม/i.test(raw)) add('w','พบวันที่สืบค้น — ต้องตรวจทาน',
       'APA 7 ใช้วันที่สืบค้นเฉพาะเนื้อหาที่เปลี่ยนแปลงตลอดเวลาเท่านั้น โปรดยืนยันว่าจำเป็นต้องเก็บวันที่สืบค้นและ URL ไว้',
-      'APA 7 · URL และ DOI', retrievalDate[0]);
+      'APA 7 · URL และ DOI', retrievalDate[0]); }
     else add('e','มีวันที่สืบค้นแต่ไม่พบ URL',
       'รายการที่มีวันที่สืบค้นต้องมี URL ร่วมด้วย และใช้ได้เฉพาะเนื้อหาที่เปลี่ยนแปลงตลอดเวลา จึงยังไม่ควรนำฉบับแก้ไขไปใช้',
       'APA 7 · URL และ DOI', retrievalDate[0]);
   }
-  const cityEn = raw.match(/(^|\.\s)([A-Z][A-Za-z.\s]{2,24},\s*[A-Z]{2}:\s)/);
-  const cityTh = raw.match(/(?:^|\.\s)(กรุงเทพฯ|กรุงเทพมหานคร|นนทบุรี|เชียงใหม่|ปทุมธานี|นครปฐม|สงขลา|ชลบุรี)\s*[:\s]\s*\S/);
+  const cityEn = raw.match(/(^|\.\s)([A-Z][A-Za-z.\s]{2,24},\s*[A-Z]{2}:\s)/) || raw.match(RE_CITY_EN);
+  const cityTh = raw.match(/(?:^|\.\s)(กรุงเทพฯ|กรุงเทพมหานคร|นนทบุรี|เชียงใหม่|ปทุมธานี|นครปฐม|สงขลา|ชลบุรี)\s*[:\s]\s*\S/) || raw.match(RE_CITY_TH);
   if (cityEn || cityTh) add('e','ระบุเมืองที่พิมพ์',
       'APA 7 ตัดชื่อเมืองออก ให้ระบุเฉพาะชื่อสำนักพิมพ์',
       'APA 7 · สำนักพิมพ์', (cityEn ? cityEn[2] : cityTh[0]));
@@ -993,7 +1010,7 @@ function analyzeOne(ref, opts){
       'ต้องเว้นวรรค 1 ระยะหลังจุดที่คั่นระหว่างองค์ประกอบ เช่น (2560). ชื่อเรื่อง. สำนักพิมพ์.',
       'APA 7 · เครื่องหมายวรรคตอน', noGap[0]);
   const rawNoLink = brokenTail ? raw.slice(0, linkStartAt) : raw;
-  if (/\s+\./.test(rawNoLink)) add('w','มีช่องว่างก่อนเครื่องหมายจุด','ไม่เว้นวรรคก่อนจุดหรือจุลภาค','การพิมพ์', /\s+\./);
+  if (/\s+\./.test(rawNoLink.replace(/,?\s*\.\s\.\s\./g, ' …'))) add('w','มีช่องว่างก่อนเครื่องหมายจุด','ไม่เว้นวรรคก่อนจุดหรือจุลภาค','การพิมพ์', /\s+\./);
   const q = raw.match(/[“"][^”"]{12,}[”"]/);
   if (q) add('e','ใส่เครื่องหมายคำพูดคร่อมชื่อเรื่อง',
       'รายการอ้างอิงท้ายเล่มไม่ใส่เครื่องหมายคำพูด (จะใช้เฉพาะการระบุที่มาใต้ภาพ/ตาราง)',
@@ -1013,7 +1030,7 @@ function analyzeOne(ref, opts){
       add('e','เขียนชื่อต้นเต็มแทนอักษรย่อ',
         'ผู้แต่งภาษาอังกฤษใช้รูปแบบ สกุล, อักษรย่อชื่อ. เช่น Mertens, D. M.',
         'APA 7 · ผู้แต่ง', authors.slice(0, 26));
-    const fullGiven = authors.match(/(?:^|,\s*)([A-Z][\p{L}'’\-]+(?:\s+[A-Z][\p{L}'’\-]+){1,2}),\s*[A-Z]\./u);
+    const fullGiven = authors.match(/(?:^|,\s*)([A-Z][\p{L}'’\-]+(?:\s+[A-Z][\p{L}'’\-]+){2,3}),\s*[A-Z]\./u);
     if (fullGiven) add('w','อาจเขียนชื่อผู้แต่งเต็มหรือสลับลำดับ',
       'ตรวจชื่อผู้แต่งนี้กับต้นฉบับ เพราะ APA ใช้ สกุล, อักษรย่อชื่อ เช่น Felker, G. M. ระบบไม่แก้อัตโนมัติเพื่อป้องกันการแก้ชื่อผิดคน',
       'APA 7 · ผู้แต่ง', fullGiven[1]);
@@ -1034,7 +1051,7 @@ function analyzeOne(ref, opts){
         'กรณีผู้แต่ง 3 คนขึ้นไป ต้องมีจุลภาคก่อน & เช่น Ary, D., Jacobs, L. C., & Walker, D. A.',
         'APA 7 · ผู้แต่ง');
   }
-  if (languageRules === 'th' || (!languageRules && RE_THAI.test(authors))){
+  if (languageRules === 'th'){
     if (/^[^,]+,\s*และ\s+[^,]+\.?\s*$/.test(authors) && !ORG_TH.test(authors))
       add('w','ผู้แต่ง 2 คนมีจุลภาคหน้าคำว่า “และ”',
         'ผู้แต่งภาษาไทย 2 คนเขียน ชื่อ สกุล และ ชื่อ สกุล โดยไม่มีจุลภาค (จุลภาคหน้า “และ” ใช้เมื่อมี 3 คนขึ้นไป) มักเกิดจาก Zotero ที่ใช้รูปแบบภาษาอังกฤษ',
@@ -1058,6 +1075,11 @@ function analyzeOne(ref, opts){
         'ฉบับภาษาไทย · ผู้แต่ง');
   }
 
+  const honor = authors.match(/(?:^|,\s*|และ\s+|&\s*)((?:ศ|รศ|ผศ|ดร|นพ|พญ|ทพ|ทพญ|ภก|ภญ|อ)\.\s*(?:ดร\.\s*)?(?=[ก-๙])|(?:Dr|Prof|Mr|Mrs|Ms)\.?\s+(?=[A-Z]))/);
+  if (honor && !orgAuthor) add('w','ใส่คำนำหน้าชื่อหรือตำแหน่งทางวิชาการ',
+      'รายการอ้างอิงไม่ใส่คำนำหน้าชื่อ ยศ หรือตำแหน่งทางวิชาการ เช่น ดร. ผศ. นพ. Dr. Prof. (คงไว้เฉพาะฐานันดรศักดิ์และสมณศักดิ์)',
+      'APA 7 · ผู้แต่ง', honor[1].trim());
+
   /* ---------- 6. เกณฑ์เฉพาะประเภท ---------- */
   const legacyVol = raw.match(/(ปีที่\s*\d|ฉบับที่\s*\d|หน้า\s*\d|[Vv]ol\.\s*\d|[Nn]o\.\s*\d)/);
   const colonVol = raw.match(/([^.:]{2,50})\s*:\s*(\d{1,4})\s*(\([^)]+\))?\s*:\s*(\d+)/);
@@ -1073,6 +1095,11 @@ function analyzeOne(ref, opts){
       add('e','ไม่พบเลขปีที่/ฉบับที่/เลขหน้าในรูปแบบ APA',
         'รูปแบบคือ ชื่อวารสาร, ปีที่(ฉบับที่), เลขหน้า. เช่น วิทยาจารย์, 95(1), 91–94.',
         'APA 7 · บทความวารสาร');
+    const artNo = raw.match(/,\s*\d{1,4}\s*(?:\([^)]*\))?\s*,\s*(e\d{3,}|\d{5,})\s*(?=\.|\s*https?:|\s*$)/);
+    if (artNo) add('w','เลขบทความไม่มีคำว่า ' + (languageRules === 'th' ? '“บทความ”' : 'Article'),
+        'บทความที่ใช้เลขบทความ (article number) แทนเลขหน้า APA 7 ให้เขียนคำว่า ' + (languageRules === 'th' ? 'บทความ' : 'Article') +
+        ' นำหน้า เช่น PLOS ONE, 13(3), Article e0193972 — ถ้าเลขนี้เป็นเลขหน้าจริงจึงไม่ต้องแก้',
+        'APA 7 · 9.27 เลขบทความ', artNo[1]);
     if (legacyVol) add('e','ใช้คำว่า ปีที่/ฉบับที่/หน้า หรือ Vol./No.',
         'APA 7 ไม่เขียนคำเหล่านี้ ให้ใช้ตัวเลขตามรูปแบบ 95(1), 91–94',
         'APA 7 · บทความวารสาร', legacyVol[0]);
@@ -1088,11 +1115,13 @@ function analyzeOne(ref, opts){
     add('w','คำย่อ Suppl ไม่มีจุด',
       'APA 7 เขียนฉบับเพิ่มเติมเป็น (Suppl. 2) โดยมีจุดหลังคำย่อ',
       'APA 7 · บทความวารสาร', (raw.match(/\(\s*Suppl\s+\d+/i) || [])[0]);
+  /* รายการในพจนานุกรม/สารานุกรมออนไลน์ ไม่มีเลขหน้าและอาจไม่มีบรรณาธิการ */
+  const refWork = /dictionary|encyclopa?edia|wikipedia|พจนานุกรม|สารานุกรม/i.test(raw) || !!retrievalDate;
   if (type === 'chapter'){
-    if (!/\((น\.|pp?\.)\s*\d/.test(raw)) add('e','ไม่ระบุช่วงเลขหน้าของบท',
+    if (!refWork && !/\((น\.|pp?\.)\s*\d/.test(raw)) add('e','ไม่ระบุช่วงเลขหน้าของบท',
         'บทในหนังสือต้องระบุเลขหน้าในวงเล็บ ภาษาไทยใช้ (น. 1–18) ภาษาอังกฤษใช้ (pp. 1–18)',
         'APA 7 · บทในหนังสือ');
-    if (!/\(บ\.ก\.\)|\((Ed|Eds)\.\)/.test(raw)) add('e','ไม่ระบุบรรณาธิการ',
+    if (!refWork && !/\(บ\.ก\.\)|\((Ed|Eds)\.\)/.test(raw)) add('e','ไม่ระบุบรรณาธิการ',
         'ต้องระบุบรรณาธิการพร้อมวงเล็บ (บ.ก.) หรือ (Ed.)/(Eds.)',
         'APA 7 · บทในหนังสือ');
     if (lang==='en' && /In\s+[A-Z][a-z]+,\s*[A-Z]\./.test(raw))
@@ -1123,13 +1152,14 @@ function analyzeOne(ref, opts){
         'วิทยานิพนธ์ที่เผยแพร่ให้ระบุชื่อสถาบันไว้ในวงเล็บเหลี่ยม แล้วตามด้วยชื่อคลังข้อมูลและ URL',
         'APA 7 · วิทยานิพนธ์', br[0]);
     if (!/ไม่ได้ตีพิมพ์|Unpublished/i.test(raw)){
-      const hasRepo = /database|ฐานข้อมูล|Repository|คลัง\s*ปัญญา/i.test(raw);
+      const hasRepo = /database|ฐานข้อมูล|Repository|คลัง\s*(ปัญญา|ข้อมูล|ความรู้)|ProQuest|Dissertations|Theses|ThaiLIS|TDC|DSpace|e-?Thesis|Digital Collection/i.test(raw);
+      const isDatabase = /ProQuest|database|ฐานข้อมูล|Publication No\./i.test(raw);
       if (!RE_URL.test(raw) && !hasRepo)
         add('w','ไม่ระบุแหล่งที่เข้าถึง','วิทยานิพนธ์ที่เผยแพร่ต้องระบุชื่อคลังข้อมูล/ฐานข้อมูล และ URL',
           'APA 7 · วิทยานิพนธ์');
-      else if (!RE_URL.test(raw))
-        add('e','ระบุคลังข้อมูลแต่ไม่มี URL',
-          'วิทยานิพนธ์ที่เผยแพร่ผ่านคลังข้อมูลออนไลน์ต้องมี URL ต่อท้ายชื่อคลังข้อมูลเสมอ เพื่อให้ผู้อ่านตามไปสืบค้นได้',
+      else if (!RE_URL.test(raw) && !isDatabase)
+        add('w','ระบุคลังข้อมูลแต่ไม่มี URL',
+          'วิทยานิพนธ์จากคลังข้อมูลของสถาบัน (repository) ให้ใส่ URL ต่อท้ายชื่อคลัง ส่วนฐานข้อมูลเชิงพาณิชย์ เช่น ProQuest ไม่ต้องมี URL',
           'APA 7 · วิทยานิพนธ์');
     }
   }
@@ -1138,8 +1168,8 @@ function analyzeOne(ref, opts){
       add('w','ระบุการพิมพ์ครั้งที่ 1','การพิมพ์ครั้งที่ 1 ไม่ต้องระบุ',
         'APA 7 · หนังสือ', /\((1st ed\.|พิมพ์ครั้งที่\s*1)\)/);
     const segs = tail.replace(/https?:\/\/\S+/,'').split(/\.\s+/).filter(x => x.trim().length > 1);
-    if (segs.length < 2)
-      add('w','อาจไม่ได้ระบุสำนักพิมพ์','หนังสือต้องมีชื่อสำนักพิมพ์ต่อจากชื่อเรื่องเสมอ',
+    if (segs.length < 2 && !orgAuthor)      /* ผู้แต่งเป็นหน่วยงานและเป็นผู้พิมพ์เอง APA 7 ให้ละสำนักพิมพ์ */
+      add('w','อาจไม่ได้ระบุสำนักพิมพ์','หนังสือต้องมีชื่อสำนักพิมพ์ต่อจากชื่อเรื่อง (ยกเว้นผู้แต่งกับสำนักพิมพ์เป็นหน่วยงานเดียวกัน)',
         'APA 7 · หนังสือ');
   }
   if (type === 'conference' && !/,/.test(tail.split(/\]/).pop()||''))
@@ -1178,11 +1208,20 @@ function analyzeOne(ref, opts){
       add('w','เลขปีที่ไม่ได้เป็นตัวเอียง',
         'ชื่อวารสารและเลขปีที่ (volume) เป็นตัวเอียงทั้งคู่ ส่วนเลขฉบับที่ในวงเล็บเป็นตัวธรรมดา',
         'APA 7 · ตัวเอียง');
+    const irx = italTxt.trim() ? italicRange(raw, type) : null;
+    if (irx){
+      const want = raw.slice(irx[0], irx[1]).replace(/,\s*\d+$/, '');
+      const squash = x => x.replace(/[\s.,]+/g, '');
+      if (want.length >= 4 && !squash(italTxt).includes(squash(want).slice(0, 14)))
+        add('w','ตัวเอียงอาจอยู่ผิดตำแหน่ง',
+          'ส่วนที่ต้องเป็นตัวเอียงคือ “' + want + '” แต่ในไฟล์จัดตัวเอียงไว้ที่ “' + italTxt.trim().slice(0, 60) + '”',
+          'APA 7 · ตัวเอียง');
+    }
   }
 
   if (opts.strict) issues.forEach(i => { if (i.sev === 'w') i.sev = 'e'; });
 
-  const fix = autofix(raw, type, lang, issues, opts);
+  const fix = autofix(raw, type, lang, issues, {...opts, langMode: languageRules});
   return {raw, type, typeInfo, lang, issues, fix, hasItalic: !!italTxt.trim()};
 }
 
@@ -1196,6 +1235,9 @@ function italicRange(text, type){
     /* ชื่อวารสารและเลขปีที่ ที่อยู่หน้าเลขฉบับหรือเลขหน้า */
     const m = text.match(/(?:^|[.\]]\s)([^.\[\]]{2,90}?,\s*\d{1,4})(?=\s*(\([^)]*\))?\s*,\s*(e?\d+|[A-Z]{1,2}\d+|บทความ|Article))/);
     if (m) { const a = m.index + m[0].lastIndexOf(m[1]); return [a, a + m[1].length]; }
+    /* มีเฉพาะเลขฉบับ ไม่มีเลขปีที่ เช่น Journal, (231), 44–47. */
+    const m3 = text.match(/(?:^|[.\]]\s)([^.\[\]]{2,90}?)(?=,\s*\(\d+[^)]*\)\s*,)/);
+    if (m3) { const a = m3.index + m3[0].lastIndexOf(m3[1]); return [a, a + m3[1].length]; }
     /* มีเลขปีที่(ฉบับที่) แต่ไม่มีเลขหน้า เช่น Journal, 26(2). */
     const m2 = text.match(/(?:^|[.\]]\s)([^.\[\]]{2,90}?,\s*\d{1,4})(?=\([^)]*\)\s*\.(?:\s|$))/);
     if (m2) { const a = m2.index + m2[0].lastIndexOf(m2[1]); return [a, a + m2[1].length]; }
@@ -1286,6 +1328,8 @@ function autofix(raw, type, lang, issues, opts){
   if (['book','report'].includes(type)){
     Z(BODY, /(^|\.\s)(กรุงเทพฯ|กรุงเทพมหานคร|นนทบุรี|เชียงใหม่|ปทุมธานี|นครปฐม|สงขลา|ชลบุรี)\s*[:\s]\s*/g, '$1', 'ตัดชื่อเมืองที่พิมพ์');
     Z(BODY, /(^|\.\s)([A-Z][A-Za-z.\s]{2,24},\s*[A-Z]{2}):\s*/g, '$1', 'ตัดชื่อเมืองที่พิมพ์');
+    Z(BODY, new RegExp(RE_CITY_EN.source.replace(/\\s\)$/, '\\s*)'), 'g'), '$1', 'ตัดชื่อเมืองที่พิมพ์');
+    Z(BODY, /(^|\.\s)(กทม\.|ขอนแก่น|นครราชสีมา|พิษณุโลก|อุบลราชธานี|ภูเก็ต|เชียงราย|อุดรธานี|มหาสารคาม|สุราษฎร์ธานี|นครศรีธรรมราช|สมุทรปราการ|นครนายก|พระนครศรีอยุธยา|ลพบุรี|สระบุรี|ราชบุรี)\s*:\s*/g, '$1', 'ตัดชื่อเมืองที่พิมพ์');
   }
   if (type === 'book'){
     Z(BODY, /\(1st ed\.\)\s*/g, '', 'ตัดการพิมพ์ครั้งที่ 1');
@@ -1297,6 +1341,8 @@ function autofix(raw, type, lang, issues, opts){
     Z(BODY, /[Vv]ol\.\s*(\d+)\s*,?\s*[Nn]o\.\s*(\d+)\s*,?\s*(?:pp?\.\s*)?/g, '$1($2), ', 'จัดรูปแบบ Vol./No.');
   }
   if (type === 'journal') Z(BODY, /\bpp?\.\s*(?=\d)/g, '', 'ตัด pp. ในบทความวารสาร');
+  if (issues.some(i => i.title.startsWith('เลขบทความไม่มีคำว่า')))
+    Z(BODY, /(,\s*\d{1,4}\s*(?:\([^)]*\))?\s*,\s*)(e\d{3,}|\d{5,})(?=\s*\.?\s*$)/, '$1' + (opts.langMode === 'th' ? 'บทความ ' : 'Article ') + '$2', 'เติมคำนำหน้าเลขบทความ');
   Z(BODY, /\(\s*Suppl\s+(?=\d)/gi, '(Suppl. ', 'เติมจุดหลังคำย่อ Suppl');
   Z(BODY, /(\d)\s+(\(\d)/g, '$1$2', 'ลบช่องว่างหน้าเลขฉบับที่');
   if (['journal','chapter','proceeding','newspaper','law'].includes(type))
@@ -1385,17 +1431,35 @@ function analyzeList(items){
   const notes = [];
   const keys = items.map(r => r.raw.replace(/\s+/g,' ').trim().toLowerCase());
   const dup = keys.map((k,i) => [k,i]).filter(([k,i]) => keys.indexOf(k) !== i);
-  if (dup.length) notes.push({sev:'e', text:'พบรายการซ้ำ ' + dup.length + ' รายการ ให้คงไว้เพียงรายการเดียว'});
+  if (dup.length) notes.push({sev:'e', text:'พบรายการซ้ำ ' + dup.length + ' รายการ (รายการที่ ' + dup.map(d => d[1] + 1).join(', ') + ') ให้คงไว้เพียงรายการเดียว'});
 
-  const th = items.filter(r => r.lang === 'th').map(r => r.raw);
-  const en = items.filter(r => r.lang === 'en').map(r => r.raw);
-  const sortedTh = [...th].sort((a,b) => a.localeCompare(b,'th'));
-  const sortedEn = [...en].sort((a,b) => a.localeCompare(b,'en'));
-  if (th.join('|') !== sortedTh.join('|')) notes.push({sev:'w', text:'รายการภาษาไทยยังไม่ได้เรียงตามลำดับอักษร (ก–ฮ) ตามพจนานุกรมฉบับราชบัณฑิตยสถาน'});
-  if (en.join('|') !== sortedEn.join('|')) notes.push({sev:'w', text:'รายการภาษาอังกฤษยังไม่ได้เรียงตามลำดับอักษร A–Z'});
+  /* เรียงตามผู้แต่งคนแรก (นามสกุล + อักษรย่อ หรือชื่อไทยเต็ม) แบบ “ว่างมาก่อนมี” เช่น Brown มาก่อน Browning
+     ผู้แต่งคนแรกเดียวกันและผู้แต่งชุดเดียวกันจึงเทียบปี */
+  const sortInfo = items.map((r, i) => {
+    const ym = r.raw.match(RE_YEAR);
+    const a = (ym ? r.raw.slice(0, ym.index) : r.raw.split('. ')[0]).replace(/\s*\((Eds?\.|บ\.\s?ก\.)\)/g, '').replace(/\.\s*$/, '').trim();
+    const thai = RE_THAI.test(r.raw.trim().charAt(0));
+    let first = a;
+    if (thai){ if (!ORG_TH.test(a)) first = a.split(/\s*,\s*|\s+และ\s+|\s*&\s*/)[0]; }
+    else { const ch = a.split(/\s*,\s*/); if (ch[1] && /^(?:\p{Lu}\p{Ll}?\.?\s*-?\s*)+$/u.test(ch[1]) && ch[1].length < 14) first = ch[0] + ' ' + ch[1]; }
+    const yr = ym && /^\d{4}$/.test(ym[1]) ? +ym[1] : (ym && /press|พิมพ์/.test(ym[1]) ? 9999 : 0);
+    return {n: i + 1, thai, all: a.toLowerCase(), key: first.toLowerCase().replace(/[.'’\-]/g, '').replace(/\s+/g, ' ').trim(), yr, raw: r.raw};
+  });
+  const before = (x, y, loc) => { const c = x.key.localeCompare(y.key, loc, {sensitivity:'base'}); return c !== 0 ? c : (x.all === y.all ? x.yr - y.yr : 0); };
+  [[sortInfo.filter(x => x.thai), 'th', 'รายการภาษาไทยยังไม่ได้เรียงตามลำดับอักษร ก–ฮ'],
+   [sortInfo.filter(x => !x.thai), 'en', 'รายการภาษาอังกฤษยังไม่ได้เรียงตามลำดับอักษร A–Z']].forEach(([list, loc, msg]) => {
+    const bad = [];
+    for (let k = 1; k < list.length; k++) if (before(list[k - 1], list[k], loc) > 0) bad.push(k);
+    if (bad.length){
+      const a = list[bad[0] - 1], b = list[bad[0]];
+      notes.push({sev:'w', text: msg + ' — จุดแรกที่สลับ: รายการที่ ' + b.n + ' “' + b.raw.slice(0, 28) + '…” ควรอยู่ก่อนรายการที่ ' + a.n + ' “' + a.raw.slice(0, 28) + '…”' +
+        (bad.length > 1 ? ' (พบจุดสลับทั้งหมด ' + bad.length + ' จุด)' : '') + ' เรียงตามชื่อผู้แต่งคนแรก ถ้าผู้แต่งชุดเดียวกันให้เรียงตามปี'});
+    }
+  });
+  const th = sortInfo.filter(x => x.thai), en = sortInfo.filter(x => !x.thai);
   if (th.length && en.length){
-    const firstEn = items.findIndex(r => r.lang === 'en');
-    const lastTh  = items.map(r => r.lang).lastIndexOf('th');
+    const firstEn = sortInfo.findIndex(x => !x.thai);
+    const lastTh  = sortInfo.map(x => x.thai).lastIndexOf(true);
     if (firstEn >= 0 && lastTh > firstEn) notes.push({sev:'w', text:'ลำดับกลุ่มภาษายังสลับกัน ควรเรียงรายการภาษาไทยทั้งหมดก่อน แล้วจึงตามด้วยภาษาอังกฤษ'});
   }
   /* ชื่อวารสารเดียวกันแต่เว้นวรรคต่างกัน = มีการเคาะเว้นวรรคเพื่อจัดหน้า */
@@ -1436,9 +1500,9 @@ function analyzeList(items){
 const nameKey = s => String(s || '').toLowerCase().replace(/['’]s$/, '').replace(/[^\p{L}\p{M}\p{N}]+/gu, '');
 const ORG_EN = /(Agency|Association|Institute|Ministry|Department|Organi[sz]ation|Council|Cent(er|re)s?\b|Administration|Society|Foundation|University|College|Committee|Office|Bureau|Board|Commission|Hospital|Group|Network|Services|Federation|Alliance|Trust|Coalition|Program|Collaboration|Taskforce|Task Force)/i;
 const ORG_TH = /^(สำนักงาน|สำนัก|กระทรวง|กรม|กอง|มูลนิธิ|สถาบัน|ศูนย์|โรงพยาบาล|สมาคม|คณะ|มหาวิทยาลัย|สภา|องค์การ|ราชวิทยาลัย|วิทยาลัย|ชมรม|บริษัท|ธนาคาร|พระราชบัญญัติ|ประกาศ|ระเบียบ)/;
-/* ปีในเนื้อหา: 2020, 2020a, 2563ก, n.d., n.d.-a, ม.ป.ป. */
-const YR_SRC = '(?:(?<![\\d.])\\d{4}(?!\\d)|n\\.\\s?d\\.|ม\\.\\s?ป\\.\\s?ป\\.)(?:-?[a-zก-ฮ](?![A-Za-zก-๙]))?';
-const RE_YR_ONE   = new RegExp('^(' + '(?:\\d{4}|n\\.\\s?d\\.|ม\\.\\s?ป\\.\\s?ป\\.)' + ')-?([a-zก-ฮ])?$');
+/* ปีในเนื้อหา: 2020, 2020a, 2563ก, n.d., n.d.-a, ม.ป.ป., in press, 1966/1969 (งานพิมพ์ซ้ำ/งานแปล) */
+const YR_SRC = '(?:(?<![\\d.])(?:\\d{4}\\/)?\\d{4}(?!\\d)|n\\.\\s?d\\.|ม\\.\\s?ป\\.\\s?ป\\.|in press|อยู่ระหว่างการ?ตีพิมพ์|กำลังจัดพิมพ์)(?:-?[a-zก-ฮ](?![A-Za-zก-๙]))?';
+const RE_YR_ONE   = new RegExp('^(?:\\d{4}\\/)?(' + '(?:\\d{4}|n\\.d\\.|ม\\.ป\\.ป\\.|inpress)' + ')-?([a-zก-ฮ])?$');
 const RE_CITE_ITEM = new RegExp('^(.*?)(,\\s*|\\s+)(' + YR_SRC + '(?:\\s*,\\s*' + YR_SRC + ')*)(.*)$', 'u');
 const RE_YEARONLY = new RegExp('^\\s*(' + YR_SRC + '(?:\\s*,\\s*' + YR_SRC + ')*)\\s*(,.*)?$', 'u');
 const RE_HAS_YR   = new RegExp(YR_SRC, 'u');
@@ -1446,7 +1510,7 @@ const RE_LOC      = /^(?:pp?|paras?|pages?|pg|chap|ch|chapter|table|figure|slide
 const RE_PREFIX   = /^(see also|see|e\.g\.,?|i\.e\.,?|cf\.|for example,?|เช่น|ดูเพิ่มเติมใน|ดูเพิ่มเติม|ดู)\s+/i;
 const RE_SECONDARY = /,?\s*(as cited in|อ้างถึงใน|อ้างใน|อ้างอิงใน)\s+/i;
 
-const normYear = s => String(s).replace(/\s+/g, '').toLowerCase();
+const normYear = s => String(s).replace(/\s+/g, '').toLowerCase().replace(/^(อยู่ระหว่างการ?ตีพิมพ์|กำลังจัดพิมพ์)/, 'inpress');
 function parseYearTok(tok){
   const m = normYear(tok).match(RE_YR_ONE);
   return m ? {key: m[1] + (m[2] || ''), base: m[1], suffix: m[2] || '', text: tok.trim()} : null;
@@ -1468,13 +1532,18 @@ function parseRefAuthors0(authorText){
   if (RE_THAI.test(a)){
     /* ชื่อหน่วยงานหรือชื่อกฎหมายใช้ทั้งก้อน แม้มีจุลภาคหรือคำว่า “และ” อยู่ในชื่อ */
     if (ORG_TH.test(bare)) return {names:[{display:bare, key:nameKey(bare)}], group:true, thai:true};
-    const parts = bare.split(/\s*,\s*(?:และ\s+)?|\s+และ\s+/).map(x => x.replace(/^และ\s*/, '').trim()).filter(Boolean);
+    const parts = bare.split(/\s*,\s*(?:และ\s+)?|\s+และ\s+|\s*&\s*/)
+      .map(x => x.replace(/^และ\s*/, '').replace(/^((ศ|รศ|ผศ|ดร|นพ|พญ|ทพ|ทพญ|ภก|ภญ|อ)\.\s*)+/, '').trim()).filter(Boolean);
     const group = parts.length === 1 && (ORG_TH.test(parts[0]) || parts[0].split(/\s+/).length > 3);
     return {names: parts.map(p => ({display:p, key:nameKey(p)})), group, thai:true};
   }
   const isInit = c => /^(?:\p{Lu}\p{Ll}?\.\s*-?\s*)+$/u.test(c) || /^(Jr\.?|Sr\.?|I{2,3}|IV)$/.test(c);
-  const chunks = a.split(/\s*,\s*/)
+  const cut = x => x.split(/\s*,\s*/)
     .map(c => c.replace(/^(?:&|and)\s+/i, '').replace(/^(?:\.\s*){2,}|^…\s*/, '').trim()).filter(Boolean);
+  let chunks = cut(a);
+  /* Brown, A. and Green, B. — ใช้ and โดยไม่มีจุลภาค (เขียนผิด แต่ยังต้องอ่านชื่อให้ครบ) */
+  const viaAnd = cut(a.replace(/\s+(?:and|&)\s+(?=\p{Lu})/gu, ', '));
+  if (viaAnd.length > chunks.length && viaAnd.some(isInit)) chunks = viaAnd;
   /* ไม่มีอักษรย่อชื่อและไม่มีจุลภาค หรือมีคำบ่งชี้หน่วยงาน = ผู้แต่งเป็นหน่วยงาน
      (Mertens, David M. ไม่มีอักษรย่อแต่ยังเป็นบุคคล) */
   if (!chunks.some(isInit) && (chunks.length < 2 || ORG_EN.test(bare)))
@@ -1535,8 +1604,18 @@ function looksLikeAuthor(a){
   if (!t || t.length > 140 || /\d|[=<>%]/.test(t)) return false;
   if (RE_THAI.test(t))
     return !/^(พ\.ศ\.|ค\.ศ\.|ปี|ข้อมูล|ณ|เดือน|ร้อยละ|ตั้งแต่|ถึง|จำนวน|ระหว่าง|ประมาณ|ช่วง|ภายใน|หลัง|ก่อน|ฉบับ|ประจำปี)/.test(t)
-        && !/(พ\.ศ\.|ค\.ศ\.|ปี)$/.test(t);
-  return /^\p{Lu}/u.test(t) && !/^(Table|Figure|Since|In|From|Until|Before|After|During|Year)\b/.test(t);
+        && !/(พ\.ศ\.|ค\.ศ\.|ปี)$/.test(t)
+        && !/(มกราคม|กุมภาพันธ์|มีนาคม|เมษายน|พฤษภาคม|มิถุนายน|กรกฎาคม|สิงหาคม|กันยายน|ตุลาคม|พฤศจิกายน|ธันวาคม|ม\.ค\.|ก\.พ\.|มี\.ค\.|เม\.ย\.|พ\.ค\.|มิ\.ย\.|ก\.ค\.|ส\.ค\.|ก\.ย\.|ต\.ค\.|พ\.ย\.|ธ\.ค\.)$/.test(t);
+  return /^[\p{Lu}“"‘]/u.test(t)
+      && !/^(Table|Figure|Since|In|From|Until|Before|After|During|Year|Version|Updated|Revised)\b/.test(t)
+      && !/\b(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\.?$/.test(t);
+}
+
+/* ความยาวของข้อความในเครื่องหมายคำพูดที่อยู่ติดหน้าการอ้างอิง (ใช้ตรวจว่าการอ้างคำพูดโดยตรงมีเลขหน้าหรือไม่) */
+function quoteLen(pre){
+  const t = pre.replace(/\s+$/, '');
+  const open = Math.max(t.lastIndexOf('“'), t.slice(0, -1).lastIndexOf('"'));
+  return open >= 0 ? t.length - open - 2 : 0;
 }
 
 /* ---- ดึงการอ้างอิงทั้งหมดจากเนื้อหา ---- */
@@ -1574,7 +1653,11 @@ function extractCitations(body){
         if (sec){ secondary = part.slice(0, sec.index + sec[0].length); part = part.slice(sec.index + sec[0].length); }
         const im = part.trim().match(RE_CITE_ITEM);
         if (!im || !looksLikeAuthor(im[1].replace(RE_PREFIX, ''))) continue;
-        items.push({authorText: im[1].trim(), sep: im[2], years: im[3], rest: im[4] || '', prefix: prefix + secondary});
+        /* งานที่ไม่มีผู้แต่ง อ้างด้วยชื่อเรื่องในเครื่องหมายคำพูด จุลภาคอยู่ในเครื่องหมายคำพูด */
+        const tq = im[1].trim().match(/^[“"‘](.+?)(,?)[”"’]$/);
+        items.push({authorText: im[1].trim(), sep: tq && tq[2] ? ', ' : im[2], years: im[3], rest: im[4] || '',
+                    prefix: prefix + secondary, title: tq ? tq[1] : '',
+                    quoted: /[”"]\s*$/.test(para.slice(Math.max(0, m.index - 3), m.index)) ? quoteLen(para.slice(0, m.index)) : 0});
       }
       if (items.length) units.push({kind:'paren', para:pi, start:m.index, end:m.index + m[0].length,
                                     raw:m[0], items, commaSep, preText: para.slice(Math.max(0, m.index - 160), m.index)});
@@ -1621,14 +1704,14 @@ function narrativeAuthor(pre){
     if (/^\s+$/.test(w)) continue;
     const bare = w.replace(/,$/, '');
     let ok = false;
-    if (/^(et\.?|al\.?|and|&)$/i.test(bare)) ok = true;
+    if (/^(et\.?|al\.?|and|&|และ)$/i.test(bare)) ok = true;      /* Smith และ Lee (2020) ในข้อความไทย */
     else if (/^(of|for|the|on|in|de|van|von|der|den|da|di|du|la|le)$/.test(bare)){ ok = ++lower <= 2; }
     else if (/^(\p{Lu}[\p{L}\p{M}'’\-]*|\[[A-Z&]+\])$/u.test(bare.replace(/['’]s$/, ''))){ ok = true; lower = 0; }
     if (!ok) break;
     words.unshift(w);
     if (words.length > 16) break;
   }
-  while (words.length && /^(of|for|the|on|in|and|&|et\.?|al\.?)$/i.test(words[0].replace(/,$/, ''))) words.shift();
+  while (words.length && /^(of|for|the|on|in|and|&|และ|et\.?|al\.?)$/i.test(words[0].replace(/,$/, ''))) words.shift();
   if (!words.length) return null;
   /* เลือกจุดเริ่มต้นที่ตรงกับผู้แต่งในรายการท้ายเล่มก่อน (ยาวที่สุด) */
   const STOP = /^(In|According|As|The|However|This|These|That|Moreover|Furthermore|Similarly|Also|Although|While|When|Recently|Previously|Thus|Therefore|A|An|For|From|By|Based|Following|Unlike|Like|Both|Studies|Study|Research|Findings|Results|Data|Our|We|It|Then|Later|Here|Notably|Additionally|Interestingly|Nevertheless|Meanwhile|Consequently|Indeed|Overall|Finally|First|Second|Third|Lastly|Especially|Specifically)$/;
@@ -1709,10 +1792,19 @@ function checkInText(body, items){
   const lookup = (pc, preText) => {
     const first = pc.names[0];
     if (!first && !pc.abbr) return {cands:[], via:''};
+    if (pc.title){                         /* งานไม่มีผู้แต่ง: เทียบชื่อเรื่อง (ในเนื้อหาย่อชื่อเรื่องได้) */
+      const t = R.filter(r => r.full && (r.full === pc.fullKey || (pc.fullKey.length >= 8 && r.full.startsWith(pc.fullKey))));
+      return {cands:t, via:'title'};
+    }
     let c = first ? R.filter(r => r.names.length && (r.names[0].key === first.key || (r.full && r.full === pc.fullKey))) : [];
     if (c.length) return {cands:c, via:'name'};
     const ab = (pc.abbr || (pc.names.length === 1 && /^[A-Z][A-Za-z&]{1,11}$/.test(first.display) ? first.display : '')).toLowerCase();
     if (ab && abbrMap[ab]){ c = R.filter(r => r.full === abbrMap[ab]); if (c.length) return {cands:c, via:'abbr'}; }
+    if (ab && preText){                    /* ชื่อเต็มอยู่หน้าวงเล็บ: Centers for Disease Control and Prevention (CDC, 2020) */
+      const pk = nameKey(preText);
+      c = R.filter(r => r.group && r.full && r.full.length >= 6 && pk.endsWith(r.full));
+      if (c.length){ abbrMap[ab] = c[0].full; return {cands:c, via:'abbr'}; }
+    }
     if (ab){
       c = R.filter(r => r.group && r.initials === ab.replace(/&/g, ''));
       if (c.length){
@@ -1724,6 +1816,10 @@ function checkInText(body, items){
     if (pc.thai && first){                 /* ใช้เฉพาะนามสกุลหรือเฉพาะชื่อต้น */
       c = R.filter(r => r.thai && !r.group && r.names.length && r.names[0].display.split(/\s+/).some(w => nameKey(w) === first.key));
       if (c.length) return {cands:c, via:'partial'};
+    }
+    if (pc.fullKey && pc.fullKey.length >= 10){          /* ชื่อเรื่องแทนผู้แต่ง เขียนแบบย่อ */
+      c = R.filter(r => r.group && r.full.startsWith(pc.fullKey));
+      if (c.length) return {cands:c, via:'title'};
     }
     return {cands:[], via:''};
   };
@@ -1740,7 +1836,9 @@ function checkInText(body, items){
     for (const it of u.items){
       const label = multi ? '[' + it.authorText.replace(/\s*\[[^\]]*\]/, '').slice(0, 28) + '] ' : '';
       const iss = [];
-      const pc = parseCiteAuthors(it.authorText);
+      const pc = it.title
+        ? {names:[{display:it.title, key:nameKey(it.title)}], etal:false, thai:RE_THAI.test(it.title), fullKey:nameKey(it.title), abbr:'', initials:false, title:true}
+        : parseCiteAuthors(it.authorText);
       it.pc = pc;
       it.years = it.years.split(/\s*,\s*/).map(parseYearTok).filter(Boolean);
       const thai = pc.thai;
@@ -1766,6 +1864,8 @@ function checkInText(body, items){
 
       /* --- จับคู่กับรายการท้ายเล่ม --- */
       const lk = lookup(pc, u.kind === 'narr' ? '' : u.preText);
+      /* ไม่มีจุลภาคและไม่ตรงกับรายการใดเลย = ไม่ใช่การอ้างอิง เช่น (Thai ACS Guidelines 2020) (มกราคม 2565) */
+      if (u.kind === 'paren' && !/,/.test(it.sep) && !lk.cands.length){ it.skip = true; continue; }
       it.refs = [];
       let matched = null;
       if (pc.abbr && lk.cands.length) abbrMap[pc.abbr.toLowerCase()] = lk.cands[0].full;
@@ -1782,6 +1882,13 @@ function checkInText(body, items){
       } else {
         if (lk.via === 'partial') iss.push({sev:'e', title:'ระบุชื่อผู้แต่งไทยไม่ครบ',
           detail:'ผู้แต่งชาวไทยให้ระบุทั้งชื่อและนามสกุล เช่น (สมชาย ใจดี, 2563) ไม่ใช้นามสกุลหรือชื่ออย่างเดียว', rule:'ฉบับภาษาไทย · ผู้แต่ง'});
+        if (pc.etal && /และ\s*คณะ/.test(A) && !lk.cands[0].thai && !RE_THAI.test(pc.names[0].display))
+          iss.push({sev:'w', title:'ใช้ “และคณะ” กับชื่อผู้แต่งอักษรโรมัน',
+            detail:'ชื่อผู้แต่งที่เขียนด้วยอักษรโรมันใช้ et al. เช่น Smith et al. (2020) ส่วน “และคณะ” ใช้กับชื่อผู้แต่งภาษาไทย', rule:'ฉบับภาษาไทย · ผู้แต่ง 3 คนขึ้นไป'});
+        if (u.kind === 'paren' && it.quoted >= 30 && !it.rest.trim() && u.items.length === 1)
+          iss.push({sev:'w', title:'อ้างคำพูดโดยตรงแต่ไม่มีเลขหน้า',
+            detail:'เมื่อยกข้อความมาตรง ๆ ในเครื่องหมายคำพูด ต้องระบุเลขหน้า เช่น (Smith, 2020, p. 25) หรือ (สมชาย ใจดี, 2563, น. 25) แหล่งที่ไม่มีเลขหน้าใช้เลขย่อหน้า เช่น para. 4',
+            rule:'APA 7 · 8.13 และ 8.25'});
         if (lk.via === 'initials') iss.push({sev:'w', title:'ใช้ชื่อย่อหน่วยงานโดยยังไม่ได้ประกาศชื่อเต็ม',
           detail:'ครั้งแรกให้เขียนชื่อเต็มตามด้วยตัวย่อ เช่น (' + lk.cands[0].names[0].display + ' [' + pc.names[0].display + '], ' + (it.years[0] || {}).text + ') ครั้งต่อไปจึงใช้ตัวย่อ',
           rule:'APA 7 · 8.21 ผู้แต่งเป็นหน่วยงาน'});
@@ -1814,7 +1921,7 @@ function checkInText(body, items){
         /* จำนวนผู้แต่ง: เทียบกับรายการท้ายเล่มที่จับคู่ได้ */
         const r = matched || lk.cands[0];
         const n = r.names.length;
-        if (!r.group && !r.truncated && lk.via !== 'abbr' && lk.via !== 'initials'){
+        if (!r.group && !r.truncated && lk.via !== 'abbr' && lk.via !== 'initials' && lk.via !== 'title'){
           if (n === 1 && pc.etal) iss.push({sev:'e', title:'ผู้แต่งมีคนเดียว แต่ใช้ ' + (thai ? 'และคณะ' : 'et al.'),
             detail:'รายการท้ายเล่มมีผู้แต่ง 1 คน ให้อ้างชื่อนั้นอย่างเดียว', rule:'APA 7 · 8.17'});
           if (n === 2 && pc.etal) iss.push({sev:'e', title:'ผู้แต่ง 2 คน ต้องระบุทั้ง 2 คนทุกครั้ง',
@@ -1834,7 +1941,8 @@ function checkInText(body, items){
 
       /* --- ข้อความที่ควรเขียน --- */
       let author;
-      if (it.ref && !it.ref.group && !it.ref.truncated && lk.via === 'name' && it.refs.length) author = expectedAuthor(it.ref, u.kind);
+      if (pc.title) author = it.authorText;
+      else if (it.ref && !it.ref.group && !it.ref.truncated && lk.via === 'name' && it.refs.length) author = expectedAuthor(it.ref, u.kind);
       else if (it.ref && (lk.via === 'abbr' || lk.via === 'initials' || it.ref.group)) author = it.authorText.replace(/\s+/g, ' ');
       else if (it.ref && lk.via === 'partial') author = expectedAuthor(it.ref, u.kind);
       else {
@@ -1849,6 +1957,8 @@ function checkInText(body, items){
       iss.forEach(x => { x.title = (x.title.startsWith(label) ? '' : label) + x.title; u.issues.push(x); });
     }
 
+    u.items = u.items.filter(it => !it.skip);
+    if (!u.items.length){ u.drop = true; continue; }
     /* หลายแหล่งในวงเล็บเดียว: เรียงตามตัวอักษรเหมือนรายการท้ายเล่ม */
     const sortKey = it => (RE_THAI.test(it.fixed.author) ? '0' : '1') + it.fixed.author;
     let order = u.items;
@@ -1860,7 +1970,7 @@ function checkInText(body, items){
         order = sorted;
       }
     }
-    const itemStr = it => it.prefix + it.fixed.author + ', ' + it.fixed.years + (it.fixed.loc ? ', ' + it.fixed.loc : '');
+    const itemStr = it => it.prefix + it.fixed.author + (/,[”"’]$/.test(it.fixed.author) ? ' ' : ', ') + it.fixed.years + (it.fixed.loc ? ', ' + it.fixed.loc : '');
     u.suggest = u.kind === 'narr'
       ? u.items[0].fixed.author + ' (' + u.items[0].fixed.years + (u.items[0].fixed.loc ? ', ' + u.items[0].fixed.loc : '') + ')'
       : '(' + order.map(itemStr).join('; ') + ')';
@@ -1870,7 +1980,8 @@ function checkInText(body, items){
     u.refs = [...new Set(u.items.flatMap(it => it.refs || []))];
     u.sev = u.issues.some(x => x.sev === 'e') ? 'e' : (u.issues.length ? 'w' : '');
   }
-  return {units, refs: R, uncited: R.filter(r => r.cites === 0), hasRefs: R.length > 0};
+  const kept = units.filter(u => !u.drop);
+  return {units: kept, refs: R, uncited: R.filter(r => r.cites === 0), hasRefs: R.length > 0};
 }
 
 /* ============================================================
@@ -2196,7 +2307,7 @@ function citeCardHTML(u, k){
   const cls = errs ? 'err' : 'warn';
   let h = '<article class="card ' + cls + '"><div class="rail"><span class="idx">' + (k + 1) + '</span><span class="glyph">' + (errs ? '✕' : '!') + '</span></div>';
   h += '<div class="card-body"><div class="card-top">' +
-       '<span class="tag">' + (u.kind === 'paren' ? 'อ้างในวงเล็บ' : 'อ้างในประโยค') + '</span>' +
+       '<span class="tag">' + (u.kind === 'paren' ? 'อ้างท้ายข้อความ (ในวงเล็บ)' : 'อ้างหน้าข้อความ (ในประโยค)') + '</span>' +
        '<span class="lead-in">ย่อหน้าที่ ' + (u.para + 1) + ' ของเนื้อหา</span>' +
        '<span class="verdict">' + (errs ? 'ต้องแก้ไข ' + errs + ' จุด' : 'ควรตรวจทาน ' + warns + ' จุด') + '</span></div>';
   h += '<div class="ctx">' + ctx + '</div>';
@@ -2214,7 +2325,7 @@ function citeCardHTML(u, k){
 }
 
 const CHEAT = '<details class="tmpl" style="margin-bottom:16px"><summary>รูปแบบการอ้างอิงในเนื้อหา APA 7 (กดเพื่อดูตัวอย่าง)</summary><div class="tmpl-in">' +
-  '<table class="cheat"><tr><th>ผู้แต่ง</th><th>ในวงเล็บ</th><th>ในประโยค</th></tr>' +
+  '<table class="cheat"><tr><th>ผู้แต่ง</th><th>ท้ายข้อความ (ในวงเล็บ)</th><th>หน้าข้อความ (ในประโยค)</th></tr>' +
   '<tr><th>1 คน</th><td>(Smith, 2020)<br>(สมชาย ใจดี, 2563)</td><td>Smith (2020)<br>สมชาย ใจดี (2563)</td></tr>' +
   '<tr><th>2 คน</th><td>(Smith &amp; Lee, 2020)<br>(สมชาย ใจดี และ สมหญิง รักเรียน, 2563)</td><td>Smith and Lee (2020)<br>สมชาย ใจดี และ สมหญิง รักเรียน (2563)</td></tr>' +
   '<tr><th>3 คนขึ้นไป</th><td>(Smith et al., 2020)<br>(สมชาย ใจดี และคณะ, 2563)</td><td>Smith et al. (2020)<br>สมชาย ใจดี และคณะ (2563)</td></tr>' +
